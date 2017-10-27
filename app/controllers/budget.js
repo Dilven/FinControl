@@ -2,13 +2,13 @@ var express = require('express'),
     router = express.Router();
 
 module.exports = function (app) {
-    app.use('/expenses', router);
+    app.use('/budget', router);
 };
 
 router.get('/', function (req, res, next) {
     
-    res.render('expenses', {
-        title: 'Panel glowny',
+    res.render('budget', {
+        title: 'Budżet',
         lastExpenses: [
             { name: 'Piwo', amount: '2.99', date: new Date('2017', '10', '30'), category: 'Alkohol' },
             { name: 'Zakupy na obiad', amount: '30.99', date: new Date('2017', '10', '27'), category: 'Gospodarstwo domowe' },
@@ -21,11 +21,10 @@ router.get('/', function (req, res, next) {
             budget: '500.29'
         },
         navigation: [
-            { name: 'Dzis'},
-            { name: 'W tygodniu'},
-            { name: 'W miesiącu'},
+            { name: 'Na dziś'},
+            { name: 'Tygodniowy'},
+            { name: 'Miesieczny'},
         ],
-        
         
     });
     

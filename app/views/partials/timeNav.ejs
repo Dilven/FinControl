@@ -4,15 +4,10 @@
             <span class="mdl-layout-title"></span>IconFinControl</span>
               <!-- Add spacer, to align navigation to the right -->
             <div class="mdl-layout-spacer"></div>
-              <!-- Navigation. We hide it in small screens. -->
-            <nav class="mdl-navigation mdl-layout--large-screen-only">
-                <button id="addExpense" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
-                    <i class="material-icons">add</i>
-                </button>
-                <a class="mdl-navigation__link" href="">Link</a>
-                <a class="mdl-navigation__link" href="">Link</a>
-            </nav>
-    
+
+            <button id="addExpense" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
+                <i class="material-icons">add</i>
+            </button>
             <button id="account-menu">
             <div class="material-icons mdl-badge--overlap">account_box</div>
             </button>
@@ -25,18 +20,10 @@
               <li class="mdl-menu__item">Wyloguj</li>
             </ul>
             </div> 
+            
             <div class="mdl-layout__tab-bar mdl-js-ripple-effect">
-                <a href="#scroll-tab-1" class="mdl-layout__tab is-active">Dzisiejsze</a>
-                <a href="#scroll-tab-2" class="mdl-layout__tab">Tygodniowe</a>
-                <a href="#scroll-tab-3" class="mdl-layout__tab">Miesieczne</a>
+            <% navigation.forEach(function (nav) { %>
+                <a href="#scroll-tab-1" class="mdl-layout__tab is-active"><%=nav.name %></a>
+            <% }) %>  
             </div>   
     </header>
-    <div class="mdl-layout__drawer">
-        <span class="mdl-layout-title"><%-title%></span>
-        <nav class="mdl-navigation">
-            <a class="mdl-navigation__link" href="/dashboard">Panel głowny</a>
-            <a class="mdl-navigation__link" href="/expenses">Wydatki</a>
-            <a class="mdl-navigation__link" href="">Link</a>
-            <a class="mdl-navigation__link" href="/analysis">Analiza wydatków</a>
-        </nav>
-    </div>

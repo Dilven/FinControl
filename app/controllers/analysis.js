@@ -19,7 +19,13 @@ router.get('/', function (req, res, next) {
             name: 'Jan',
             surname: 'Kowalski',
             budget: '500.29'
-        }
+        },
+        navigation: [
+            { name: 'Dzisiejszy'},
+            { name: 'Tygodniowy'},
+            { name: 'Miesieczny'},
+        ],
+        
     });
     
 });
