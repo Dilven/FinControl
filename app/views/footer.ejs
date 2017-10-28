@@ -10,16 +10,16 @@
               <div class="mdl-dialog__content">
               </div>
               <form action="#">
-                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-textfield-size">
-                      <input class="mdl-textfield__input" type="text" id="sample3">
-                      <label class="mdl-textfield__label" for="sample3">Wydatek...</label>
-                    </div>
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-textfield-size">
+                    <input class="mdl-textfield__input" type="text" id="sample3">
+                    <label class="mdl-textfield__label" for="sample3">Wydatek</label>
+                </div>
                 </form>
                   <!-- Numeric Textfield with Floating Label -->
                 <form action="#">
                     <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-textfield-size">
                       <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="sample4">
-                      <label class="mdl-textfield__label" for="sample4">Cena...</label>
+                      <label class="mdl-textfield__label" for="sample4">Cena</label>
                       <span class="mdl-textfield__error">To nie jest liczba!</span>
                     </div>
                 </form>
@@ -29,12 +29,17 @@
                         <label class="mdl-textfield__label" for="sample4">
                             <i class="material-icons" style="font-size:16px;">event_note</i> Data
                         </label>
-                        <span class="mdl-textfield__error">Zły format!</span> 
-                        
+                        <span class="mdl-textfield__error">Zły format!</span>  
                     </div>
-                    </form>
+                </form>
+                <div class="mdl-textfield mdl-js-textfield">
+                    <textarea class="mdl-textfield__input" type="text" rows="3" maxrows="6"
+                        id="schools"></textarea>
+                    <label class="mdl-textfield__label" for="schools">Opis (max. 6)</label>
+                </div>
+                
               <div class="mdl-dialog__actions">
-                <button id="acceptExpense"type="button" class="mdl-button mdl-js-button mdl-button--primary">Dodaj</button>
+                <button id="acceptExpense"type="button" class="mdl-button mdl-js-buttonSchools attended  mdl-button--primary">Dodaj</button>
                 <button type="button" class="mdl-button close  mdl-js-button mdl-button--primary">Anuluj</button>
               </div>
             </dialog>
