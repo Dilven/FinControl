@@ -45,13 +45,23 @@
 
 .mdl-dialog {
     width:50%;
-    height:30%;
 }
 
 .mdl-button--size {
     margin:20px;
+    
 }
 
 .material-icons.md-48 {
      font-size: 48px; 
+}
+
+.mdl-dialog--font {
+    font-size:15px;
+    text-align: left;
+    padding:10px;
+}
+
+.mdl-textfield-size {
+    width:300px;
 }

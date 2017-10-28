@@ -40,14 +40,21 @@
   margin-top: 50px; }
 
 .mdl-dialog {
-  width: 50%;
-  height: 30%; }
+  width: 50%; }
 
 .mdl-button--size {
   margin: 20px; }
 
 .material-icons.md-48 {
   font-size: 48px; }
+
+.mdl-dialog--font {
+  font-size: 15px;
+  text-align: left;
+  padding: 10px; }
+
+.mdl-textfield-size {
+  width: 300px; }
 
 body {
   padding: 0px;
