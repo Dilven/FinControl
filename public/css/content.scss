@@ -30,3 +30,28 @@
     background: transparent;
     border: none;
 }
+
+.expenses-table {
+    width:calc(100% - 30px);
+    margin-left:15px;
+    margin-top:15px;
+    margin-bottom:15px;
+}
+
+.log-form {
+    margin-left:50px;
+    margin-top:50px;
+}
+
+.mdl-dialog {
+    width:50%;
+    height:30%;
+}
+
+.mdl-button--size {
+    margin:20px;
+}
+
+.material-icons.md-48 {
+     font-size: 48px; 
+}

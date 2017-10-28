@@ -2,28 +2,29 @@
         <div class="mdl-layout__header-row">
               <!-- Title -->
             <span class="mdl-layout-title"></span>IconFinControl</span>
-              <!-- Add spacer, to align navigation to the right -->
+        <!-- Add spacer, to align navigation to the right -->
             <div class="mdl-layout-spacer"></div>
-
-            <button id="addExpense" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
-                <i class="material-icons">add</i>
-            </button>
-            <button id="account-menu">
-            <div class="material-icons mdl-badge--overlap">account_box</div>
-            </button>
+            <nav class="mdl-navigation">
+                <button id="addExpense" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored mdl-button--size">
+                    <i class="material-icons">add</i>
+                </button>
+                <button id="account-menu">
+                    <div class="material-icons md-48 mdl-badge--overlap">account_box</div>
+                </button>
+            </nav>
             
             <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect "
                 for="account-menu">
-              <li class="mdl-menu__item">Moje konto</li>
-              <li class="mdl-menu__item">Opcja 2</li>
-              <li disabled class="mdl-menu__item">Opcja 3</li>
-              <li class="mdl-menu__item">Wyloguj</li>
+                    <li class="mdl-menu__item">Moje konto</li>
+                    <li class="mdl-menu__item">Opcja 2</li>
+                    <li disabled class="mdl-menu__item">Opcja 3</li>
+                    <li class="mdl-menu__item"><a href="/">Wyloguj</a></li>
             </ul>
-            </div> 
+        </div> 
             
-            <div class="mdl-layout__tab-bar mdl-js-ripple-effect">
-            <% navigation.forEach(function (nav) { %>
-                <a href="#scroll-tab-1" class="mdl-layout__tab is-active"><%=nav.name %></a>
-            <% }) %>  
-            </div>   
-    </header>
+        <div class="mdl-layout__tab-bar mdl-js-ripple-effect">
+        <% navigation.forEach(function (nav) { %>
+            <a href="#scroll-tab-1" class="mdl-layout__tab is-active"><%=nav.name %></a>
+        <% }) %>  
+        </div>   
+</header>
