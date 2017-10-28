@@ -25,10 +25,6 @@
 .demo-card-event > .mdl-card__actions > .mdl-button {
   color: #fff; }
 
-#account-menu {
-  background: transparent;
-  border: none; }
-
 .expenses-table {
   width: calc(100% - 30px);
   margin-left: 15px;
@@ -42,11 +38,8 @@
 .mdl-dialog {
   width: 50%; }
 
-.mdl-button--size {
-  margin: 20px; }
-
-.material-icons.md-48 {
-  font-size: 48px; }
+.material-icons.md-32 {
+  font-size: 32px; }
 
 .mdl-dialog--font {
   font-size: 15px;
@@ -55,6 +48,10 @@
 
 .mdl-textfield-size {
   width: 300px; }
+
+.mdl-button--transparent {
+  background: transparent;
+  border: none; }
 
 body {
   padding: 0px;
