@@ -51,7 +51,17 @@
 
 .mdl-button--transparent {
   background: transparent;
-  border: none; }
+  border: none;
+  -moz-outline: none;
+  outline: none; }
+
+@media (max-width: 400px) {
+  .mdl-data-table--resp {
+    font-size: 10px; } }
+
+@media (max-width: 768px) {
+  .mdl-data-table--resp {
+    width: 100%; } }
 
 body {
   padding: 0px;
