@@ -1,8 +1,9 @@
 var express = require('express'),
-    router = express.Router();
+    router = express.Router(),
+    _ = require('lodash');
 
 module.exports = function (app) {
-    app.use('/dashboard', router);
+    app.use('/api/charts', router);
 };
 
 router.get('/', function (req, res, next) {
@@ -13,15 +14,21 @@ router.get('/', function (req, res, next) {
         { name: 'Mecz Arsenal vs Chelsea', amount: '100', date: new Date('2017', '10', '28'), category: 'Rozrywka'}
     ];
     
-    res.render('dashboard', {
-        title: 'Panel glowny',
-        lastExpenses: lastExpenses,
-        user: {
-            name: 'Jan',
-            surname: 'Kowalski',
-            budget: '500.29'
-        },
-        timeNavVisibility: false
-    });
+    var categoriesForPieChart = [];
     
+    _.each(lastExpenses, expense => {
+        var cat = _.find(categoriesForPieChart, ['name', expense.category])
+        if (typeof cat !== 'undefined') {
+            cat.amount += parseFloat(expense.amount)
+        } else {
+            categoriesForPieChart.push({
+                name: expense.category,
+                amount: parseFloat(expense.amount)
+            })
+        }
+    })
+
+    res.status(200).send({
+        categoriesForPieChart
+    })
 });
