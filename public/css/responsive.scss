@@ -1,5 +1,14 @@
-@media (min-width: 768px) and (max-width: 1023px) {
-    .demo-card-event > .mdl-card__title, .demo-card-event > .mdl-card__actions, .demo-card-event > .mdl-card__actions > .mdl-button {
-        font-size: 10px;
+$tablet: "(max-width: 768px)";
+$small-width: "(max-width: 400px)";
+
+@media #{$small-width} {
+    .mdl-data-table--resp {
+        font-size:10px;
+    }
+}
+
+@media #{$tablet} {
+    .mdl-data-table--resp {
+        width:100%;
     }
 }

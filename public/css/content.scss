@@ -25,3 +25,41 @@
 .demo-card-event > .mdl-card__actions > .mdl-button {
     color: #fff;
 }
+
+.expenses-table {
+    width:calc(100% - 30px);
+    margin-left:15px;
+    margin-top:15px;
+    margin-bottom:15px;
+}
+
+.log-form {
+    margin-left:50px;
+    margin-top:50px;
+}
+
+.mdl-dialog {
+    width:50%;
+}
+.material-icons.md-32 {
+     font-size: 32px; 
+}
+
+.mdl-dialog--font {
+    font-size:15px;
+    text-align: left;
+    padding:10px;
+}
+
+.mdl-textfield-size {
+    width:300px;
+}
+
+.mdl-button--transparent {
+    background: transparent;
+    border: none;
+    -moz-outline: none;
+    outline: none;
+    // ie-dummy: expression(this.hideFocus=true);
+}
+

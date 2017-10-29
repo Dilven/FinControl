@@ -19,7 +19,8 @@ router.get('/', function (req, res, next) {
             name: 'Jan',
             surname: 'Kowalski',
             budget: '500.29'
-        }
+        },
+        timeNavVisibility: false
     });
     
 });

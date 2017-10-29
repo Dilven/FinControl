@@ -25,12 +25,46 @@
 .demo-card-event > .mdl-card__actions > .mdl-button {
   color: #fff; }
 
-@media (min-width: 768px) and (max-width: 1023px) {
-  .demo-card-event > .mdl-card__title, .demo-card-event > .mdl-card__actions, .demo-card-event > .mdl-card__actions > .mdl-button {
+.expenses-table {
+  width: calc(100% - 30px);
+  margin-left: 15px;
+  margin-top: 15px;
+  margin-bottom: 15px; }
+
+.log-form {
+  margin-left: 50px;
+  margin-top: 50px; }
+
+.mdl-dialog {
+  width: 50%; }
+
+.material-icons.md-32 {
+  font-size: 32px; }
+
+.mdl-dialog--font {
+  font-size: 15px;
+  text-align: left;
+  padding: 10px; }
+
+.mdl-textfield-size {
+  width: 300px; }
+
+.mdl-button--transparent {
+  background: transparent;
+  border: none;
+  -moz-outline: none;
+  outline: none; }
+
+@media (max-width: 400px) {
+  .mdl-data-table--resp {
     font-size: 10px; } }
 
+@media (max-width: 768px) {
+  .mdl-data-table--resp {
+    width: 100%; } }
+
 body {
-  padding: 50px;
+  padding: 0px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif; }
 
 a {
