@@ -55,13 +55,18 @@
   -moz-outline: none;
   outline: none; }
 
+#tableLastExpense {
+  width: 100%; }
+
+.mdl-cell--color {
+  background-color: white; }
+
+.mdl-grid--color {
+  background-color: rgba(0, 0, 0, 0.04); }
+
 @media (max-width: 400px) {
   .mdl-data-table--resp {
     font-size: 10px; } }
-
-@media (max-width: 768px) {
-  .mdl-data-table--resp {
-    width: 100%; } }
 
 body {
   padding: 0px;

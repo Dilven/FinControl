@@ -60,6 +60,19 @@
     border: none;
     -moz-outline: none;
     outline: none;
-    // ie-dummy: expression(this.hideFocus=true);
+    
 }
+
+#tableLastExpense {
+    width:100%;
+}
+
+.mdl-cell--color {
+    background-color: white;
+}
+
+.mdl-grid--color {
+    background-color: rgba(0,0,0,.04);
+}
+
 
