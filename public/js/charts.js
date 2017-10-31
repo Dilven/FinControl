@@ -1,3 +1,53 @@
+function getDataForDoughnutChart () {
+
+    var ctx = document.getElementById("doughnutChart").getContext('2d'),
+        data = {
+            datasets: [{
+                data: [10, 20, 30],
+                backgroundColor: [
+                    '#ea04ad',
+                    '#36a2eb',
+                    '#cc65fe'
+                ]
+            }],
+            labels: [
+                'Rozrywka',
+                'Yellow',
+                'Blue'
+            ]
+        }
+    
+
+    var myDoughnutChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: data
+    });
+}
+function getDataForDoughnutCharts () {
+    
+        var ctx = document.getElementById("doughnutCharts").getContext('2d'),
+            data = {
+                datasets: [{
+                    data: [10, 20, 30],
+                    backgroundColor: [
+                        '#ea04ad',
+                        '#36a2eb',
+                        '#cc65fe'
+                    ]
+                }],
+                labels: [
+                    'Rozrywka',
+                    'Yellow',
+                    'Blue'
+                ]
+            }
+        
+    
+        var myDoughnutCharts = new Chart(ctx, {
+            type: 'doughnut',
+            data: data
+        });
+    }
 
 function getDataForPieChart(response) {
         var ctx = document.getElementById("pieChart").getContext('2d'),
@@ -18,16 +68,12 @@ function getDataForPieChart(response) {
                     '#cc65fe'
                 ]
             }],
-
-            // These labels appear in the legend and in the tooltips when hovering different arcs
             labels: labels
         };
 
         var options = {
             responsive: true,
         }
-
-        // For a pie chart
         var myPieChart = new Chart(ctx,{
             type: 'pie',
             data: data,
@@ -40,7 +86,7 @@ function getDataForLineChart() {
     var data = {
         datasets: [{
             data: [10, 20, 10, 40, 50, 30],
-            label: 'wydatki',
+            label: 'Wydatki',
             borderColor: '#f44259',
             fill: false,
             backgroundColor: '#f44259'
@@ -48,8 +94,8 @@ function getDataForLineChart() {
             
         },
         {
-            data: [10, 20, 10, 100, 100, 30],
-            label:'dochody',
+            data: [10, 20, 10, 101, 93, 30],
+            label:'Dochody',
             borderColor: '#297720',
             fill: false,
             backgroundColor: '#297720'
@@ -63,10 +109,23 @@ function getDataForLineChart() {
         
         scales: {
             yAxes: [{
-                stacked: true
+                stacked: false
             }]
-       
-        }
+        
+        },
+        elements: {
+            line: {
+                tension: 0, // disables bezier curves
+            }
+        },
+        padding:0,
+
+        title: {
+            display: true,
+            text: 'Twoje dochody i przychody'
+          }
+          
+        
     }
     var ctx = document.getElementById("lineChart").getContext('2d')
     var myLineChart = new Chart(ctx, {
@@ -74,13 +133,13 @@ function getDataForLineChart() {
         data: data,
         options: options
     });
-
-    console.log(myLineChart)
 };
 
 axios.get('/api/charts')
     .then(function (response) {
         getDataForPieChart(response);
+        getDataForDoughnutChart ();
+        getDataForDoughnutCharts ();
         getDataForLineChart();
     })
     .catch(function (error) {

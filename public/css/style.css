@@ -59,10 +59,6 @@
   .mdl-data-table--resp {
     font-size: 10px; } }
 
-@media (max-width: 768px) {
-  .mdl-data-table--resp {
-    width: 100%; } }
-
 body {
   padding: 0px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif; }

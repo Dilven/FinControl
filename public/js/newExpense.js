@@ -14,7 +14,7 @@ dialog.querySelector('.close').addEventListener('click', function() {
 
 (function() {
   'use strict';
-  var snackbarContainer = document.querySelector('#demo-snackbar-example');
+  var snackbarContainer = document.querySelector('#notificationBar');
   var acceptExpenseButton = document.querySelector('#acceptExpense');
   var handler = function(event) {
     acceptExpenseButton.style.backgroundColor = '';

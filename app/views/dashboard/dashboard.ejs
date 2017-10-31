@@ -1,30 +1,47 @@
-<div class="mdl-grid">
-  <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp mdl-data-table--resp">
-      <thead>
-        <tr>
-          <th class="mdl-data-table__cell--non-numeric">Nazwa wydatku</th>
-          <th>Data</th>
-          <th>Cena</th>
-        </tr>
-      </thead>
-      <% lastExpenses.forEach(function (expense) { %>
-        <tbody>
-          <tr>
-            <td class="mdl-data-table__cell--non-numeric"><%= expense.name %></td>
-            <td><%= expense.date.toLocaleDateString() %></td>
-            <td><%= expense.amount %> zł</td>
-          </tr>
-        </tbody>
-      <% }) %>
-  </table>
-  <div style="width: 400px; height: 300px; position: relative;">
-    <canvas id="pieChart"></canvas>
-  </div>
-  <div style="width: 400px; height: 300px; position: relative;">
-    <canvas id="lineChart"></canvas>
+<div class="mdl-grid" style="background-color: rgba(0,0,0,.04);">
+  <div class="mdl-cell mdl-cell--6-col mdl-cell--background mdl-shadow--2dp" style="background-color:white;">
+      <table id="tableLastExpense" class="mdl-data-table mdl-js-data-table mdl-data-table--resp">
+          <thead>
+            <tr>
+              <th class="mdl-data-table__cell--non-numeric">Nazwa wydatku</th>
+              <th>Data</th>
+              <th>Cena</th>
+            </tr>
+          </thead>
+          <% lastExpenses.forEach(function (expense) { %>
+            <tbody>
+              <tr>
+                <td class="mdl-data-table__cell--non-numeric"><%= expense.name %></td>
+                <td><%= expense.date.toLocaleDateString() %></td>
+                <td><%= expense.amount %> zł</td>
+              </tr>
+            </tbody>
+          <% }) %>
+      </table>
   </div>
   
-  
+  <div class="mdl-cell mdl-cell--6-col mdl-shadow--2dp" style="background-color:white;">
+    <div>
+        <canvas id="lineChart"></canvas>
+    </div>
+  </div>
+
+  <div class="mdl-cell mdl-cell--4-col mdl-shadow--2dp" style="background-color:white;">
+    <div>
+        <canvas id="pieChart"></canvas>
+    </div>
+    
+  </div>
+  <div class="mdl-cell mdl-cell--4-col mdl-shadow--2dp" style="background-color:white;">
+    <div>
+      <canvas id="doughnutChart"></canvas>
+    </div>
+  </div>
+  <div class="mdl-cell mdl-cell--4-col mdl-shadow--2dp" style="background-color:white;">
+    <div>
+        <canvas id="doughnutCharts"></canvas>
+    </div>
+  </div>
 </div>
 
 <script src="../js/charts.js"></script>
