@@ -5,7 +5,7 @@ module.exports = function (app) {
     app.use('/dashboard', router);
 };
 
-router.get('/', function (req, res, next) {
+router.get('/', isLoggedIn, function (req, res, next) {
     var lastExpenses = [
         { name: 'Piwo', amount: '2.99', date: new Date('2017', '10', '30'), category: 'Alkohol' },
         { name: 'Zakupy na obiad', amount: '30.99', date: new Date('2017', '10', '27'), category: 'Gospodarstwo domowe' },
@@ -26,3 +26,12 @@ router.get('/', function (req, res, next) {
     });
     
 });
+
+function isLoggedIn(req, res, next) {
+    // if user is authenticated in the session, carry on 
+    if (req.isAuthenticated())
+        return next();
+
+    // if they aren't redirect them to the home page
+    res.redirect('/login');
+}
