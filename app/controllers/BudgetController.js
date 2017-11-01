@@ -1,8 +1,9 @@
 var express = require('express'),
-    router = express.Router();
+    router = express.Router(),
+    authMiddleware = require('../middlewares/authMiddleware')
 
 module.exports = function (app) {
-    app.use('/budget', router);
+    app.use('/budget', authMiddleware, router);
 };
 
 router.get('/', function (req, res, next) {

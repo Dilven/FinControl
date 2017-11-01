@@ -8,6 +8,13 @@ var bodyParser = require('body-parser');
 var compress = require('compression');
 var methodOverride = require('method-override');
 
+var passport = require('passport');
+var flash = require('connect-flash');
+var session = require('express-session');
+
+
+
+
 module.exports = function(app, config) {
   var env = process.env.NODE_ENV || 'development';
   app.locals.ENV = env;
@@ -27,9 +34,16 @@ module.exports = function(app, config) {
   app.use(express.static(config.root + '/public'));
   app.use(methodOverride());
 
+  app.use(session({ secret: process.env.SESSION_SECRET || 'lubieplacki', resave: true, saveUninitialized: true}));
+  app.use(passport.initialize());
+  app.use(passport.session());
+  app.use(flash());
+
+  require('./passport')(passport);
+
   var controllers = glob.sync(config.root + '/app/controllers/**/*.js');
   controllers.forEach(function (controller) {
-    require(controller)(app);
+    require(controller)(app, passport);
   });
 
   app.use(function (req, res, next) {

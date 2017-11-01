@@ -1,8 +1,9 @@
 var express = require('express'),
-    router = express.Router();
+    router = express.Router(),
+    authMiddleware = require('../middlewares/authMiddleware')
 
 module.exports = function (app) {
-    app.use('/dashboard', router);
+    app.use('/dashboard', authMiddleware, router);
 };
 
 router.get('/', function (req, res, next) {
@@ -18,9 +19,8 @@ router.get('/', function (req, res, next) {
         title: 'Panel glowny',
         lastExpenses: lastExpenses,
         user: {
-            name: 'Jan',
-            surname: 'Kowalski',
-            budget: '500.29'
+            email: req.user.email,
+            id: req.user.id
         },
         timeNavVisibility: false
     });

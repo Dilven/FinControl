@@ -1,12 +1,12 @@
 <% include ../header %>
 <div class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer
 mdl-layout--fixed-header">
-  <%- include ../partials/nav %>
-  <%- include ../partials/sidebarNav %>
   <main class="mdl-layout__content">
-    <%= user.email %><%= user.id %>
+    <% if (message.length > 0) { %>
+      <div class="alert alert-danger"><%= message %></div>
+    <% } %>
     <div class="page-content">
-        <%- include dashboard %>
+        <%- include ../partials/signinForm %>
     </div>
   </main>
 </div>
