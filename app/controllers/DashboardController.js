@@ -1,11 +1,12 @@
 var express = require('express'),
-    router = express.Router();
+    router = express.Router(),
+    authMiddleware = require('../middlewares/authMiddleware')
 
 module.exports = function (app) {
-    app.use('/dashboard', router);
+    app.use('/dashboard', authMiddleware, router);
 };
 
-router.get('/', isLoggedIn, function (req, res, next) {
+router.get('/', function (req, res, next) {
     var lastExpenses = [
         { name: 'Piwo', amount: '2.99', date: new Date('2017', '10', '30'), category: 'Alkohol' },
         { name: 'Zakupy na obiad', amount: '30.99', date: new Date('2017', '10', '27'), category: 'Gospodarstwo domowe' },
@@ -25,12 +26,3 @@ router.get('/', isLoggedIn, function (req, res, next) {
     });
     
 });
-
-function isLoggedIn(req, res, next) {
-    // if user is authenticated in the session, carry on 
-    if (req.isAuthenticated())
-        return next();
-
-    // if they aren't redirect them to the home page
-    res.redirect('/login');
-}
