@@ -75,4 +75,31 @@
     background-color: rgba(0,0,0,.04);
 }
 
+.box-dashboard {
+    height:80px;
+    color:#fff;
+    font-size:25px !important;
+    text-align:center;
+    line-height:80px;
+}
+.box-dashboard:hover {
+    opacity:0.8;
+}
+
+#income-box {
+    background-color: #00BCD4; 
+}
+#expenses-box {
+    background-color:#FF9800;  
+}
+
+#piggybank-box {
+    background-color:#E91E63;
+}
+
+#budget-box {
+    background-color:#8BC34A;
+}
+
+
 

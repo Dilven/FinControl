@@ -1,60 +1,9 @@
-function getDataForDoughnutChart () {
-
-    var ctx = document.getElementById("doughnutChart").getContext('2d'),
-        data = {
-            datasets: [{
-                data: [10, 20, 30],
-                backgroundColor: [
-                    '#ea04ad',
-                    '#36a2eb',
-                    '#cc65fe'
-                ]
-            }],
-            labels: [
-                'Rozrywka',
-                'Yellow',
-                'Blue'
-            ]
-        }
-    
-
-    var myDoughnutChart = new Chart(ctx, {
-        type: 'doughnut',
-        data: data
-    });
-}
-function getDataForDoughnutCharts () {
-    
-        var ctx = document.getElementById("doughnutCharts").getContext('2d'),
-            data = {
-                datasets: [{
-                    data: [10, 20, 30],
-                    backgroundColor: [
-                        '#ea04ad',
-                        '#36a2eb',
-                        '#cc65fe'
-                    ]
-                }],
-                labels: [
-                    'Rozrywka',
-                    'Yellow',
-                    'Blue'
-                ]
-            }
-        
-    
-        var myDoughnutCharts = new Chart(ctx, {
-            type: 'doughnut',
-            data: data
-        });
-    }
-
-function getDataForPieChart(response) {
-        var ctx = document.getElementById("pieChart").getContext('2d'),
+function getDataForCategoriesChart(response) {
+        var ctx = document.getElementById("categoriesChart").getContext('2d'),
         data = [],
         labels = [];
-        var categoriesForPieChart = response.data.categoriesForPieChart;
-        categoriesForPieChart.forEach(function (cat) {
+        var categoriesForChart = response.data.categoriesForChart;
+        categoriesForChart.forEach(function (cat) {
             data.push(cat.amount);
             labels.push(cat.name);
         })
@@ -74,8 +23,8 @@ function getDataForPieChart(response) {
         var options = {
             responsive: true,
         }
-        var myPieChart = new Chart(ctx,{
-            type: 'pie',
+        var myCategoriesChart = new Chart(ctx,{
+            type: 'doughnut',
             data: data,
             options: options
         });
@@ -137,9 +86,8 @@ function getDataForLineChart() {
 
 axios.get('/api/charts')
     .then(function (response) {
-        getDataForPieChart(response);
-        getDataForDoughnutChart ();
-        getDataForDoughnutCharts ();
+        getDataForCategoriesChart(response);
+       
         getDataForLineChart();
     })
     .catch(function (error) {

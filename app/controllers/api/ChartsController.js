@@ -14,14 +14,14 @@ router.get('/', function (req, res, next) {
         { name: 'Mecz Arsenal vs Chelsea', amount: '100', date: new Date('2017', '10', '28'), category: 'Rozrywka'}
     ];
     
-    var categoriesForPieChart = [];
+    var categoriesForChart = [];
     
     _.each(lastExpenses, expense => {
-        var cat = _.find(categoriesForPieChart, ['name', expense.category])
+        var cat = _.find(categoriesForChart, ['name', expense.category])
         if (typeof cat !== 'undefined') {
             cat.amount += parseFloat(expense.amount)
         } else {
-            categoriesForPieChart.push({
+            categoriesForChart.push({
                 name: expense.category,
                 amount: parseFloat(expense.amount)
             })
@@ -29,6 +29,6 @@ router.get('/', function (req, res, next) {
     })
 
     res.status(200).send({
-        categoriesForPieChart
+        categoriesForChart
     })
 });
