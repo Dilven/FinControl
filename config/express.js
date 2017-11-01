@@ -34,10 +34,12 @@ module.exports = function(app, config) {
   app.use(express.static(config.root + '/public'));
   app.use(methodOverride());
 
-  app.use(session({ secret: process.env.SESSION_SECRET || 'lubieplacki' }));
+  app.use(session({ secret: process.env.SESSION_SECRET || 'lubieplacki', resave: true, saveUninitialized: true}));
   app.use(passport.initialize());
   app.use(passport.session());
   app.use(flash());
+
+  require('./passport')(passport);
 
   var controllers = glob.sync(config.root + '/app/controllers/**/*.js');
   controllers.forEach(function (controller) {

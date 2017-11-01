@@ -18,9 +18,8 @@ router.get('/', isLoggedIn, function (req, res, next) {
         title: 'Panel glowny',
         lastExpenses: lastExpenses,
         user: {
-            name: 'Jan',
-            surname: 'Kowalski',
-            budget: '500.29'
+            email: req.user.email,
+            id: req.user.id
         },
         timeNavVisibility: false
     });

@@ -19,4 +19,18 @@ module.exports = function (app, passport) {
         req.logout();
         res.redirect('/login');
     });
+
+    app.post('/register', passport.authenticate('local-signup', {
+        successRedirect : '/dashboard', // redirect to the secure profile section
+        failureRedirect : '/register', // redirect back to the signup page if there is an error
+        failureFlash : true // allow flash messages
+    }));
+
+    app.post('/login', passport.authenticate('local-login', {
+            successRedirect: '/dashboard',
+    
+            failureRedirect: '/login'
+        }
+    
+    ));
 };
