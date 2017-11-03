@@ -90,7 +90,7 @@ module.exports = function(passport) {
         
                     // if no user is found, return the message
                     if (!user)
-                        return done(null, false, req.flash('loginMessage', 'Nie znaleziono takiego użytkownika')); // req.flash is the way to set flashdata using connect-flash
+                        return done(null, false, req.flash('loginMessage', 'Podany email jest nieprawidłowy')); // req.flash is the way to set flashdata using connect-flash
         
                         var isValidPassword = function(userpass, password) {
                             
