@@ -6,3 +6,8 @@ $small-width: "(max-width: 400px)";
         font-size:10px;
     }
 }
+
+@media #{$tablet} {
+    font-size: 50%;
+}
+  
