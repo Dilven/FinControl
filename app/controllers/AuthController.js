@@ -3,13 +3,13 @@ router = express.Router();
 
 module.exports = function (app, passport) {
     app.get('/register', function (req, res, next) {
-        res.render('login', {
-            title: 'Register',
+        res.render('authForm', {
+            title: 'Register    ',
             message: req.flash('registerMessage')
         });
     })
     app.get('/login', function (req, res, next) {
-        res.render('login', {
+        res.render('authForm', {
             title: 'Login',
             message: req.flash('loginMessage')
         });
@@ -22,7 +22,7 @@ module.exports = function (app, passport) {
 
     app.post('/register', passport.authenticate('local-signup', {
         successRedirect : '/dashboard', // redirect to the secure profile section
-        failureRedirect : '/login', // redirect back to the signup page if there is an error
+        failureRedirect : '/register', // redirect back to the signup page if there is an error
         failureFlash : true // allow flash messages
     }));
 

@@ -1,7 +1,7 @@
 body {
   background-color: #ddd;
 }
-
+  
 .container {
   position: absolute;
   left: 50%;
@@ -17,6 +17,7 @@ body {
   height: 100%;
   position: absolute;
   transform-style: preserve-3d;
+  
 }
 
 #cube figure {
@@ -26,10 +27,12 @@ body {
   height: 375px;
   display: block;
   position: absolute;
+  
 }
 
 #cube .front {
   transform: rotateY(0deg) translateZ(187.5px);
+  
 }
 
 #cube .left {
