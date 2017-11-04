@@ -3,39 +3,40 @@
 		<section class="container">
 			<div id="cube" class="show-front">
 				<figure class="front">
-					<div class="mdl-card mdl-shadow--6dp">
-						<div class="mdl-card__title mdl-color--primary mdl-color-text--white relative">
-							<h2 class="mdl-card__title-text">Simple Login</h2>
-						</div>
-	
-						<div class="mdl-card__supporting-text">
-							<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-								<input class="mdl-textfield__input" id="login"/>
-								<label class="mdl-textfield__label" for="login">Login</label>
+					<form action="/login" method="post" autocomplete="off">
+						<div class="mdl-card mdl-shadow--6dp">
+							<div class="mdl-card__title mdl-color--primary mdl-color-text--white relative">
+								<h2 class="mdl-card__title-text">Logowanie</h2>
 							</div>
-							<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-								<input class="mdl-textfield__input" type="password" id="password"/>
-								<label class="mdl-textfield__label" for="password">Password</label>
+		
+							<div class="mdl-card__supporting-text">
+								<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+									<input name="email" class="mdl-textfield__input" type="text" id="signin-email"/>
+									<label class="mdl-textfield__label" for="signin-email">Email</label>
+								</div>
+								<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+									<input name="password" class="mdl-textfield__input" type="password" id="signin-password"/>
+									<label class="mdl-textfield__label" for="signin-password">Hasło</label>
+								</div>
 							</div>
-						</div>
-	
-						<div class="mdl-card__actions mdl-card--border">
-							<div class="mdl-grid">
-								<button class="mdl-cell mdl-cell--12-col mdl-button mdl-button--raised mdl-button--colored mdl-js-button mdl-js-ripple-effect mdl-color-text--white">
-									Login
-								</button>
-	
-							</div>
-	
-							<div class="mdl-grid">
-								<div class="mdl-cell mdl-cell--12-col">
-									<a onClick='flip("show-left")' class="mdl-color-text--primary">Sign up!</a>
-									<a onClick='flip("show-bottom")' class="mdl-color-text--primary" style="float: right">Lost
-										Password?</a>
+		
+							<div class="mdl-card__actions mdl-card--border">
+								<div class="mdl-grid">
+									<button class="mdl-cell mdl-cell--12-col mdl-button mdl-button--raised mdl-button--colored mdl-js-button mdl-js-ripple-effect mdl-color-text--white">
+										Zaloguj się
+									</button>
+		
+								</div>
+		
+								<div class="mdl-grid">
+									<div class="mdl-cell mdl-cell--12-col">
+										<a onClick='flip("show-left")' class="mdl-color-text--primary">Zarejestruj się!</a>
+										<a onClick='flip("show-bottom")' class="mdl-color-text--primary" style="float: right">Zapomnialeś hasła?</a>
+									</div>
 								</div>
 							</div>
 						</div>
-					</div>
+					</form>
 				</figure>
 				<figure class="left">
 					<div class="mdl-card mdl-shadow--6dp">
@@ -44,33 +45,30 @@
 							   onClick='flip("show-front")'>
 								<i class="material-icons">arrow_back</i>
 							</a>
-							<h2 class="mdl-card__title-text">Sign up</h2>
+							<h2 class="mdl-card__title-text">Rejestracja</h2>
 						</div>
 	
-	
-						<div class="mdl-card__supporting-text">
-							<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-								<input class="mdl-textfield__input" id="login"/>
-								<label class="mdl-textfield__label" for="login">Login</label>
+						<form action="/register" method="post" autocomplete="off">
+							<div class="mdl-card__supporting-text">
+								<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+									<input name="email" class="mdl-textfield__input" type="text" id="signup-email"/>
+									<label class="mdl-textfield__label" for="signup-email">Email</label>
+								</div>
+								<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+									<input name="password" class="mdl-textfield__input" type="password" id="signup-password"/>
+									<label class="mdl-textfield__label" for="signup-password">Hasło</label>
+								</div>
 							</div>
-							<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-								<input class="mdl-textfield__input" type="password" id="password"/>
-								<label class="mdl-textfield__label" for="password">Password</label>
+		
+							<div class="mdl-card__actions mdl-card--border">
+								<div class="mdl-grid">
+									<button class="mdl-cell mdl-cell--12-col mdl-button mdl-button--raised mdl-button--colored mdl-js-button mdl-js-ripple-effect mdl-color-text--white">
+										Zarejestruj
+									</button>
+								</div>
 							</div>
-	
-							<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-								<input class="mdl-textfield__input" type="password" id="password2"/>
-								<label class="mdl-textfield__label" for="password2">Password repeat</label>
-							</div>
-						</div>
-	
-						<div class="mdl-card__actions mdl-card--border">
-							<div class="mdl-grid">
-								<button class="mdl-cell mdl-cell--12-col mdl-button mdl-button--raised mdl-button--colored mdl-js-button mdl-js-ripple-effect mdl-color-text--white">
-									Sign up
-								</button>
-							</div>
-						</div>
+						</form>
+						
 					</div>
 	
 				</figure>
@@ -81,7 +79,7 @@
 							   onClick='flip("show-front")'>
 								<i class="material-icons">arrow_back</i>
 							</a>
-							<h2 class="mdl-card__title-text">Lost Password</h2>
+							<h2 class="mdl-card__title-text">Przypomnij hasło</h2>
 						</div>
 	
 	
@@ -95,7 +93,7 @@
 						<div class="mdl-card__actions mdl-card--border">
 							<div class="mdl-grid">
 								<button class="mdl-cell mdl-cell--12-col mdl-button mdl-button--raised mdl-button--colored mdl-js-button mdl-js-ripple-effect mdl-color-text--white">
-									Reset Password
+									Resetuj
 								</button>
 							</div>
 						</div>
