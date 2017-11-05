@@ -1,7 +1,22 @@
 <% include ../header %>
-    <% if (message.length > 0) { %>
-      <div class="alert alert-danger"><%= message %></div>
-    <% } %>
+<% if (message.length > 0) { %>
+  <div id="authMessage" class="mdl-js-snackbar mdl-snackbar">
+      <div class="mdl-snackbar__text"></div>
+      <button class="mdl-snackbar__action" type="button"></button>
+    </div>
+    
+    <script>
+    r(function(){
+        var snackbarContainer = document.querySelector('#authMessage');
+        var data = { message: '<%= message %>'};
+
+        snackbarContainer.MaterialSnackbar.showSnackbar(data);
+    });
+    function r(f){ /in/.test(document.readyState)?setTimeout('r('+f+')',9):f()}
+    </script>
+<% } %>
+   
     <%- include ../partials/authForm %>
     
 <% include ../footer %>
+
