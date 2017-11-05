@@ -63,8 +63,8 @@
   .mdl-data-table--resp {
     font-size: 10px; } }
 
-@media (max-width: 768px) {
-  font-size: 50%; }
+#authMessage {
+  background-color: #283593; }
 
 body {
   background-color: #ddd; }
