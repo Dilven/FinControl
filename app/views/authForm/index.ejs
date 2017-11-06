@@ -1,22 +1,18 @@
 <% include ../header %>
 <% if (message.length > 0) { %>
-  <div id="authMessage" class="mdl-js-snackbar mdl-snackbar">
-      <div class="mdl-snackbar__text"></div>
-      <button class="mdl-snackbar__action" type="button"></button>
-    </div>
-    
-    <script>
-    r(function(){
-        var snackbarContainer = document.querySelector('#authMessage');
-        var data = { message: '<%= message %>'};
-
-        snackbarContainer.MaterialSnackbar.showSnackbar(data);
-    });
-    function r(f){ /in/.test(document.readyState)?setTimeout('r('+f+')',9):f()}
-    </script>
+<div id="snackbar-auth" class="mdl-js-snackbar mdl-snackbar">
+    <div class="mdl-snackbar__text"><p id="message-auth"> <%=message%></p></div>
+    <button class="mdl-snackbar__action" type="button"></button>
+</div>
 <% } %>
-   
-    <%- include ../partials/authForm %>
-    
+<div id="container-auth" class="mdl-layout mdl-js-layout">
+    <section class="container">
+        <div id="cube" class="show-front">
+            <% include signin %>
+            <% include signup %>
+            <% include reminderPassword %>
+        </div>
+    </section>
+</div> 
 <% include ../footer %>
 
