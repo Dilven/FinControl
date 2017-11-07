@@ -17,6 +17,15 @@ module.exports = function (grunt) {
         file: 'app.js'
       }
     },
+    uglify: {
+      my_target: {
+        files: {
+          'public/js/script.min.js': ['src/input1.js', 'src/input2.js', 'public/components/jquery-3.2.1.min/index.js',
+          'public/components/material-design-lite/material.min.js',
+          'public/components/chart.js/dist/Chart.min.js', 'public/js/authForm.js']
+        }
+      }
+    },
     sass: {
       dist: {
         files: {
