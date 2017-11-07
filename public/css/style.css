@@ -63,7 +63,7 @@
   .mdl-data-table--resp {
     font-size: 10px; } }
 
-#authMessage {
+#snackbar-auth {
   background-color: #283593; }
 
 body {
