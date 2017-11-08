@@ -4,13 +4,15 @@ router = express.Router();
 module.exports = function (app, passport) {
     app.get('/register', function (req, res, next) {
         res.render('authForm', {
-            title: 'Register    ',
+            title: 'Register',
+            show: 'show-left',
             message: req.flash('registerMessage')
         });
     })
     app.get('/login', function (req, res, next) {
         res.render('authForm', {
             title: 'Login',
+            show: 'show-front',
             message: req.flash('loginMessage')
         });
     })
