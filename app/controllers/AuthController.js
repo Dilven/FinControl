@@ -14,7 +14,7 @@ module.exports = function (app, passport) {
             title: 'Login',
             show: 'show-front',
             message: req.flash('loginMessage')
-        });
+        }); 
     })
 
     app.get('/logout', function(req, res) {
