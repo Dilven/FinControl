@@ -1,23 +1,25 @@
 module.exports = function (sequelize, DataTypes) {
     
       var Transaction = sequelize.define('Transaction', {
-        created: {
-            type: DataTypes.DATE,
-            defaultValue: sequelize.NOW
-        },
         transaction_date: {
             type: DataTypes.DATE,
-            defaultValue: sequelize.NOW
+            defaultValue: DataTypes.NOW
         },
         name: DataTypes.STRING,
-        description: DataTypes.TEXT
+        description: DataTypes.TEXT,
+        amount: DataTypes.FLOAT,
+        insert_date: {
+          type: DataTypes.DATE,
+          defaultValue: DataTypes.NOW
+        }
       }, {
+        timestamps: false,
         classMethods: {
           associate: function (models) {
-            // example on how to add relations
-            // Article.hasMany(models.Comments);
+            Transaction.belongsTo(models.TransactionType, {as: 'type'});
+            Transaction.belongsTo(models.User, {as: 'user'});
           }
-        }
+        },
       });
     
       return Transaction;

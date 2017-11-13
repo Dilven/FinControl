@@ -2,37 +2,35 @@
     <h4 class="mdl-dialog__title mdl-dialog--font">Dodawanie nowego wydatku</h4>
     <div class="mdl-dialog__content">
     </div>
-    <form action="#">
+    <form>
       <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-textfield-size">
-          <input class="mdl-textfield__input" type="text" id="sample3">
-          <label class="mdl-textfield__label" for="sample3">Wydatek</label>
+          <input class="mdl-textfield__input add_expense_field" name="name" type="text" id="expense_name">
+          <label class="mdl-textfield__label" for="expense_name">Wydatek</label>
       </div>
-      </form>
         <!-- Numeric Textfield with Floating Label -->
-      <form action="#">
-          <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-textfield-size">
-            <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="sample4">
-            <label class="mdl-textfield__label" for="sample4">Cena</label>
-            <span class="mdl-textfield__error">To nie jest liczba!</span>
-          </div>
-      </form>
-      <form action="#">
-          <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-textfield-size">
-              <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="sample4">
-              <label class="mdl-textfield__label" for="sample4">
-                  <i class="material-icons" style="font-size:16px;">event_note</i> Data
-              </label>
-              <span class="mdl-textfield__error">Zły format!</span>  
-          </div>
-      </form>
-      <div class="mdl-textfield mdl-js-textfield">
-          <textarea class="mdl-textfield__input" type="text" rows="3" maxrows="6"
-              id="schools"></textarea>
-          <label class="mdl-textfield__label" for="schools">Opis (max. 6)</label>
-      </div>
       
-    <div class="mdl-dialog__actions">
-      <button id="acceptExpense"type="button" class="mdl-button mdl-js-buttonSchools attended  mdl-button--primary">Dodaj</button>
-      <button type="button" class="mdl-button close  mdl-js-button mdl-button--primary">Anuluj</button>
-    </div>
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-textfield-size">
+            <input class="mdl-textfield__input add_expense_field" type="text" name="amount" pattern="-?[0-9]*(\.[0-9]+)?" id="expense_amount">
+            <label class="mdl-textfield__label" for="expense_amount">Kwota</label>
+          <span class="mdl-textfield__error">To nie jest liczba!</span>
+        </div>
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-textfield-size">
+            <input class="mdl-textfield__input add_expense_field" name="transaction_date" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="expense_transaction_date">
+            <label class="mdl-textfield__label" for="expense_transaction_date">
+                <i class="material-icons" style="font-size:16px;">event_note</i> Data
+            </label>
+            <span class="mdl-textfield__error">Zły format!</span>  
+        </div>
+      
+        <div class="mdl-textfield mdl-js-textfield">
+            <textarea class="mdl-textfield__input add_expense_field" type="text" name="description" rows="3" maxrows="6"
+                id="expense_description"></textarea>
+            <label class="mdl-textfield__label" for="expense_description">Opis</label>
+        </div>
+        
+        <div class="mdl-dialog__actions">
+            <button id="acceptExpense" type="button" class="mdl-button mdl-button--primary">Dodaj</button>
+            <button type="button" class="mdl-button close  mdl-js-button mdl-button--primary">Anuluj</button>
+        </div>
+    </form>
 </dialog>

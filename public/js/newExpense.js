@@ -22,18 +22,40 @@ if (element != null) {
         acceptExpenseButton.style.backgroundColor = '';
       };
       acceptExpenseButton.addEventListener('click', function() {
-        'use strict';
-        //acceptExpenseButton.style.backgroundColor = '#' +
-          //  Math.floor(Math.random() * 0xFFFFFF).toString(16);
+        var formData = {};
+
+        $('.add_expense_field').each(function (index, element) {
+          formData[element.name] = element.value
+        });
+
+        return axios.post('/expenses/add', formData)
+          .then(function(response) {
+              var data = {
+                message: response.data.message,
+                timeout: 4000,
+                actionHandler: handler,
+                actionText: 'Cofnij'
+              };
+              snackbarContainer.MaterialSnackbar.showSnackbar(data);
+              dialog.close();
+          })
+          .catch(function () {
+            var data = {
+              message: 'Błąd dodawania transakcji. Spróbuj jeszcze raz.',
+              timeout: 4000,
+              actionHandler: handler,
+              actionText: 'Cofnij'
+            };
+            snackbarContainer.MaterialSnackbar.showSnackbar(data);
+          });
+    
+            
+
+        // 'use strict';
+        // //acceptExpenseButton.style.backgroundColor = '#' +
+        //   //  Math.floor(Math.random() * 0xFFFFFF).toString(16);
         
-        var data = {
-          message: 'Dodano nowy wydatek.',
-          timeout: 4000,
-          actionHandler: handler,
-          actionText: 'Cofnij'
-        };
-        snackbarContainer.MaterialSnackbar.showSnackbar(data);
-        dialog.close();
+        
       });
     }());
     
