@@ -53,17 +53,19 @@ router.get('/', function (req, res, next) {
 });
 
 router.post('/add', function (req, res, next) {
+    
     var formData = req.body;
-    formData.typeId = 1
-    formData.userId = req.session.passport.user
-
-    console.log(req.session)
+   
+    formData.userId = req.session.passport.user;
+    if(formData.typeId =='Wydatek') formData.typeId = 1;
+    else formData.typeId = 2;
+    
 
     delete formData.transaction_date
     
     return Transaction.create(formData)
         .then((data) => {
-            console.log(data);
+            //console.log(data);
             res.status(200).send({
                 message: 'Dodano wydatek'
             })
