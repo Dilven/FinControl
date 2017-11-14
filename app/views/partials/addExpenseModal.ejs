@@ -1,12 +1,20 @@
 <dialog class="mdl-dialog">
-    <h4 class="mdl-dialog__title mdl-dialog--font">Dodawanie nowego wydatku</h4>
+    <h4 class="mdl-dialog__title mdl-dialog--font">Szybkie dodawanie nowej transakcji</h4>
     <div class="mdl-dialog__content">
     </div>
     <form>
-      <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-textfield-size">
-          <input class="mdl-textfield__input add_expense_field" name="name" type="text" id="expense_name">
-          <label class="mdl-textfield__label" for="expense_name">Wydatek</label>
-      </div>
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select">
+            <input class="mdl-textfield__input" id="country" name="country" value="Wydatek" type="text" readonly tabIndex="-1" data-val="BLR"/>
+            <label class="mdl-textfield__label" for="country">Typ</label>
+            <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu" for="country">
+                <li class="mdl-menu__item" data-val="BLR">Wydatek</li>
+                <li class="mdl-menu__item" data-val="RUS">Przychód</li>
+            </ul>
+        </div>
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-textfield-size">
+            <input class="mdl-textfield__input add_expense_field" name="name" type="text" id="expense_name">
+            <label class="mdl-textfield__label" for="expense_name">Wydatek</label>
+        </div>
         <!-- Numeric Textfield with Floating Label -->
       
         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-textfield-size">
