@@ -1,3 +1,6 @@
+.mdl-navigation {
+  padding-top: 0px !important; }
+
 .active-side {
   background-color: #3f51b5 !important;
   color: #fff !important;
