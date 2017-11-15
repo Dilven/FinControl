@@ -28,7 +28,7 @@ if (element != null) {
           formData[element.name] = element.value
         });
 
-        return axios.post('/expenses/add', formData)
+        return axios.post('/transactions/add', formData)
           .then(function(response) {
               var data = {
                 message: response.data.message,
