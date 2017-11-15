@@ -20,7 +20,7 @@
         </div>
     </div>
   <div class="mdl-cell mdl-cell--6-col mdl-shadow--2dp mdl-cell--color">
-      <table id="tableLastExpense" class="mdl-data-table mdl-js-data-table mdl-data-table--resp">
+      <table id="table-last-transactions" class="mdl-data-table mdl-js-data-table mdl-data-table--resp">
           <thead>
             <tr>
               <th class="mdl-data-table__cell--non-numeric">Nazwa wydatku</th>
@@ -28,12 +28,12 @@
               <th>Cena</th>
             </tr>
           </thead>
-          <% lastExpenses.forEach(function (expense) { %>
+          <% lastTransactions.forEach(function (Transaction) { %>
             <tbody>
               <tr>
-                <td class="mdl-data-table__cell--non-numeric"><%= expense.name %></td>
-                <td><%= expense.transaction_date.toLocaleDateString() %></td>
-                <td><%= expense.amount %> zł</td>
+                <td class="mdl-data-table__cell--non-numeric"><%= Transaction.name %></td>
+                <td><%= Transaction.transaction_date.toLocaleDateString() %></td>
+                <td><%= Transaction.amount %> zł</td>
               </tr>
             </tbody>
           <% }) %>

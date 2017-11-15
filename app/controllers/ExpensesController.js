@@ -5,19 +5,19 @@ var express = require('express'),
     Transaction = db.Transaction;
 
 module.exports = function (app) {
-    app.use('/expenses', authMiddleware, router);
+    app.use('/transactions', authMiddleware, router);
 };
 
 router.get('/', function (req, res, next) {
-    return Transaction.findAll({ where: { typeId: 1, userId: req.session.passport.user } }).then(data => {
-        var expenses = [];
+    return Transaction.findAll({ where: {userId: req.session.passport.user } }).then(data => {
+        var transactions = [];
         data.forEach(el => {
-            expenses.push(el.dataValues)
+            transactions.push(el.dataValues)
         })
         
-        res.render('expenses', {
+        res.render('transactions', {
             title: 'Panel glowny',
-            expenses: expenses,
+            transactions: transactions,
             navigation: [
                 { name: 'Dzis'},
                 { name: 'W tygodniu'},

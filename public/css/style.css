@@ -1,4 +1,4 @@
-.expenses-table {
+.transactions-table {
   width: calc(100% - 30px);
   margin-left: 15px;
   margin-top: 15px;
@@ -28,7 +28,7 @@
   -moz-outline: none;
   outline: none; }
 
-#tableLastExpense {
+#table-last-transactions {
   width: 100%; }
 
 .mdl-cell--color {

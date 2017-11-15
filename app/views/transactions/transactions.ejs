@@ -1,6 +1,6 @@
 <div class="mdl-grid">
   <p> wydatki. Spis wydatków na dany dzien, miesiac itp z mozliwoscią filtrowanie np tylko wydatki "rozrywka"</p>
-  <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp expenses-table">
+  <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp transactions-table">
       <thead>
         <tr>
           <th class="mdl-data-table__cell--non-numeric">Nazwa wydatku</th>
@@ -8,12 +8,12 @@
           <th>Cena</th>
         </tr>
       </thead>
-      <% expenses.forEach(function (expense) { %>
+      <% transactions.forEach(function (transaction) { %>
         <tbody>
           <tr>
-            <td class="mdl-data-table__cell--non-numeric"><%= expense.name %></td>
-            <td><%= expense.transaction_date.toLocaleDateString() %></td>
-            <td><%= expense.amount %> zł</td>
+            <td class="mdl-data-table__cell--non-numeric"><%= transaction.name %></td>
+            <td><%= transaction.transaction_date.toLocaleDateString() %></td>
+            <td><%= transaction.amount %> zł</td>
           </tr>
         </tbody>
       <% }) %>
