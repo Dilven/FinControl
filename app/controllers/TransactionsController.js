@@ -37,7 +37,10 @@ router.post('/add', function (req, res, next) {
     var formData = req.body;
    
     formData.userId = req.session.passport.user;
-    if(formData.typeId =='Wydatek') formData.typeId = 1;
+    if(formData.typeId =='Wydatek') {
+        formData.typeId = 1;
+        formData.amount = -formData.amount;
+    }
     else formData.typeId = 2;
     
 

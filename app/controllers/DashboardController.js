@@ -10,6 +10,11 @@ module.exports = function (app) {
 
 router.get('/', function (req, res, next) {
     return Transaction.findAll({ where: { userId: req.session.passport.user } }).then(data => {
+        var sumExpenses = 0;
+        Transaction.sum('amount').then(sum => {
+        
+           sumExpenses = sum;
+           
         var lastTransactions = [];
         for(let i = data.length-1; i>data.length-5; i--) {
             lastTransactions.push(data[i])
@@ -21,7 +26,9 @@ router.get('/', function (req, res, next) {
                     email: req.user.email,
                     id: req.user.id
                 },
+                sumExpenses: sumExpenses,
                 timeNavVisibility: false
             });
         }) 
+    })
 });
