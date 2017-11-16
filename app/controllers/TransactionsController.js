@@ -18,7 +18,6 @@ router.get('/', function (req, res, next) {
         data.forEach(el => {
             transactions.push(el.dataValues)
         })
-        console.log(sumaWydatków);
         res.render('transactions', {
             title: 'Panel glowny',
             transactions: transactions,
@@ -45,6 +44,7 @@ router.post('/add', function (req, res, next) {
     return Transaction.create(formData)
         .then((data) => {
             res.status(200).send({
+                data: data,
                 message: 'Dodano wydatek'
             })
         })

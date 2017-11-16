@@ -41,6 +41,14 @@ if (element != null) {
                 actionHandler: handler,
                 actionText: 'Cofnij'
               };
+
+              //var transaction = response.data.data;
+              // console.log('heeeeeeeeeeeeeere', transaction)
+              // $('<tr>' +
+              //   '<td class="mdl-data-table__cell--non-numeric">' + transaction.name + '</td>' +
+              //   '<td>' + new Data(transaction.transaction_date).toLocaleDateString() + '</td>' +
+              //   '<td>' + transaction.amount +' zł</td>' +
+              // '</tr>').appendTo('#myTable tbody');
               snackbarContainer.MaterialSnackbar.showSnackbar(data);
               dialog.close();
           })
