@@ -1,4 +1,5 @@
 var express = require('express'),
+    Promise = require('bluebird'),
     router = express.Router(),
     authMiddleware = require('../middlewares/authMiddleware'),
     db = require('../models'),
@@ -9,12 +10,15 @@ module.exports = function (app) {
 };
 
 router.get('/', function (req, res, next) {
-    return Transaction.findAll({ where: {userId: req.session.passport.user } }).then(data => {
+    const findAllTransactions = Transaction.findAll({ where: {userId: req.session.passport.user } });
+    const sumAllExpenses = Transaction.sum('amount', { where: { typeId: 1 } });
+
+    return Promise.join(findAllTransactions, sumAllExpenses, function (data, expensesAmount) {
         var transactions = [];
         data.forEach(el => {
             transactions.push(el.dataValues)
         })
-        
+        console.log(sumaWydatków);
         res.render('transactions', {
             title: 'Panel glowny',
             transactions: transactions,
@@ -23,9 +27,7 @@ router.get('/', function (req, res, next) {
                 { name: 'W tygodniu'},
                 { name: 'W miesiącu'},
             ],
-            
-            
-            
+            expensesAmount
         });
     })
     
@@ -37,18 +39,11 @@ router.post('/add', function (req, res, next) {
     var formData = req.body;
    
     formData.userId = req.session.passport.user;
-    if(formData.typeId =='Wydatek') {
-        formData.typeId = 1;
-        formData.amount = -formData.amount;
-    }
-    else formData.typeId = 2;
-    
 
     delete formData.transaction_date
     
     return Transaction.create(formData)
         .then((data) => {
-            //console.log(data);
             res.status(200).send({
                 message: 'Dodano wydatek'
             })
