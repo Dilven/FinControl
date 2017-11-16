@@ -1,4 +1,14 @@
-.expenses-table {
+.mdl-navigation {
+    padding-top:0px !important ;
+
+}
+.active-page {
+    background-color:#3f51b5 !important;
+    color:#fff !important;
+    opacity:1;
+}
+
+.transactions-table {
     width:calc(100% - 30px);
     margin-left:15px;
     margin-top:15px;
@@ -35,7 +45,7 @@
     
 }
 
-#tableLastExpense {
+#table-last-transactions {
     width:100%;
 }
 
@@ -72,6 +82,3 @@
 #budget-box {
     background-color:#8BC34A;
 }
-
-
-

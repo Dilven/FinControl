@@ -25,10 +25,15 @@ if (element != null) {
         var formData = {};
 
         $('.add_expense_field').each(function (index, element) {
-          formData[element.name] = element.value
+          
+          if (element.name === 'typeId') {
+            formData[element.name] = $(element).data('val');
+          } else {
+            formData[element.name] = element.value;
+          }
         });
 
-        return axios.post('/expenses/add', formData)
+        return axios.post('/transactions/add', formData)
           .then(function(response) {
               var data = {
                 message: response.data.message,

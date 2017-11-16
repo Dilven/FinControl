@@ -1,0 +1,31 @@
+<div class="mdl-grid">
+  <table id="myTable" class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp transactions-table  ">
+      <thead>
+        <tr>
+          <th class="mdl-data-table__cell--non-numeric">Nazwa wydatku</th>
+          <th>Data</th>
+          <th>Cena</th>
+        </tr>
+      </thead>
+      <% transactions.forEach(function (transaction) { %>
+        <tbody>
+          <tr>
+            <td class="mdl-data-table__cell--non-numeric"><%= transaction.name %></td>
+            <td><%= transaction.transaction_date.toLocaleDateString() %></td>
+            <td><%= transaction.amount %> zł</td>
+          </tr>
+        </tbody>
+      <% }) %>
+  </table>
+</div>
+
+<style>
+input[type="button"] {
+    background-color:#fff;
+    border: 1px solid black;
+    padding: 8px 16px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 15px;
+}
+</style>
