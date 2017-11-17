@@ -67,6 +67,10 @@
 #budget-box {
   background-color: #8BC34A; }
 
+#mddtp-picker__date {
+  z-index: 1000 !important;
+  position: relative; }
+
 @media (max-width: 400px) {
   .mdl-data-table--resp {
     font-size: 10px; } }
