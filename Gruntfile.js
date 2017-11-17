@@ -61,7 +61,7 @@ module.exports = function (grunt) {
           'app/views/**/*.ejs'
         ],
         options: { livereload: reloadPort }
-      }
+      },
     }
   });
 
