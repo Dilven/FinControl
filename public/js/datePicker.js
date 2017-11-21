@@ -1,12 +1,18 @@
 $( document ).ready(function() {
-    
     var dialog = new mdDateTimePicker.default({
-        type: 'date'
+        type: 'date',
+        modal:true
     });
-    console.log(dialog);
+    
+    
     var toggleButton = document.getElementById('dataPicker');
     toggleButton.addEventListener('click', function() {
         dialog.toggle();
+        
     });
-    
+
+  
 });
+    
+   
+    
