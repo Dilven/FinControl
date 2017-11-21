@@ -22,6 +22,7 @@
 
 .mdl-dialog {
     width:50%;
+    z-index: 1;
 }
 .material-icons.md-32 {
      font-size: 32px; 
@@ -60,7 +61,7 @@
 .box-dashboard {
     height:60px;
     color:#fff;
-    font-size:25px;
+    font-size:18px;
     text-align:center;
     line-height:60px;
 }
@@ -81,5 +82,10 @@
 
 #budget-box {
     background-color:#8BC34A;
+}
+
+#mddtp-picker__date {
+    position: relative;
+    z-index:100;
 }
 

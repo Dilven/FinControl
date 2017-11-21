@@ -12,8 +12,9 @@ module.exports = function (app) {
 router.get('/', function (req, res, next) {
     const findAllTransactions = Transaction.findAll({ where: {userId: req.session.passport.user } });
     const sumAllExpenses = Transaction.sum('amount', { where: { typeId: 1 } });
+    const sumAllIncome = Transaction.sum('amount', { where: { typeId: 2 } });
 
-    return Promise.join(findAllTransactions, sumAllExpenses, function (data, expensesAmount) {
+    return Promise.join(findAllTransactions, sumAllExpenses, sumAllIncome, function (data, expensesAmount, incomeAmount) {
         var transactions = [];
         data.forEach(el => {
             transactions.push(el.dataValues)
@@ -26,7 +27,8 @@ router.get('/', function (req, res, next) {
                 { name: 'W tygodniu'},
                 { name: 'W miesiącu'},
             ],
-            expensesAmount
+            expensesAmount,
+            incomeAmount
         });
     })
     
