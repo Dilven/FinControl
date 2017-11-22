@@ -1,17 +1,24 @@
 $( document ).ready(function() {
     var dialog = new mdDateTimePicker.default({
         type: 'date',
-        modal:true
+        modal: true
     });
     
     
-    var toggleButton = document.getElementById('dataPicker');
-    toggleButton.addEventListener('click', function() {
+    var dateInput = $('#dataPicker');
+    
+    dateInput.on('click', function() {
         dialog.toggle();
-        
-    });
+        $('#mddtp-date__ok').on('click', function() {
+            console.log(dialog);
+            dateInput.value = dialog.time.format('MM/DD/YYYY');
 
-  
+        });
+    });
+    
+     $('#mddtp-picker__date').appendTo('#dialogTransaction')
+
+    
 });
     
    
