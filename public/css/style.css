@@ -69,7 +69,7 @@
   background-color: #8BC34A; }
 
 #mddtp-picker__date {
-  position: relative;
+  position: absolute;
   z-index: 100; }
 
 @media (max-width: 400px) {
