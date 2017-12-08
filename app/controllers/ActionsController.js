@@ -3,13 +3,13 @@ var express = require('express'),
     authMiddleware = require('../middlewares/authMiddleware')
 
 module.exports = function (app) {
-    app.use('/budget', authMiddleware, router);
+    app.use('/actions', authMiddleware, router);
 };
 
 router.get('/', function (req, res, next) {
     
-    res.render('budget', {
-        title: 'Budżet',
+    res.render('actions', {
+        title: 'Akcje',
         navigation: [
             { name: 'Na dziś'},
             { name: 'Tygodniowy'},

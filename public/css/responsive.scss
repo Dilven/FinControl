@@ -1,5 +1,8 @@
 $tablet: "(max-width: 768px)";
 $small-width: "(max-width: 400px)";
+$normal-width: "(max-width: 1366px)";
+
+
 
 @media #{$small-width} {
     .mdl-data-table--resp {
@@ -10,4 +13,6 @@ $small-width: "(max-width: 400px)";
 @media #{$tablet} {
    
 }
+
+
   

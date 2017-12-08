@@ -10,8 +10,11 @@ $( document ).ready(function() {
     dateInput.on('click', function() {
         dialog.toggle();
         $('#mddtp-date__ok').on('click', function() {
-            console.log(dialog);
-            dateInput.value = dialog.time.format('MM/DD/YYYY');
+            
+            dataPicker.value = dialog.time.format('MM/DD/YYYY');
+           
+            
+            
 
         });
     });

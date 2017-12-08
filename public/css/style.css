@@ -12,6 +12,9 @@
   margin-top: 15px;
   margin-bottom: 15px; }
 
+#line-chart {
+  width: 535px; }
+
 .log-form {
   margin-left: 50px;
   margin-top: 50px; }

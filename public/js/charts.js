@@ -76,7 +76,7 @@ function getDataForLineChart() {
           
         
     }
-    var ctx = document.getElementById("lineChart").getContext('2d')
+    var ctx = document.getElementById("line-chart").getContext('2d')
     var myLineChart = new Chart(ctx, {
         type: 'line',
         data: data,
