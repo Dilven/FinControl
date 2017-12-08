@@ -11,6 +11,9 @@ module.exports = function (sequelize, DataTypes) {
         insert_date: {
           type: DataTypes.DATE,
           defaultValue: DataTypes.NOW
+        },
+        categoryId: {
+          type: DataTypes.INTEGER
         }
       }, {
         timestamps: false,

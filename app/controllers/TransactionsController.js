@@ -41,7 +41,12 @@ router.post('/add', function (req, res, next) {
    
     formData.userId = req.session.passport.user;
 
-    delete formData.transaction_date
+    Date.prototype.addHours = function(h) {    
+        this.setTime(this.getTime() + (h*60*60*1000)); 
+        return this;   
+    }
+
+    formData.transaction_date = new Date(formData.transaction_date).addHours(1);
     
     return Transaction.create(formData)
         .then((data) => {

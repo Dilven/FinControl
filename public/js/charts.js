@@ -3,6 +3,11 @@ function getDataForCategoriesChart(response) {
         data = [],
         labels = [];
         var categoriesForChart = response.data.categoriesForChart;
+        if (categoriesForChart.length === 0) {
+            ctx.font = "30px Arial";
+            ctx.fillText("No data",50,100);
+            return null;
+        }
         categoriesForChart.forEach(function (cat) {
             data.push(cat.amount);
             labels.push(cat.name);

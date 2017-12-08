@@ -13,7 +13,12 @@ $( document ).ready(function() {
             
             dataPicker.value = dialog.time.format('MM/DD/YYYY');
            
-            
+            $('#dataPicker-label').css({
+                color: '#3f51b5',
+                fontSize: '12px',
+                top: '4px',
+                visibility: 'visible'
+            });
             
 
         });

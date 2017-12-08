@@ -16,11 +16,13 @@ router.get('/', function (req, res, next) {
         order: 'transaction_date DESC',
         limit: 4
     });
-    const sumAllExpenses = Transaction.sum('amount', { where: { typeId: 1 } });
-    const sumAllIncome = Transaction.sum('amount', { where: { typeId: 2 } });
+    const sumAllExpenses = Transaction.sum('amount', { where: { typeId: 1, userId: req.user.id } });
+    const sumAllIncome = Transaction.sum('amount', { where: { typeId: 2, userId: req.user.id } });
 
     return Promise.join(findAllTransactions, sumAllExpenses, sumAllIncome, function (transactions, expensesAmount, incomeAmount) {
         
+console.log(transactions);
+
         res.render('dashboard', {
             title: 'Panel glowny',
             lastTransactions: transactions,
@@ -28,8 +30,8 @@ router.get('/', function (req, res, next) {
                 email: req.user.email,
                 id: req.user.id
             },
-            expensesAmount: expensesAmount || 0,
-            incomeAmount: incomeAmount || 0,
+            expensesAmount: expensesAmount ? parseFloat(expensesAmount).toFixed(2) : 0,
+            incomeAmount: incomeAmount ? parseFloat(incomeAmount).toFixed(2) : 0,
             timeNavVisibility: false
         });
     })
