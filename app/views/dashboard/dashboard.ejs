@@ -1,9 +1,9 @@
 
 <div class="mdl-grid mdl-grid--color">
     <div class="mdl-cell mdl-cell--3-col mdl-shadow--2dp mdl-cell--color">
-      <div id="income-box" class="box-dashboard">
-           <span>Przychody:<%= incomeAmount %> zł</span> 
-      </div>
+        <div id="income-box" class="box-dashboard">
+            <span>Przychody:<%= incomeAmount %> zł</span> 
+        </div>
     </div>
     <div class="mdl-cell mdl-cell--3-col mdl-shadow--2dp mdl-cell--color">
         <div id="expenses-box" class="box-dashboard">
@@ -20,43 +20,43 @@
             <span>Skarbonka</span>
         </div>
     </div>
-  <div class="mdl-cell mdl-cell--6-col mdl-shadow--2dp mdl-cell--color">
-      <table id="table-last-transactions" class="mdl-data-table mdl-js-data-table mdl-data-table--resp">
-          <thead>
-            <tr>
-              <th class="mdl-data-table__cell--non-numeric">Nazwa wydatku</th>
-              <th>Data</th>
-              <th>Cena</th>
-            </tr>
-          </thead>
-          <% lastTransactions.forEach(function (Transaction) { %>
-            <tbody>
-              <tr>
-                <td class="mdl-data-table__cell--non-numeric"><%= Transaction.name %></td>
-                <td><%= Transaction.transaction_date.toLocaleDateString() %></td>
-                <td><%= Transaction.amount %> zł</td>
-              </tr>
-            </tbody>
-          <% }) %>
-      </table>
-  </div>
-  
-  <div class="mdl-cell mdl-cell--6-col mdl-shadow--2dp mdl-cell--color">
-    <div>
-        <canvas id="lineChart"></canvas>
+    <div class="mdl-cell mdl-cell--6-col mdl-shadow--2dp mdl-cell--color">
+        <table id="table-last-transactions" class="mdl-data-table mdl-js-data-table mdl-data-table--resp">
+            <thead>
+                <tr>
+                <th class="mdl-data-table__cell--non-numeric">Nazwa wydatku</th>
+                <th>Data</th>
+                <th>Cena</th>
+                </tr>
+            </thead>
+            <% lastTransactions.forEach(function (Transaction) { %>
+                <tbody>
+                <tr>
+                    <td class="mdl-data-table__cell--non-numeric"><%= Transaction.name %></td>
+                    <td><%= Transaction.transaction_date.toLocaleDateString() %></td>
+                    <td><%= Transaction.amount %> zł</td>
+                </tr>
+                </tbody>
+            <% }) %>
+        </table>
     </div>
-  </div>
+    
+    <div class="mdl-cell mdl-cell--6-col mdl-shadow--2dp mdl-cell--color">
+        <div>
+            <canvas id="line-chart"></canvas>
+        </div>
+    </div>
 
-  <div class="mdl-cell mdl-cell--4-col mdl-shadow--2dp mdl-cell--color">
-    <div>
-        <canvas id="categoriesChart"></canvas>
+    <div class="mdl-cell mdl-cell--4-col mdl-shadow--2dp mdl-cell--color">
+        <div>
+            <canvas id="categoriesChart"></canvas>
+        </div>
     </div>
-  </div>
-  <div class="mdl-cell mdl-cell--4-col mdl-shadow--2dp mdl-cell--color">
-      
-  </div>
-     <div class="mdl-cell mdl-cell--4-col mdl-shadow--2dp mdl-cell--color">       
-  </div>
+    <div class="mdl-cell mdl-cell--4-col mdl-shadow--2dp mdl-cell--color">
+        
+    </div>
+        <div class="mdl-cell mdl-cell--4-col mdl-shadow--2dp mdl-cell--color">       
+    </div>
 </div>
 
 <script src="../js/charts.js"></script>

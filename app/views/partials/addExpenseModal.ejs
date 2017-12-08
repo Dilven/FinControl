@@ -11,6 +11,15 @@
                 <li class="mdl-menu__item" data-val="2">Przychód</li>
             </ul>
         </div>
+
+        <div id="categories-dropdown-container" class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select">
+            <input class="mdl-textfield__input add_expense_field" id="categoryId" name="categoryId" value="Rozrywka" data-val="1" type="text" readonly tabIndex="-1"/>
+            <label class="mdl-textfield__label" for="expense_typeId">Kategoria</label>
+            <ul id="categories-dropdown" class="mdl-menu mdl-menu--bottom-left mdl-js-menu" for="categoryId">
+                
+            </ul>
+        </div>
+
         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-textfield-size">
             <input class="mdl-textfield__input add_expense_field" name="name" type="text" id="expense_name">
             <label class="mdl-textfield__label" for="expense_name"></label>
@@ -22,9 +31,9 @@
             <label class="mdl-textfield__label" for="expense_amount">Kwota</label>
           <span class="mdl-textfield__error">To nie jest liczba!</span>
         </div>
-        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-textfield-size">
-            <input id="dataPicker" class="mdl-textfield__input add_expense_field" name="transaction_date" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="expense_transaction_date">
-            <label class="mdl-textfield__label" for="expense_transaction_date">
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-textfield-size is-focused" >
+            <input id="dataPicker" class="mdl-textfield__input add_expense_field" name="transaction_date" type="text" pattern="-?[0-9]*(\.[0-9]+)?">
+            <label id="dataPicker-label" class="mdl-textfield__label" for="datePicker">
                 <i class="material-icons" style="font-size:16px;">event_note</i> Data
             </label>
             <span class="mdl-textfield__error">Zły format!</span>  

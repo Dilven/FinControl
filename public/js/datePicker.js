@@ -10,8 +10,16 @@ $( document ).ready(function() {
     dateInput.on('click', function() {
         dialog.toggle();
         $('#mddtp-date__ok').on('click', function() {
-            console.log(dialog);
-            dateInput.value = dialog.time.format('MM/DD/YYYY');
+            
+            dataPicker.value = dialog.time.format('MM/DD/YYYY');
+           
+            $('#dataPicker-label').css({
+                color: '#3f51b5',
+                fontSize: '12px',
+                top: '4px',
+                visibility: 'visible'
+            });
+            
 
         });
     });
