@@ -14,9 +14,7 @@ function getDataForCategoriesChart(response) {
             labels.push(cat.name);
         })
 
-        var randomColorGenerator = function () { 
-            return '#' + (Math.random().toString(16) + '0000000').slice(2, 8); 
-        };
+      
         var data = {
             datasets: [{
                 data: data,
@@ -89,7 +87,7 @@ function getDataForLineChart() {
     });
 };
 
-axios.get('/api/charts')
+axios.get('/api/charts/dashboard')
     .then(function (response) {
         getDataForCategoriesChart(response);
        
