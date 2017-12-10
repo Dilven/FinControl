@@ -41,6 +41,7 @@ router.post('/budget', function (req, res, next) {
     var data = req.body;
     const monthNow = new Date().getMonth();
     const month = parseInt(req.body.budgetMonth);
+    
     let year = parseInt(new Date().getFullYear());
     if (monthNow > month) {
         year += 1;

@@ -16,13 +16,15 @@ $(document).ready(function () {
               $('.add_budget_field').each(function (index, element) {
                 
                 if (element.name === 'budgetMonth') {
-                  formData[element.name] = $(element).data('val');
+                  formData[element.name] = $(element).attr('data-val');
+                  
                 } else {
                   formData[element.name] = element.value;
+                  
                 }
               });
 
-              console.log(formData);
+              ;
               return axios.post('/actions/budget', formData)
                 .then(function(response) {
                     var data = {
