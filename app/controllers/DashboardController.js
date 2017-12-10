@@ -1,9 +1,10 @@
 var express = require('express'),
     Promise = require('bluebird'),
     router = express.Router(),
-    authMiddleware = require('../middlewares/authMiddleware')
+    authMiddleware = require('../middlewares/authMiddleware'),
     db = require('../models'),
-    Transaction = db.Transaction;
+    Transaction = db.Transaction,
+    Budget = db.Budget;
 
 module.exports = function (app) {
     
@@ -11,18 +12,29 @@ module.exports = function (app) {
 };
 
 router.get('/', function (req, res, next) {
+
+    var date = new Date(),
+        month = date.getMonth(),
+        budgetAmount = 0;
+        
+    
+
     const findAllTransactions = Transaction.findAll({ 
         where: {userId: req.session.passport.user },
         order: 'transaction_date DESC',
         limit: 4
     });
+    
+    const monthlyBudget = Budget.findOne({where:{userId: req.user.id, month: month}});
     const sumAllExpenses = Transaction.sum('amount', { where: { typeId: 1, userId: req.user.id } });
     const sumAllIncome = Transaction.sum('amount', { where: { typeId: 2, userId: req.user.id } });
 
-    return Promise.join(findAllTransactions, sumAllExpenses, sumAllIncome, function (transactions, expensesAmount, incomeAmount) {
+    return Promise.join(findAllTransactions, sumAllExpenses, sumAllIncome, monthlyBudget, function (transactions, expensesAmount, incomeAmount, budget) {
         
-console.log(transactions);
-
+        if(budget != null) {
+            budgetAmount = budget.amount;
+        } 
+        
         res.render('dashboard', {
             title: 'Panel glowny',
             lastTransactions: transactions,
@@ -30,6 +42,7 @@ console.log(transactions);
                 email: req.user.email,
                 id: req.user.id
             },
+            budget:budgetAmount ? parseFloat(budgetAmount).toFixed(2) : 0,
             expensesAmount: expensesAmount ? parseFloat(expensesAmount).toFixed(2) : 0,
             incomeAmount: incomeAmount ? parseFloat(incomeAmount).toFixed(2) : 0,
             timeNavVisibility: false

@@ -2,6 +2,7 @@ var express = require('express'),
     router = express.Router(),
     _ = require('lodash'),
     authMiddleware = require('../middlewares/authMiddleware')
+    db = require('../models'),
 
 module.exports = function (app) {
     app.use('/actions', authMiddleware, router);
