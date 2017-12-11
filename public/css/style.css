@@ -75,6 +75,9 @@
   position: absolute;
   z-index: 100; }
 
+.form-container {
+  margin: 20px; }
+
 @media (max-width: 400px) {
   .mdl-data-table--resp {
     font-size: 10px; } }
