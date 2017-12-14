@@ -65,8 +65,95 @@ function getDataForCategoriesChart2() {
         options: options
     });
 }
+
+function getDataForLineChart1() {
+    var data = {
+        datasets: [{
+            data: [10, 20, 10, 40, 50, 30,60,40,45,39,38],
+            label: 'Wydatki',
+            borderColor: '#f44259',
+            fill: false,
+            backgroundColor: '#f44259'
+
+            
+        },
+        {
+            data: [10, 20, 10, 101, 93, 30,50,60,40,45,39,38],
+            label:'Dochody',
+            borderColor: '#297720',
+            fill: false,
+            backgroundColor: '#297720'
+
+            
+        }],
+        labels: ['Styczeń', 'Luty', 'Marzec', 'Kwiecien', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpien', 'Wrzesień', 'Listopad', 'Grudzień'],
+    }
+
+    var options = {
+        
+        scales: {
+            yAxes: [{
+                stacked: false
+            }]
+        
+        },
+        elements: {
+            line: {
+                tension: 0, // disables bezier curves
+            }
+        },
+        padding:0,
+
+        title: {
+            display: true,
+            text: 'Twoje dochody i przychody'
+          }
+          
+        
+    }
+    var ctx = document.getElementById("line-chart1").getContext('2d')
+    var myLineChart = new Chart(ctx, {
+        type: 'line',
+        data: data,
+        options: options
+    });
+};
+
+function getDataForLineChart2() {
+    var data = {
+        labels: ["January", "February", "March", "April", "May", "June", "July"],
+        datasets: [{
+            label: "My First dataset",
+            //new option, type will default to bar as that what is used to create the scale
+            type: "line",
+            fillColor: "rgba(220,220,220,0.2)",
+            strokeColor: "rgba(220,220,220,1)",
+            pointColor: "rgba(220,220,220,1)",
+            pointStrokeColor: "#fff",
+            pointHighlightFill: "#fff",
+            pointHighlightStroke: "rgba(220,220,220,1)",
+            data: [100, 59, 4, 81, 56, 55, 40]
+        }, {
+            label: "Słupkowy",
+            //new option, type will default to bar as that what is used to create the scale
+            
+            
+            data: [32, 25, 33, 88, 12, 92, 33]
+        }]
+        
+    };
+        var lineBar = document.getElementById("line-chart2").getContext("2d");
+        var myLineBarChart = new Chart(lineBar, {
+            type: 'line',
+            data:data
+        });
+}
+
 getDataForCategoriesChart1();
 getDataForCategoriesChart2();
+getDataForLineChart1();
+getDataForLineChart2();
+
 console.log('dupa1');
 
 
