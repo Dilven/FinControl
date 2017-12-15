@@ -66,3 +66,33 @@ router.post('/budget', function (req, res, next) {
         })
 });
 
+// router.post('/budgetcategories', function (req, res, next) {
+//     var data = req.body;
+//     const monthNow = new Date().getMonth();
+//     console.log('dupa');
+//     console.log(req.body.budgetMonthForCategory);
+//     const month = parseInt(req.body.budgetMonthForCategory);
+    
+//     let year = parseInt(new Date().getFullYear());
+//     if (monthNow > month) {
+//         year += 1;
+//     }
+//     const amount = req.body.amount;
+//     const userId = req.user.id;
+
+//     return db.Budget.findOrCreate({where: {userId: req.user.id, month: month, year: year}})
+//         .then(budget => {
+//             return db.Budget.update(
+//                 { amount: amount },
+//                 { where: { id: budget[0].dataValues.id } }
+//               )
+//               .then(() => {
+//                 res.status(200).send({message: 'ok'});
+//               })
+//         })
+//         .catch((err) => {
+//             console.log(err);
+//             res.status(500).send({message: 'not ok', error: err})
+//         })
+// });
+

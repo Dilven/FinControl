@@ -15,7 +15,8 @@ router.get('/', function (req, res, next) {
 
     var date = new Date(),
         month = date.getMonth(),
-        budgetAmount = 0;
+        budgetAmount = 0,
+        sumAllTransaction = 0;
         
     
 
@@ -32,9 +33,11 @@ router.get('/', function (req, res, next) {
     return Promise.join(findAllTransactions, sumAllExpenses, sumAllIncome, monthlyBudget, function (transactions, expensesAmount, incomeAmount, budget) {
         
         if(budget != null) {
-            budgetAmount = budget.amount;
+            ToSpendMoney = budgetAmount = budget.amount;
         } 
-        
+        sumAllTransaction = budgetAmount - (expensesAmount - incomeAmount);
+        console.log(sumAllTransaction)
+
         res.render('dashboard', {
             title: 'Panel glowny',
             lastTransactions: transactions,
@@ -42,6 +45,7 @@ router.get('/', function (req, res, next) {
                 email: req.user.email,
                 id: req.user.id
             },
+            sumAllTransaction:sumAllTransaction ? parseFloat(sumAllTransaction).toFixed(2) : 0,
             budget:budgetAmount ? parseFloat(budgetAmount).toFixed(2) : 0,
             expensesAmount: expensesAmount ? parseFloat(expensesAmount).toFixed(2) : 0,
             incomeAmount: incomeAmount ? parseFloat(incomeAmount).toFixed(2) : 0,
