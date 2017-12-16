@@ -12,12 +12,21 @@
     </div>
     <div class="mdl-cell mdl-cell--3-col mdl-shadow--2dp mdl-cell--color">
         <div id="budget-box" class="box-dashboard">
-            <span>Budzet:<%= budget %></span>
+            <% if(budget != 0) { %>
+                <span>Budzet:<%= budget %></span>
+            <% }else {%>
+                <span>Określ swój budżet</span>
+            <% } %>
         </div>
     </div>
     <div class="mdl-cell mdl-cell--3-col mdl-shadow--2dp mdl-cell--color">
-        <div id="piggybank-box" class="box-dashboard">
-            <span>Pozostało: <%= sumAllTransaction %></span>
+        <div id="piggybank-box" class="box-dashboard"> 
+            <% if(toSpendMoney != 0) { %>
+                <span>Pozostało: <%= toSpendMoney %></span>
+            <% } else { %>
+                <span>Bez budżetu nie ma zabawy :( </span>
+            <% } %>
+            
         </div>
     </div>
     <div class="mdl-cell mdl-cell--6-col mdl-shadow--2dp mdl-cell--color">
@@ -60,4 +69,3 @@
 </div>
 
 <script src="../js/charts.js"></script>
-

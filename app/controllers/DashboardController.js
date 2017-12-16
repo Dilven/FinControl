@@ -32,11 +32,13 @@ router.get('/', function (req, res, next) {
 
     return Promise.join(findAllTransactions, sumAllExpenses, sumAllIncome, monthlyBudget, function (transactions, expensesAmount, incomeAmount, budget) {
         
-        if(budget != null) {
-            ToSpendMoney = budgetAmount = budget.amount;
-        } 
-        sumAllTransaction = budgetAmount - (expensesAmount - incomeAmount);
-        console.log(sumAllTransaction)
+        var toSpendMoney = 0;
+        if(budget.amount != null && budget.amount != 0 ) {
+            toSpendMoney = budgetAmount - (expensesAmount - incomeAmount);
+            parseFloat(toSpendMoney).toFixed(2);
+        }
+        
+
 
         res.render('dashboard', {
             title: 'Panel glowny',
@@ -45,8 +47,8 @@ router.get('/', function (req, res, next) {
                 email: req.user.email,
                 id: req.user.id
             },
-            sumAllTransaction:sumAllTransaction ? parseFloat(sumAllTransaction).toFixed(2) : 0,
-            budget:budgetAmount ? parseFloat(budgetAmount).toFixed(2) : 0,
+            toSpendMoney:toSpendMoney,
+            budget:budget.amount ? parseFloat(budget.amount).toFixed(2) : 0,
             expensesAmount: expensesAmount ? parseFloat(expensesAmount).toFixed(2) : 0,
             incomeAmount: incomeAmount ? parseFloat(incomeAmount).toFixed(2) : 0,
             timeNavVisibility: false
