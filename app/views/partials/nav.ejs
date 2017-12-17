@@ -26,7 +26,7 @@
   <% if(typeof timeNavVisibility === 'undefined' || timeNavVisibility) { %>
       <div class="mdl-layout__tab-bar mdl-js-ripple-effect">
       <% navigation.forEach(function (nav) { %>
-          <a href="#scroll-tab-1" class="mdl-layout__tab is-active"><%=nav.name %></a>
+          <a href="<%= nav.target %>" class="mdl-layout__tab <%= nav.active ? 'is-active' : '' %>" ><%=nav.name %></a>
       <% }) %>  
       </div>   
   <% } %>

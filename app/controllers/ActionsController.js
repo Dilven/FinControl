@@ -85,8 +85,6 @@ router.post('/budget', function (req, res, next) {
 
 router.post('/budgetcategories', function (req, res, next) {
     var data = req.body;
-    console.log("DYADASKJJJJJJJJJJJJJJJJJJJJJJJJJJDASFASASFHASKFB");
-    console.log(data.category.id);
     const monthNow = new Date().getMonth();
     
     const month = parseInt(req.body.budgetMonthForCategory);
@@ -98,8 +96,6 @@ router.post('/budgetcategories', function (req, res, next) {
     }
     const amount = req.body.amount,
           userId = req.user.id;
-    console.log('dupa');
-    console.log(categoryId);
 
     return db.BudgetCategory.findOrCreate({where: {userId: req.user.id, month: month, year: year, categoryId: categoryId}})
         .then(budget => {

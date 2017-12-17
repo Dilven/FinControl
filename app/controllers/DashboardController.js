@@ -32,7 +32,6 @@ router.get('/', function (req, res, next) {
         if(budget.amount != null && budget.amount != 0 ) {
             toSpendMoney = budget.amount - (expensesAmount - incomeAmount);
         }
-        console.log(toSpendMoney);
 
         res.render('dashboard', {
             title: 'Panel glowny',
