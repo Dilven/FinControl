@@ -14,12 +14,8 @@ module.exports = function (app) {
 router.get('/', function (req, res, next) {
 
     var date = new Date(),
-        month = date.getMonth(),
-        budgetAmount = 0,
-        sumAllTransaction = 0;
-        
-    
-
+        month = date.getMonth();
+      
     const findAllTransactions = Transaction.findAll({ 
         where: {userId: req.session.passport.user },
         order: 'transaction_date DESC',
@@ -34,11 +30,9 @@ router.get('/', function (req, res, next) {
         
         var toSpendMoney = 0;
         if(budget.amount != null && budget.amount != 0 ) {
-            toSpendMoney = budgetAmount - (expensesAmount - incomeAmount);
-            parseFloat(toSpendMoney).toFixed(2);
+            toSpendMoney = budget.amount - (expensesAmount - incomeAmount);
         }
-        
-
+        console.log(toSpendMoney);
 
         res.render('dashboard', {
             title: 'Panel glowny',
@@ -47,7 +41,7 @@ router.get('/', function (req, res, next) {
                 email: req.user.email,
                 id: req.user.id
             },
-            toSpendMoney:toSpendMoney,
+            toSpendMoney:parseFloat(toSpendMoney).toFixed(2),
             budget:budget.amount ? parseFloat(budget.amount).toFixed(2) : 0,
             expensesAmount: expensesAmount ? parseFloat(expensesAmount).toFixed(2) : 0,
             incomeAmount: incomeAmount ? parseFloat(incomeAmount).toFixed(2) : 0,

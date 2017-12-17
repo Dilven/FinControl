@@ -4,8 +4,10 @@ $(document).ready(function () {
         
   
     if (addBudgetForm != null ) {
-          
+     
           (function() {
+            
+
             'use strict';
             var snackbarContainer = document.querySelector('#notificationBar'),
                 acceptBudgetButton = document.querySelector('#acceptBudget'),
@@ -57,7 +59,7 @@ $(document).ready(function () {
             acceptBudgetForCategoryButton.addEventListener('click', function() {
               var formData = {};
     
-              $('.category_field').each(function (index, element) {
+              $('.category_budget_month_field').each(function (index, element) {
                 
                 if (element.name === 'budgetMonthForCategory') {
                   formData[element.name] = $(element).attr('data-val');
@@ -67,7 +69,16 @@ $(document).ready(function () {
                   
                 }
               });
-
+              $('.category_field').each(function (index, element) {
+                
+                if (element.name === 'category') {
+                  formData[element.name] = $(element).attr('data-val');
+                  
+                } else {
+                  formData[element.name] = element.value;
+                  
+                }
+              });
               ;
               return axios.post('/actions/budgetcategories', formData)
                 .then(function(response) {
@@ -80,7 +91,6 @@ $(document).ready(function () {
                     snackbarContainer.MaterialSnackbar.showSnackbar(data);
                 })
                 .catch(function (err) {
-                    console.log(err)
                   var data = {
                     message: 'Błąd dodawania transakcji. Spróbuj jeszcze raz.',
                     timeout: 4000,
@@ -91,7 +101,6 @@ $(document).ready(function () {
                 });        
             });
           }());
-        
-    }
+        }
   
 })

@@ -1,14 +1,22 @@
 var express = require('express'),
+    Promise = require('bluebird'),
     router = express.Router(),
     _ = require('lodash'),
-    authMiddleware = require('../middlewares/authMiddleware')
+    authMiddleware = require('../middlewares/authMiddleware'),
     db = require('../models'),
+    Budget = db.Budget,
+    Category = db.Category;
+    BudgetCategory = db.BudgetCategory;
 
 module.exports = function (app) {
     app.use('/actions', authMiddleware, router);
 };
 
 router.get('/', function (req, res, next) {
+
+    var date = new Date(),
+    month = date.getMonth();
+  
     const months = [
         {name: 'styczeń', value: 0},
         {name: 'luty', value: 1},
@@ -23,19 +31,28 @@ router.get('/', function (req, res, next) {
         {name: 'listopad', value: 10},
         {name: 'grudzień', value: 11}
     ];
-
+    
     const monthNowNumber = new Date().getMonth();
-    const monthNow = _.find(months, ['value', parseInt(monthNowNumber)])
-    return db.Category.findAll()
-        .then(categories => {
+    const monthNow = _.find(months, ['value', parseInt(monthNowNumber)]);
+    const monthlyBudget = Budget.findOne({where:{userId: req.user.id, month: month}});
+    const categoryAll = Category.findAll();
+    const sumBudgetCategories = BudgetCategory.sum('amount', { where: {userId: req.user.id, month: month } });
+    
+    
+
+    return Promise.join(monthlyBudget, categoryAll,sumBudgetCategories, function (budget, categories, budgetedAmount ) {
 
             res.render('actions', {
                 title: 'Akcje',
+                budget: budget.amount ? parseFloat(budget.amount).toFixed(2) : 0,
+                budgetedAmount: budgetedAmount ? parseFloat(budgetedAmount).toFixed(2) : 0,
                 monthNow,
                 months,
+                categories,
                 timeNavVisibility: false
             });
-        })
+        
+});
 });
 
 router.post('/budget', function (req, res, next) {
@@ -68,25 +85,30 @@ router.post('/budget', function (req, res, next) {
 
 router.post('/budgetcategories', function (req, res, next) {
     var data = req.body;
+    console.log("DYADASKJJJJJJJJJJJJJJJJJJJJJJJJJJDASFASASFHASKFB");
+    console.log(data.category.id);
     const monthNow = new Date().getMonth();
-    console.log('dupa');
-    console.log(req.body.budgetMonthForCategory);
+    
     const month = parseInt(req.body.budgetMonthForCategory);
+    const categoryId = parseInt(req.body.category);
     
     let year = parseInt(new Date().getFullYear());
     if (monthNow > month) {
         year += 1;
     }
-    const amount = req.body.amount;
-    const userId = req.user.id;
+    const amount = req.body.amount,
+          userId = req.user.id;
+    console.log('dupa');
+    console.log(categoryId);
 
-    return db.Budget.findOrCreate({where: {userId: req.user.id, month: month, year: year}})
+    return db.BudgetCategory.findOrCreate({where: {userId: req.user.id, month: month, year: year, categoryId: categoryId}})
         .then(budget => {
-            return db.Budget.update(
+            return db.BudgetCategory.update(
                 { amount: amount },
                 { where: { id: budget[0].dataValues.id } }
               )
               .then(() => {
+                  
                 res.status(200).send({message: 'ok'});
               })
         })

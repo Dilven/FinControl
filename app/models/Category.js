@@ -7,6 +7,7 @@ module.exports = function (sequelize, DataTypes) {
         classMethods: {
           associate: function (models) {
             Category.hasMany(models.Transaction, {foreignKey: 'categoryId', as: 'transactions'})
+            Category.hasMany(models.BudgetCategory, {foreignKey: 'categoryId', as: 'budgetCategories'})
           }
         },
       });

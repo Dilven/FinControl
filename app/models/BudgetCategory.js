@@ -5,9 +5,7 @@ module.exports = function (sequelize, DataTypes) {
         year: DataTypes.INTEGER,
         month: DataTypes.INTEGER,
         userId: DataTypes.INTEGER,
-        categoryId: {
-            type: DataTypes.INTEGER
-          }
+        categoryId: DataTypes.INTEGER
       }, {
         timestamps: false,
         classMethods: {

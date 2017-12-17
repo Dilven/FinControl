@@ -11,13 +11,16 @@
         </div>
     </div>
     <div class="mdl-cell mdl-cell--3-col mdl-shadow--2dp mdl-cell--color">
-        <div id="budget-box" class="box-dashboard">
-            <% if(budget != 0) { %>
+        <% if(budget != 0) { %>
+            <div id="budget-box" class="box-dashboard">
                 <span>Budzet:<%= budget %></span>
-            <% }else {%>
+            </div>
+        <% }else {%>
+            <a href="/actions"><div id="budget-box" class="box-dashboard">
                 <span>Określ swój budżet</span>
-            <% } %>
-        </div>
+            </div></a>
+        <% } %>
+            
     </div>
     <div class="mdl-cell mdl-cell--3-col mdl-shadow--2dp mdl-cell--color">
         <div id="piggybank-box" class="box-dashboard"> 
