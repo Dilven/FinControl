@@ -7,9 +7,7 @@ $(document).ready(() => {
 
       axios.get('/categories')
       .then((response) => {
-        console.log(response.data)
         response.data.forEach((cat) => {
-          console.log(cat)
           var listElement = $('<li>');
           listElement.addClass('mdl-menu__item');
           listElement.attr('data-val', cat.id);

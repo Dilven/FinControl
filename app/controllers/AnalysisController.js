@@ -11,9 +11,9 @@ router.get('/', function (req, res, next) {
     res.render('analysis', {
         title: 'Analiza wydatków',
         navigation: [
-            { name: 'Dzisiejszy'},
-            { name: 'Tygodniowy'},
-            { name: 'Miesieczny'},
+            { name: 'Dzisiejszy', target: '#analysis-today', active: true },
+            { name: 'Miesięczny', target: '#analysis-month', active: false },
+            { name: 'Roczny', target: '#analysis-year', active: false },
         ],
         
     });

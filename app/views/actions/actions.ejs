@@ -1,4 +1,65 @@
 <div class="mdl-grid">
-    <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
-    </table>
+    <div class="mdl-cell mdl-cell--6-col mdl-shadow--2dp mdl-cell--color">
+        <div class= "form-container">
+            <h4>Zabudżetuj kwote na dany miesiąc</h4>
+            <form id="addBudgetForm">
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select">
+                    <input class="mdl-textfield__input add_budget_field" id="budgetMonth" name="budgetMonth" value="<%= monthNow.name %>" data-val="<%= monthNow.value %>" type="text" readonly tabIndex="-1"/>
+                    <label class="mdl-textfield__label" for="expense_typeId">Miesiąc</label>
+                    <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu" for="budgetMonth">
+                        <% if(typeof months !== 'undefined') { months.forEach(function (month) { %>
+                            <li class="mdl-menu__item" data-val="<%= month.value %>"><%= month.name %></li>
+                        <% })} %>
+                    </ul>
+                </div>
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-textfield-size">
+                    <input class="mdl-textfield__input add_budget_field" type="text" name="amount" pattern="-?[0-9]*(\.[0-9]+)?" id="expense_amount">
+                    <label class="mdl-textfield__label" for="expense_amount">Kwota</label>
+                    <span class="mdl-textfield__error">To nie jest liczba!</span>
+                </div>
+                
+                <div class="mdl-dialog__actions">
+                    <button id="acceptBudget" type="button" class="mdl-button mdl-button--primary">Zapisz</button>
+                </div>
+            </form>
+        </div>
+        
+    </div>
+    <div class="mdl-cell mdl-cell--6-col mdl-shadow--2dp mdl-cell--color">
+
+        <div class= "form-container">
+            <h4>Zabudżetuj kwote na daną kategorie</h4>
+            <h5>Pozostało <%= budget-budgetedAmount %> zł do zabudżetowania w tym miesiącu</h5>
+            <form id="addBudgetCategoryForm">
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select">
+                    <input class="mdl-textfield__input add_budget_field category_budget_month_field" id="budgetMonthForCategory" name="budgetMonthForCategory" value="<%= monthNow.name %>" data-val="<%= monthNow.value %>" type="text" readonly tabIndex="-1"/>
+                    <label class="mdl-textfield__label" for="expense_typeId">Miesiąc</label>
+                    <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu" for="budgetMonthForCategory">
+                        <% if(typeof months !== 'undefined') { months.forEach(function (month) { %>
+                            <li class="mdl-menu__item" data-val="<%= month.value %>"><%= month.name %></li>
+                        <% })} %>
+                    </ul>
+                </div>
+                
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select">
+                        <input class="mdl-textfield__input add_budget_field category_field" id="category" name="category" value="<%= categories[0].name %>" data-val="<%= categories[0].id %>" type="text" readonly tabIndex="-1"/>
+                        <label class="mdl-textfield__label" for="expense_typeId">Kategoria</label>
+                        <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu" for="category">
+                            <% if(typeof categories !== 'undefined') { categories.forEach(function (category) { %>
+                                <li class="mdl-menu__item" data-val="<%= category.id %>"><%= category.name %></li>
+                            <% })} %>
+                        </ul>
+                </div>
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-textfield-size">
+                    <input class="mdl-textfield__input category_field" type="text" name="amount" pattern="-?[0-9]*(\.[0-9]+)?" id="expense_amountc">
+                    <label class="mdl-textfield__label" for="expense_amountc">Kwota</label>
+                    <span class="mdl-textfield__error">To nie jest liczba!</span>
+                </div>
+                
+                <div class="mdl-dialog__actions">
+                    <button id="acceptBudgetForCategory" type="button" class="mdl-button mdl-button--primary">Zapisz</button>
+                </div>
+            </form>
+        </div>
+    </div>   
 </div>

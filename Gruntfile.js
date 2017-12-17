@@ -20,9 +20,14 @@ module.exports = function (grunt) {
     uglify: {
       my_target: {
         files: {
-          'public/js/script.min.js': ['public/components/jquery-3.2.1.min/index.js',
-          'public/components/material-design-lite/material.min.js',
-          'public/components/chart.js/dist/Chart.min.js', 'public/js/authForm.js', 'public/js/activePage.js']
+          'public/js/script.min.js': [
+            'public/components/jquery-3.2.1.min/index.js',
+            'public/components/material-design-lite/material.min.js',
+            'public/components/chart.js/dist/Chart.min.js',
+            'public/js/authForm.js',
+            'public/js/activePage.js',
+            'public/js/analisys.js' 
+          ]
         }
       }
     },
@@ -44,7 +49,7 @@ module.exports = function (grunt) {
           'app/**/*.js',
           'config/*.js'
         ],
-        tasks: ['develop', 'delayed-livereload']
+        tasks: ['uglify', 'develop', 'delayed-livereload']
       },
       css: {
         files: [
@@ -84,6 +89,7 @@ module.exports = function (grunt) {
   });
 
   grunt.registerTask('default', [
+    'uglify',
     'sass',
     'develop',
     'watch'

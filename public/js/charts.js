@@ -1,7 +1,8 @@
 function getDataForCategoriesChart(response) {
         var ctx = document.getElementById("categoriesChart").getContext('2d'),
-        data = [],
-        labels = [];
+            data = [],
+            labels = [];
+            var default_colors = ['#3366CC','#DC3912','#FF9900','#109618','#990099','#3B3EAC','#0099C6','#DD4477','#66AA00','#B82E2E','#316395','#994499','#22AA99','#AAAA11','#6633CC','#E67300','#8B0707','#329262','#5574A6','#3B3EAC']
         var categoriesForChart = response.data.categoriesForChart;
         if (categoriesForChart.length === 0) {
             ctx.font = "30px Arial";
@@ -13,14 +14,11 @@ function getDataForCategoriesChart(response) {
             labels.push(cat.name);
         })
 
+      
         var data = {
             datasets: [{
                 data: data,
-                backgroundColor: [
-                    '#ff6384',
-                    '#36a2eb',
-                    '#cc65fe'
-                ]
+                backgroundColor: default_colors
             }],
             labels: labels
         };
@@ -89,7 +87,7 @@ function getDataForLineChart() {
     });
 };
 
-axios.get('/api/charts')
+axios.get('/api/charts/dashboard')
     .then(function (response) {
         getDataForCategoriesChart(response);
        
