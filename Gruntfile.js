@@ -26,7 +26,7 @@ module.exports = function (grunt) {
             'public/components/chart.js/dist/Chart.min.js',
             'public/js/authForm.js',
             'public/js/activePage.js',
-            'public/js/analisys.js' 
+            'public/js/analisys.js'
           ]
         }
       }
