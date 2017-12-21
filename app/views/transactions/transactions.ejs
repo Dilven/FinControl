@@ -2,6 +2,8 @@
   <table id="myTable" class="mdl-data-table mdl-js-data-table mdl-shadow--2dp transactions-table  ">
       <thead>
         <tr>
+          <th></th>
+          <th></th>
           <th class="mdl-data-table__cell--non-numeric">Nazwa wydatku</th>
           <th>Data</th>
           <th>Cena</th>
@@ -11,14 +13,18 @@
         <tbody>
           <tr class=>
             <td class="table-icon-delete"><i class="material-icons">delete_forever</i></td>
+            <% if(transaction.typeId === 1) { %>
+              <td class="table-icon-delete"><i class="material-icons md-red"><i class="material-icons">arrow_downward</i></td>
+            <% } else { %>
+              <td class="table-icon-delete"><i class="material-icons md-green"><i class="material-icons">arrow_upward</i></td>              
+            <% } %>
             <td class="mdl-data-table__cell--non-numeric transaction-data" name="name"><%= transaction.name %></td>
             <td class="transaction-data" name="date"><%= transaction.transaction_date.toLocaleDateString() %></td>
-            <td class="transaction-data" name="amount"><%= transaction.amount %> zł</td>
+            <td class="transaction-data" name="amount"><%= transaction.amount %> zł</td> 
           </tr>
         </tbody>
       <% }) %>
   </table>
-  <button id="deleteTransaction" onclick="deleteTransaction">usun</button>
   <a href='?page=2'>Zmien</a>
   <a href='?order=ASC&by=name'>Sort by name asc</a>
 </div>

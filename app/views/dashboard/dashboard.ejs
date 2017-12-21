@@ -36,17 +36,23 @@
         <table id="table-last-transactions" class="mdl-data-table mdl-js-data-table mdl-data-table--resp">
             <thead>
                 <tr>
+                <th></th>
                 <th class="mdl-data-table__cell--non-numeric">Nazwa wydatku</th>
                 <th>Data</th>
                 <th>Cena</th>
                 </tr>
             </thead>
-            <% lastTransactions.forEach(function (Transaction) { %>
+            <% lastTransactions.forEach(function (transaction) { %>
                 <tbody>
                 <tr>
-                    <td class="mdl-data-table__cell--non-numeric"><%= Transaction.name %></td>
-                    <td><%= Transaction.transaction_date.toLocaleDateString() %></td>
-                    <td><%= Transaction.amount %> zł</td>
+                    <% if(transaction.typeId === 1) { %>
+                    <td class="table-icon-delete"><i class="material-icons md-red"><i class="material-icons">arrow_downward</i></td>
+                    <% } else { %>
+                    <td class="table-icon-delete"><i class="material-icons md-green"><i class="material-icons">arrow_upward</i></td>              
+                    <% } %>
+                    <td class="mdl-data-table__cell--non-numeric"><%= transaction.name %></td>
+                    <td><%= transaction.transaction_date.toLocaleDateString() %></td>
+                    <td><%= transaction.amount %> zł</td>
                 </tr>
                 </tbody>
             <% }) %>

@@ -81,6 +81,12 @@
 .table-icon-delete {
   width: 30px; }
 
+.material-icons.md-red {
+  color: rgba(243, 5, 25, 0.638); }
+
+.material-icons.md-green {
+  color: rgba(17, 243, 5, 0.638); }
+
 @media (max-width: 400px) {
   .mdl-data-table--resp {
     font-size: 10px; } }
