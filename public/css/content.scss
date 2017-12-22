@@ -1,6 +1,6 @@
 .mdl-navigation {
     padding-top:0px !important ;
-
+    user-select: none;    
 }
 .active-page {
     background-color:#3f51b5 !important;
@@ -13,6 +13,7 @@
     margin-left:15px;
     margin-top:15px;
     margin-bottom:15px;
+    user-select: none;
 }
 #line-chart {
     width:535px;
@@ -54,6 +55,7 @@
 
 .mdl-cell--color {
     background-color: white;
+    user-select: none;    
 }
 
 .mdl-grid--color {
@@ -97,11 +99,26 @@
     width:30px;
 }
 .material-icons.md-red { 
-    color: rgba(243, 5, 25, 0.638);
+    color: rgb(243, 5, 5);
 }
 .material-icons.md-green { 
-    color: rgba(17, 243, 5, 0.638);
+    color: rgb(14, 167, 0);
+}
+.md-white { 
+    color: #ffffff;
 }
 .material-icons.md-12 { 
     font-size: 12px; 
+}
+
+.table-row-small {
+    width:30px;
+}
+
+.cursor-pointer {
+    cursor:pointer;
+}
+
+.mdl-layout-title {
+    user-select: none;   
 }

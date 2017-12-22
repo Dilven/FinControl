@@ -12,11 +12,11 @@
       <% transactions.forEach(function (transaction) { %>
         <tbody>
           <tr class=>
-            <td class="table-icon-delete"><i class="material-icons">delete_forever</i></td>
+            <td class="table-row-small"><i class="material-icons cursor-pointer table-icon-delete">delete_forever</i></td>
             <% if(transaction.typeId === 1) { %>
-              <td class="table-icon-delete"><i class="material-icons md-red"><i class="material-icons">arrow_downward</i></td>
+              <td class="table-row-small"><i class="material-icons md-red"><i class="material-icons">arrow_downward</i></td>
             <% } else { %>
-              <td class="table-icon-delete"><i class="material-icons md-green"><i class="material-icons">arrow_upward</i></td>              
+              <td class="table-row-small"><i class="material-icons md-green"><i class="material-icons">arrow_upward</i></td>              
             <% } %>
             <td class="mdl-data-table__cell--non-numeric transaction-data" name="name"><%= transaction.name %></td>
             <td class="transaction-data" name="date"><%= transaction.transaction_date.toLocaleDateString() %></td>

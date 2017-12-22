@@ -1,6 +1,6 @@
 
 <div class="mdl-grid mdl-grid--color">
-    <div class="mdl-cell mdl-cell--3-col mdl-shadow--2dp mdl-cell--color">
+    <div class="mdl-cell mdl-cell--3-col mdl-shadow--2dp mdl-cell--color mdl-cell-select">
         <div id="income-box" class="box-dashboard">
             <span>Przychody:<%= incomeAmount %> zł</span> 
         </div>
@@ -46,9 +46,9 @@
                 <tbody>
                 <tr>
                     <% if(transaction.typeId === 1) { %>
-                    <td class="table-icon-delete"><i class="material-icons md-red"><i class="material-icons">arrow_downward</i></td>
+                    <td class="table-row-small"><i class="material-icons md-red"><i class="material-icons">arrow_downward</i></td>
                     <% } else { %>
-                    <td class="table-icon-delete"><i class="material-icons md-green"><i class="material-icons">arrow_upward</i></td>              
+                    <td class="table-row-small"><i class="material-icons md-green"><i class="material-icons">arrow_upward</i></td>              
                     <% } %>
                     <td class="mdl-data-table__cell--non-numeric"><%= transaction.name %></td>
                     <td><%= transaction.transaction_date.toLocaleDateString() %></td>

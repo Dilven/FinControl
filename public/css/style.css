@@ -1,5 +1,6 @@
 .mdl-navigation {
-  padding-top: 0px !important; }
+  padding-top: 0px !important;
+  user-select: none; }
 
 .active-page {
   background-color: #3f51b5 !important;
@@ -10,7 +11,8 @@
   width: calc(100% - 30px);
   margin-left: 15px;
   margin-top: 15px;
-  margin-bottom: 15px; }
+  margin-bottom: 15px;
+  user-select: none; }
 
 #line-chart {
   width: 535px; }
@@ -44,7 +46,8 @@
   width: 100%; }
 
 .mdl-cell--color {
-  background-color: white; }
+  background-color: white;
+  user-select: none; }
 
 .mdl-grid--color {
   background-color: rgba(0, 0, 0, 0.04); }
@@ -82,13 +85,25 @@
   width: 30px; }
 
 .material-icons.md-red {
-  color: rgba(243, 5, 25, 0.638); }
+  color: #f30505; }
 
 .material-icons.md-green {
-  color: rgba(17, 243, 5, 0.638); }
+  color: #0ea700; }
+
+.md-white {
+  color: #ffffff; }
 
 .material-icons.md-12 {
   font-size: 12px; }
+
+.table-row-small {
+  width: 30px; }
+
+.cursor-pointer {
+  cursor: pointer; }
+
+.mdl-layout-title {
+  user-select: none; }
 
 @media (max-width: 400px) {
   .mdl-data-table--resp {
