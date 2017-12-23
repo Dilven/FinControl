@@ -10,12 +10,12 @@ module.exports = function (app) {
 };
 
 router.get('/', function (req, res, next) {
-    var limit = 10;
+    var limit = 9;
     
     var page = req.query.page || 1;
     var sortBy = req.query.by || 'transaction_date';
     var sortOrder = req.query.order || 'DESC';
-    
+
     const findAllTransactions = Transaction.findAll({ 
         where: {userId: req.session.passport.user },
         offset: (page - 1) * limit,
@@ -33,13 +33,10 @@ router.get('/', function (req, res, next) {
         res.render('transactions', {
             title: 'Panel glowny',
             transactions: transactions,
-            navigation: [
-                { name: 'Dzis', target: '#transactions-today', active: true },
-                { name: 'W tygodniu', target: '#transactions-week', active: false },
-                { name: 'W miesiącu', target: '#transactions-month', active: false },
-            ],
             expensesAmount,
-            incomeAmount
+            incomeAmount,
+            numPage: page,
+            timeNavVisibility: false
         });
     })
     

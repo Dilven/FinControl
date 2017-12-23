@@ -8,10 +8,10 @@
   opacity: 1; }
 
 .transactions-table {
-  width: calc(100% - 30px);
-  margin-left: 15px;
-  margin-top: 15px;
-  margin-bottom: 15px;
+  width: calc(100% - 4px);
+  margin-left: 2px;
+  margin-top: 0px;
+  margin-bottom: 2px;
   user-select: none; }
 
 #line-chart {
@@ -104,6 +104,14 @@
 
 .mdl-layout-title {
   user-select: none; }
+
+.pagination-container {
+  width: 100%;
+  float: right; }
+
+.pagination-button {
+  float: right;
+  margin: 2px; }
 
 @media (max-width: 400px) {
   .mdl-data-table--resp {

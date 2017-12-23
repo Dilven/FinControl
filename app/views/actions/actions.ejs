@@ -62,4 +62,11 @@
             </form>
         </div>
     </div>   
+    <% budgetCategories.forEach(function (budgetCategory) { %>
+        <%= budgetCategory.year %>
+        <%= months[budgetCategory.month].name %>
+        <%= categories[budgetCategory.categoryId].name %>
+        <%= budgetCategory.amount %> zł  
+        <br></br> 
+    <% }) %>
 </div>

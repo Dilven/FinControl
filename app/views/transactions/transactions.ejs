@@ -25,8 +25,21 @@
         </tbody>
       <% }) %>
   </table>
-  <a href='?page=2'>Zmien</a>
-  <a href='?order=ASC&by=name'>Sort by name asc</a>
+  <!-- <a href='?order=ASC&by=name'>Sort by name asc</a> -->
+  <div class="pagination-container"> 
+    <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored pagination-button" style="cursor:default">
+        <%= numPage %>
+    </button>
+    <button id="older-transaction" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored pagination-button">
+        <i class="material-icons .material-icons.md-32">keyboard_arrow_right</i>
+    </button>
+    <button id="newer-transaction" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored pagination-button">
+      <i class="material-icons .material-icons.md-32">keyboard_arrow_left</i>
+    </button>
+  </div>
 </div>
+ 
+  
 
 <script src="../js/deleteTransaction.js"></script>
+<script src="../js/pagination.js"></script>
