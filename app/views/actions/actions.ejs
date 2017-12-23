@@ -1,4 +1,7 @@
-<div class="mdl-grid">
+<div class="preloader">
+    <div class="mdl-spinner mdl-js-spinner is-active load"></div>
+</div>
+<div class="mdl-grid site-content">
     <div class="mdl-cell mdl-cell--6-col mdl-shadow--2dp mdl-cell--color">
         <div class= "form-container">
             <h4>Zabudżetuj kwote na dany miesiąc</h4>
@@ -62,4 +65,11 @@
             </form>
         </div>
     </div>   
+    <% budgetCategories.forEach(function (budgetCategory) { %>
+        <%= budgetCategory.year %>
+        <%= months[budgetCategory.month].name %>
+        <%= categories[budgetCategory.categoryId].name %>
+        <%= budgetCategory.amount %> zł  
+        <br></br> 
+    <% }) %>
 </div>

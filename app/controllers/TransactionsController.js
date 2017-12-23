@@ -10,12 +10,12 @@ module.exports = function (app) {
 };
 
 router.get('/', function (req, res, next) {
-    var limit = 10;
+    var limit = 9;
     
     var page = req.query.page || 1;
     var sortBy = req.query.by || 'transaction_date';
     var sortOrder = req.query.order || 'DESC';
-    
+
     const findAllTransactions = Transaction.findAll({ 
         where: {userId: req.session.passport.user },
         offset: (page - 1) * limit,
@@ -31,15 +31,12 @@ router.get('/', function (req, res, next) {
             transactions.push(el.dataValues)
         })
         res.render('transactions', {
-            title: 'Panel glowny',
+            title: 'Transakcje',
             transactions: transactions,
-            navigation: [
-                { name: 'Dzis', target: '#transactions-today', active: true },
-                { name: 'W tygodniu', target: '#transactions-week', active: false },
-                { name: 'W miesiącu', target: '#transactions-month', active: false },
-            ],
             expensesAmount,
-            incomeAmount
+            incomeAmount,
+            numPage: page,
+            timeNavVisibility: false
         });
     })
     
@@ -49,7 +46,7 @@ router.get('/', function (req, res, next) {
 router.post('/add', function (req, res, next) {
     
     var formData = req.body;
-   
+   console.log(formData);
     formData.userId = req.session.passport.user;
 
     Date.prototype.addHours = function(h) {    
@@ -72,4 +69,20 @@ router.post('/add', function (req, res, next) {
                 message: 'Błąd dodawania transakcji!'
             })
         })
+});
+
+router.post('/delete', function (req, res, next) {
+    
+    var id = req.session.passport.user,
+        amount = req.body.amount.replace('zł',''),
+        name = req.body.name;
+
+    Date.prototype.addHours = function(h) {    
+        this.setTime(this.getTime() + (h*60*60*1000)); 
+        return this;   
+    }
+        
+    var date = new Date(req.body.date).addHours(0);
+
+    var deleteTransaction = Transaction.destroy({where:{userId: id,transaction_date: date, amount: amount, name: name}});
 });

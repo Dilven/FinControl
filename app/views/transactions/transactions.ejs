@@ -1,22 +1,48 @@
-<div class="mdl-grid">
-  <table id="myTable" class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp transactions-table  ">
+<div class="preloader">
+  <div class="mdl-spinner mdl-js-spinner is-active load"></div>
+</div>
+<div class="mdl-grid site-content">
+  <table id="myTable" class="mdl-data-table mdl-js-data-table mdl-shadow--2dp transactions-table">
       <thead>
         <tr>
-          <th class="mdl-data-table__cell--non-numeric">Nazwa wydatku</th>
+          <th></th>
+          <th></th>
+          <th class="mdl-data-table__cell--non-numeric">Nazwa wydatku </th>
           <th>Data</th>
           <th>Cena</th>
         </tr>
       </thead>
       <% transactions.forEach(function (transaction) { %>
         <tbody>
-          <tr>
-            <td class="mdl-data-table__cell--non-numeric"><%= transaction.name %></td>
-            <td><%= transaction.transaction_date.toLocaleDateString() %></td>
-            <td><%= transaction.amount %> zł</td>
+          <tr class=>
+            <td class="table-row-small"><i class="material-icons cursor-pointer table-icon-delete">delete_forever</i></td>
+            <% if(transaction.typeId === 1) { %>
+              <td class="table-row-small"><i class="material-icons md-red"><i class="material-icons">arrow_downward</i></td>
+            <% } else { %>
+              <td class="table-row-small"><i class="material-icons md-green"><i class="material-icons">arrow_upward</i></td>              
+            <% } %>
+            <td class="mdl-data-table__cell--non-numeric transaction-data" name="name"><%= transaction.name %></td>
+            <td class="transaction-data" name="date"><%= transaction.transaction_date.toLocaleDateString() %></td>
+            <td class="transaction-data" name="amount"><%= transaction.amount %> zł</td> 
           </tr>
         </tbody>
       <% }) %>
   </table>
-  <a href='?page=2'>Zmien</a>
-  <a href='?order=ASC&by=name'>Sort by name asc</a>
+  <!-- <a href='?order=ASC&by=name'>Sort by name asc</a> -->
+  <div class="pagination-container"> 
+    <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored pagination-button" style="cursor:default">
+        <%= numPage %>
+    </button>
+    <button id="older-transaction" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored pagination-button">
+        <i class="material-icons .material-icons.md-32">keyboard_arrow_right</i>
+    </button>
+    <button id="newer-transaction" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored pagination-button">
+      <i class="material-icons .material-icons.md-32">keyboard_arrow_left</i>
+    </button>
+  </div>
 </div>
+ 
+  
+
+<script src="../js/deleteTransaction.js"></script>
+<script src="../js/pagination.js"></script>

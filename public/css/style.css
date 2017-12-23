@@ -1,5 +1,6 @@
 .mdl-navigation {
-  padding-top: 0px !important; }
+  padding-top: 0px !important;
+  user-select: none; }
 
 .active-page {
   background-color: #3f51b5 !important;
@@ -7,10 +8,11 @@
   opacity: 1; }
 
 .transactions-table {
-  width: calc(100% - 30px);
-  margin-left: 15px;
-  margin-top: 15px;
-  margin-bottom: 15px; }
+  width: calc(100% - 4px);
+  margin-left: 2px;
+  margin-top: 0px;
+  margin-bottom: 2px;
+  user-select: none; }
 
 #line-chart {
   width: 535px; }
@@ -44,7 +46,8 @@
   width: 100%; }
 
 .mdl-cell--color {
-  background-color: white; }
+  background-color: white;
+  user-select: none; }
 
 .mdl-grid--color {
   background-color: rgba(0, 0, 0, 0.04); }
@@ -77,6 +80,59 @@
 
 .form-container {
   margin: 20px; }
+
+.table-icon-delete {
+  width: 30px; }
+
+.material-icons.md-red {
+  color: #f30505; }
+
+.material-icons.md-green {
+  color: #0ea700; }
+
+.md-white {
+  color: #ffffff; }
+
+.material-icons.md-12 {
+  font-size: 12px; }
+
+.table-row-small {
+  width: 30px; }
+
+.cursor-pointer {
+  cursor: pointer; }
+
+.mdl-layout-title {
+  user-select: none; }
+
+.pagination-container {
+  width: 100%;
+  float: right; }
+
+.pagination-button {
+  float: right;
+  margin: 2px; }
+
+.preloder {
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  z-index: 10000;
+  overflow: hidden; }
+
+.load {
+  height: 100px;
+  width: 100px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  overflow: hidden; }
+
+.loader {
+  width: 100%; }
 
 @media (max-width: 400px) {
   .mdl-data-table--resp {

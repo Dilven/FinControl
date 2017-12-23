@@ -15,7 +15,8 @@ module.exports = function (app) {
 router.get('/', function (req, res, next) {
 
     var date = new Date(),
-    month = date.getMonth();
+        month = date.getMonth();
+        
   
     const months = [
         {name: 'styczeń', value: 0},
@@ -34,18 +35,31 @@ router.get('/', function (req, res, next) {
     
     const monthNowNumber = new Date().getMonth();
     const monthNow = _.find(months, ['value', parseInt(monthNowNumber)]);
-    const monthlyBudget = Budget.findOne({where:{userId: req.user.id, month: month}});
+    const monthlyBudget = Budget.findOne({where:{userId: req.user.id, month: 'month'}});
     const categoryAll = Category.findAll();
-    const sumBudgetCategories = BudgetCategory.sum('amount', { where: {userId: req.user.id, month: month } });
+    const sumBudgetCategories = BudgetCategory.sum('amount', { where: {userId: req.user.id, month: month }});
+    const findAllBudgetCategories = BudgetCategory.findAll({ where: {userId: req.session.passport.user }});
     
     
 
-    return Promise.join(monthlyBudget, categoryAll,sumBudgetCategories, function (budget, categories, budgetedAmount ) {
+    return Promise.join(monthlyBudget, categoryAll,sumBudgetCategories,findAllBudgetCategories, function (budget, categories, budgetedAmount, budgetCategoriesFromDb ) {
+       
+        var budgetAmount = 0,
+            budgetCategories = [];
 
+        if(budget !== null) {
+            budgetAmount = budget.amount;
+        } 
+
+        budgetCategoriesFromDb.forEach(el => {
+            budgetCategories.push(el.dataValues)
+        })
+        console.log(budgetCategories);
             res.render('actions', {
                 title: 'Akcje',
-                budget: budget.amount ? parseFloat(budget.amount).toFixed(2) : 0,
+                budget: budgetAmount ? parseFloat(budgetAmount).toFixed(2) : 0,
                 budgetedAmount: budgetedAmount ? parseFloat(budgetedAmount).toFixed(2) : 0,
+                budgetCategories: budgetCategories,
                 monthNow,
                 months,
                 categories,
