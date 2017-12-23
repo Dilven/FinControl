@@ -28,14 +28,13 @@ router.get('/', function (req, res, next) {
 
     return Promise.join(findAllTransactions, sumAllExpenses, sumAllIncome, monthlyBudget, function (transactions, expensesAmount, incomeAmount, budget) {
         
-        var toSpendMoney = 0;
+        var budgetAmount = 0,
+            toSpendMoney = 0;
+
         if(budget !== null) {
             toSpendMoney = budget.amount - (expensesAmount - incomeAmount);
-        } else {
-            var budget=[
-                amount = 0
-            ]
-        }
+            budgetAmount = budget.amount;
+        } 
 
         res.render('dashboard', {
             title: 'Panel glowny',
@@ -45,7 +44,7 @@ router.get('/', function (req, res, next) {
                 id: req.user.id
             },
             toSpendMoney:toSpendMoney ? parseFloat(toSpendMoney).toFixed(2) : 0,
-            budget:budget.amount ? parseFloat(budget.amount).toFixed(2) : 0,
+            budget:budgetAmount ? parseFloat(budgetAmount).toFixed(2) : 0,
             expensesAmount: expensesAmount ? parseFloat(expensesAmount).toFixed(2) : 0,
             incomeAmount: incomeAmount ? parseFloat(incomeAmount).toFixed(2) : 0,
             timeNavVisibility: false

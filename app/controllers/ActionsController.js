@@ -15,7 +15,8 @@ module.exports = function (app) {
 router.get('/', function (req, res, next) {
 
     var date = new Date(),
-    month = date.getMonth();
+        month = date.getMonth();
+        
   
     const months = [
         {name: 'styczeń', value: 0},
@@ -43,7 +44,12 @@ router.get('/', function (req, res, next) {
 
     return Promise.join(monthlyBudget, categoryAll,sumBudgetCategories,findAllBudgetCategories, function (budget, categories, budgetedAmount, budgetCategoriesFromDb ) {
        
-        var budgetCategories = [];
+        var budgetAmount = 0,
+            budgetCategories = [];
+
+        if(budget !== null) {
+            budgetAmount = budget.amount;
+        } 
 
         budgetCategoriesFromDb.forEach(el => {
             budgetCategories.push(el.dataValues)
@@ -51,7 +57,7 @@ router.get('/', function (req, res, next) {
         console.log(budgetCategories);
             res.render('actions', {
                 title: 'Akcje',
-                budget: budget.amount ? parseFloat(budget.amount).toFixed(2) : 0,
+                budget: budgetAmount ? parseFloat(budgetAmount).toFixed(2) : 0,
                 budgetedAmount: budgetedAmount ? parseFloat(budgetedAmount).toFixed(2) : 0,
                 budgetCategories: budgetCategories,
                 monthNow,
