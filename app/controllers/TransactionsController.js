@@ -31,7 +31,7 @@ router.get('/', function (req, res, next) {
             transactions.push(el.dataValues)
         })
         res.render('transactions', {
-            title: 'Panel glowny',
+            title: 'Transakcje',
             transactions: transactions,
             expensesAmount,
             incomeAmount,

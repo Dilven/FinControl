@@ -29,8 +29,12 @@ router.get('/', function (req, res, next) {
     return Promise.join(findAllTransactions, sumAllExpenses, sumAllIncome, monthlyBudget, function (transactions, expensesAmount, incomeAmount, budget) {
         
         var toSpendMoney = 0;
-        if(budget.amount != null && budget.amount != 0 ) {
+        if(budget !== null) {
             toSpendMoney = budget.amount - (expensesAmount - incomeAmount);
+        } else {
+            var budget=[
+                amount = 0
+            ]
         }
 
         res.render('dashboard', {
@@ -40,7 +44,7 @@ router.get('/', function (req, res, next) {
                 email: req.user.email,
                 id: req.user.id
             },
-            toSpendMoney:parseFloat(toSpendMoney).toFixed(2),
+            toSpendMoney:toSpendMoney ? parseFloat(toSpendMoney).toFixed(2) : 0,
             budget:budget.amount ? parseFloat(budget.amount).toFixed(2) : 0,
             expensesAmount: expensesAmount ? parseFloat(expensesAmount).toFixed(2) : 0,
             incomeAmount: incomeAmount ? parseFloat(incomeAmount).toFixed(2) : 0,
