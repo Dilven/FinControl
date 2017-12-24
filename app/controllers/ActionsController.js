@@ -36,7 +36,7 @@ router.get('/', function (req, res, next) {
     const monthNowNumber = new Date().getMonth();
     const yearNow = new Date().getFullYear();
     const monthNow = _.find(months, ['value', parseInt(monthNowNumber)]);
-    const monthlyBudget = Budget.findOne({where:{userId: req.user.id, month: 'month'}});
+    const monthlyBudget = Budget.findOne({where:{userId: req.user.id, month: monthNowNumber}});
     const categoryAll = Category.findAll();
     const sumBudgetCategories = BudgetCategory.sum('amount', { where: {userId: req.user.id, month: month }});
     const findAllBudgetCategories = BudgetCategory.findAll({ where: {userId: req.session.passport.user }});
@@ -52,13 +52,6 @@ router.get('/', function (req, res, next) {
         if(budget !== null) {
             budgetAmount = budget.amount;
         } 
-        
-        // budgetCategories.forEach(el => {
-        //     console.log('dupas');
-        //     console.log(el);
-        //     years.push(el.year);
-
-        // });
 
         budgetCategoriesFromDb.forEach(el => {
             budgetCategories.push(el.dataValues)

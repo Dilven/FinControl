@@ -5,9 +5,9 @@
     <div class="mdl-cell mdl-cell--4-col mdl-shadow--2dp mdl-cell--color">
         <div class= "form-container">
             <h4>Zabudrzetowane</h4>
-            <form id="addBudgetForm">
+            <form id="display-budget">
                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select">
-                    <input class="mdl-textfield__input add_budget_field category_field" id="yearForDisplay" name="yearForDisplay" value="<%= yearNow %>" data-val="<%= yearNow %>" type="text" readonly tabIndex="-1"/>
+                    <input class="mdl-textfield__input add_budget_field budgeted_year_for_display_field" id="yearForDisplay" name="yearForDisplay" value="<%= yearNow %>" data-val="<%= yearNow %>" type="text" readonly tabIndex="-1"/>
                     <label class="mdl-textfield__label" for="year">Rok</label>
                     <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu" for="yearForDisplay">
                         <% if(typeof years !== 'undefined') { years.forEach(function (year) { %>
@@ -16,7 +16,7 @@
                     </ul>
                 </div>
                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select">
-                    <input class="mdl-textfield__input add_budget_field" id="monthForDisplay" name="monthForDisplay" value="<%= monthNow.name %>" data-val="<%= monthNow.value %>" type="text" readonly tabIndex="-1"/>
+                    <input class="mdl-textfield__input budgeted_month_for_display_field" id="monthForDisplay" name="monthForDisplay" value="<%= monthNow.name %>" data-val="<%= monthNow.value %>" type="text" readonly tabIndex="-1"/>
                     <label class="mdl-textfield__label" for="expense_typeId">Miesiąc</label>
                     <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu" for="monthForDisplay">
                         <% if(typeof months !== 'undefined') { months.forEach(function (month) { %>
@@ -26,7 +26,7 @@
                 </div>
  
                 <div class="mdl-dialog__actions">
-                    <button id="acceptBudget" type="button" class="mdl-button mdl-button--primary">Wyświetl</button>
+                    <button id="showBudgetForMonth" type="button" class="mdl-button mdl-button--primary">Wyświetl</button>
                 </div>
             </form>
         </div>
@@ -63,7 +63,7 @@
             <h5>Pozostało <%= budget-budgetedAmount %> zł do zabudżetowania w tym miesiącu</h5>
             <form id="addBudgetCategoryForm">
                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select">
-                    <input class="mdl-textfield__input add_budget_field category_budget_month_field" id="budgetMonthForCategory" name="budgetMonthForCategory" value="<%= monthNow.name %>" data-val="<%= monthNow.value %>" type="text" readonly tabIndex="-1"/>
+                    <input class="mdl-textfield__input category_budget_month_field" id="budgetMonthForCategory" name="budgetMonthForCategory" value="<%= monthNow.name %>" data-val="<%= monthNow.value %>" type="text" readonly tabIndex="-1"/>
                     <label class="mdl-textfield__label" for="expense_typeId">Miesiąc</label>
                     <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu" for="budgetMonthForCategory">
                         <% if(typeof months !== 'undefined') { months.forEach(function (month) { %>
@@ -73,7 +73,7 @@
                 </div>
                 
                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select">
-                        <input class="mdl-textfield__input add_budget_field category_field" id="category" name="category" value="<%= categories[0].name %>" data-val="<%= categories[0].id %>" type="text" readonly tabIndex="-1"/>
+                        <input class="mdl-textfield__input category_field" id="category" name="category" value="<%= categories[0].name %>" data-val="<%= categories[0].id %>" type="text" readonly tabIndex="-1"/>
                         <label class="mdl-textfield__label" for="expense_typeId">Kategoria</label>
                         <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu" for="category">
                             <% if(typeof categories !== 'undefined') { categories.forEach(function (category) { %>
@@ -101,3 +101,4 @@
         <br></br> 
     <% }) %>
 </div>
+<script src="js/actions.js"></script>
