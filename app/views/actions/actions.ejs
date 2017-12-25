@@ -2,36 +2,7 @@
     <div class="mdl-spinner mdl-js-spinner is-active load"></div>
 </div>
 <div class="mdl-grid site-content">
-    <div class="mdl-cell mdl-cell--4-col mdl-shadow--2dp mdl-cell--color">
-        <div class= "form-container">
-            <h4>Zabudrzetowane</h4>
-            <form id="display-budget">
-                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select">
-                    <input class="mdl-textfield__input add_budget_field budgeted_year_for_display_field" id="yearForDisplay" name="yearForDisplay" value="<%= yearNow %>" data-val="<%= yearNow %>" type="text" readonly tabIndex="-1"/>
-                    <label class="mdl-textfield__label" for="year">Rok</label>
-                    <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu" for="yearForDisplay">
-                        <% if(typeof years !== 'undefined') { years.forEach(function (year) { %>
-                            <li class="mdl-menu__item" data-val="<%= year %>"><%= year %></li>
-                        <% })} %>
-                    </ul>
-                </div>
-                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select">
-                    <input class="mdl-textfield__input budgeted_month_for_display_field" id="monthForDisplay" name="monthForDisplay" value="<%= monthNow.name %>" data-val="<%= monthNow.value %>" type="text" readonly tabIndex="-1"/>
-                    <label class="mdl-textfield__label" for="expense_typeId">Miesiąc</label>
-                    <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu" for="monthForDisplay">
-                        <% if(typeof months !== 'undefined') { months.forEach(function (month) { %>
-                            <li class="mdl-menu__item" data-val="<%= month.value %>"><%= month.name %></li>
-                        <% })} %>
-                    </ul>
-                </div>
- 
-                <div class="mdl-dialog__actions">
-                    <button id="showBudgetForMonth" type="button" class="mdl-button mdl-button--primary">Wyświetl</button>
-                </div>
-            </form>
-        </div>
-    </div>
-    <div class="mdl-cell mdl-cell--4-col mdl-shadow--2dp mdl-cell--color">
+    <div class="mdl-cell mdl-cell--6-col mdl-shadow--2dp mdl-cell--color">
         <div class= "form-container">
             <h4>Zabudżetuj kwote na dany miesiąc</h4>
             <form id="addBudgetForm">
@@ -56,7 +27,36 @@
             </form>
         </div>
     </div>
-    <div class="mdl-cell mdl-cell--4-col mdl-shadow--2dp mdl-cell--color">
+    <div class="mdl-cell mdl-cell--6-col mdl-shadow--2dp mdl-cell--color">
+        <div class= "form-container">
+            <h4>Zabudrzetowane kategorie w:</h4>
+            <form id="display-budget">
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select">
+                    <input class="mdl-textfield__input add_budget_field budgeted_year_for_display_field" id="yearForDisplay" name="yearForDisplay" value="<%= yearNow %>" data-val="<%= yearNow %>" type="text" readonly tabIndex="-1"/>
+                    <label class="mdl-textfield__label" for="year">Rok</label>
+                    <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu" for="yearForDisplay">
+                        <% if(typeof years !== 'undefined') { years.forEach(function (year) { %>
+                            <li class="mdl-menu__item" data-val="<%= year %>"><%= year %></li>
+                        <% })} %>
+                    </ul>
+                </div>
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select">
+                    <input class="mdl-textfield__input budgeted_month_for_display_field" id="monthForDisplay" name="monthForDisplay" value="<%= monthNow.name %>" data-val="<%= monthNow.value %>" type="text" readonly tabIndex="-1"/>
+                    <label class="mdl-textfield__label" for="expense_typeId">Miesiąc</label>
+                    <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu" for="monthForDisplay">
+                        <% if(typeof months !== 'undefined') { months.forEach(function (month) { %>
+                            <li class="mdl-menu__item" data-val="<%= month.value %>"><%= month.name %></li>
+                        <% })} %>
+                    </ul>
+                </div>
+    
+                <div class="mdl-dialog__actions">
+                    <button id="showBudgetForMonth" type="button" class="mdl-button mdl-button--primary">Wyświetl</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="mdl-cell mdl-cell--6-col mdl-shadow--2dp mdl-cell--color">
 
         <div class= "form-container">
             <h4>Zabudżetuj kwote na daną kategorie</h4>
@@ -92,13 +92,25 @@
                 </div>
             </form>
         </div>
+    </div>
+    <div class="mdl-cell mdl-cell--6-col mdl-shadow--2dp mdl-cell--color">
+        <h4 id="budgeted-category">Zabudrzetowane kategorie w miesiacu:</h4>            
+        <table class="mdl-data-table mdl-js-data-table mdl-data-table-display-budgeted-category transactions-table">
+            <thead>
+                <tr>
+                    <th class="mdl-data-table__cell--non-numeric">Kategoria</th>
+                    <th>Zabudżetowana kwota</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% budgetCategories.forEach(function (budgetCategory) { %>          
+                <tr class="<%= budgetCategory.year %> <%= budgetCategory.month %> display-none budgeted-display">
+                    <td class="mdl-data-table__cell--non-numeric"><%= categories[(budgetCategory.categoryId - 1)].name %></td>
+                    <td><%= budgetCategory.amount %> zł</td>
+                </tr>
+                <% }) %>                            
+            </tbody>
+        </table>
     </div>   
-    <% budgetCategories.forEach(function (budgetCategory) { %>
-        <%= budgetCategory.year %>
-        <%= months[budgetCategory.month].name %>
-        <%= categories[(budgetCategory.categoryId - 1)].name %>
-        <%= budgetCategory.amount %> zł  
-        <br></br> 
-    <% }) %>
 </div>
 <script src="js/actions.js"></script>
