@@ -34,8 +34,9 @@ router.get('/', function (req, res, next) {
     ];
     
     const monthNowNumber = new Date().getMonth();
+    const yearNow = new Date().getFullYear();
     const monthNow = _.find(months, ['value', parseInt(monthNowNumber)]);
-    const monthlyBudget = Budget.findOne({where:{userId: req.user.id, month: 'month'}});
+    const monthlyBudget = Budget.findOne({where:{userId: req.user.id, month: monthNowNumber}});
     const categoryAll = Category.findAll();
     const sumBudgetCategories = BudgetCategory.sum('amount', { where: {userId: req.user.id, month: month }});
     const findAllBudgetCategories = BudgetCategory.findAll({ where: {userId: req.session.passport.user }});
@@ -46,6 +47,7 @@ router.get('/', function (req, res, next) {
        
         var budgetAmount = 0,
             budgetCategories = [];
+            years = [];
 
         if(budget !== null) {
             budgetAmount = budget.amount;
@@ -53,8 +55,10 @@ router.get('/', function (req, res, next) {
 
         budgetCategoriesFromDb.forEach(el => {
             budgetCategories.push(el.dataValues)
-        })
-        console.log(budgetCategories);
+            years.push(el.dataValues.year)
+        });
+        
+        
             res.render('actions', {
                 title: 'Akcje',
                 budget: budgetAmount ? parseFloat(budgetAmount).toFixed(2) : 0,
@@ -62,6 +66,8 @@ router.get('/', function (req, res, next) {
                 budgetCategories: budgetCategories,
                 monthNow,
                 months,
+                years : _.union(years),
+                yearNow,
                 categories,
                 timeNavVisibility: false
             });
@@ -110,6 +116,8 @@ router.post('/budgetcategories', function (req, res, next) {
     }
     const amount = req.body.amount,
           userId = req.user.id;
+console.log(categoryId);
+console.log('dupas');
 
     return db.BudgetCategory.findOrCreate({where: {userId: req.user.id, month: month, year: year, categoryId: categoryId}})
         .then(budget => {
