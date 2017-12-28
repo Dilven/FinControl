@@ -93,8 +93,28 @@ function getDataForLineChart1(response) {
         budgets = [];
 
     budgetMonthsForChart.forEach(function (bud) {
-        budgets.push(bud.amount);
+        budgets.unshift(bud.amount);
     })
+    const months = ['Styczeń', 'Luty', 'Marzec', 'Kwiecien', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpien', 'Wrzesień', 'Październik', 'Listopad', 'Grudzień'];
+    var monthNow = new Date().getMonth(),
+        monthsForLabels = [],
+        monthNowNum = 0;
+
+        for(var i = 0; i <= 11; i++ )
+            {
+                if(monthNow <= 11)
+                {
+                    monthsForLabels.unshift(months[monthNow]);
+                    monthNow++;
+                }
+                else {
+                    monthsForLabels.unshift(months[monthNowNum])
+                    monthNowNum++; 
+                }
+            }
+            
+        console.log(monthsForLabels);
+
     var data = {
         datasets: [{
             data: budgets,
@@ -114,7 +134,7 @@ function getDataForLineChart1(response) {
 
             
         }],
-        labels: ['Styczeń', 'Luty', 'Marzec', 'Kwiecien', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpien', 'Wrzesień', 'Listopad', 'Grudzień'],
+        labels: monthsForLabels,
     }
 
     var options = {

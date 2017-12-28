@@ -1,0 +1,1 @@
+// dac tutatj wykresy na roczną analize
