@@ -80,7 +80,7 @@ function getDataForAnnualChartForDashboard(response) {
             
         
     }
-    var ctx = document.getElementById("annual-chart-dashboard").getContext('2d')
+    var ctx = document.getElementById("expenses-budget-annual-dashboard").getContext('2d')
     var myLineChart = new Chart(ctx, {
         type: 'line',
         data: data,

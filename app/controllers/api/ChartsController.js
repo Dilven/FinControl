@@ -23,7 +23,7 @@ router.get('/dashboard', function (req, res, next) {
                 transaction_date: {
                     $between: [startDate, endDate]
                     
-                }
+                    }
                 } 
             }
          ]

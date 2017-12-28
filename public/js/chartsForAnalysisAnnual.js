@@ -1,4 +1,4 @@
-function getDataForAnnualChartForAnalysis(response) {
+function getDataForExpensesAndBudgetAnnual(response) {
     
     var budgetMonthsForChart = response.data.budgetMonthsForChart,
         budgets = [],
@@ -77,7 +77,7 @@ function getDataForAnnualChartForAnalysis(response) {
             
         
     }
-    var ctx = document.getElementById("annual-chart-analysis").getContext('2d')
+    var ctx = document.getElementById("expenses-budget-annual").getContext('2d')
     var myLineChart = new Chart(ctx, {
         type: 'line',
         data: data,
@@ -122,7 +122,7 @@ function getDataForCategoriesExpensesAnnual(response) {
 }
 axios.get('/api/charts/analysis')
     .then(function (response) {
-        getDataForAnnualChartForAnalysis(response);
+        getDataForExpensesAndBudgetAnnual(response);
         getDataForCategoriesExpensesAnnual(response);
     })
     .catch(function (error) {

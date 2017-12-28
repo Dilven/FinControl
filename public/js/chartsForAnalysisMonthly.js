@@ -32,11 +32,11 @@ function getDataForCategoriesExpensesMonthly(response) {
          options: options
      });
 }
-function getDataForCategoriesChart2(response) {
+function getDataBudgetedAndExpensesCategoryMonth(response) {
 
  var budgetMonthsCategoryForChart = response.data.budgetMonthsCategoryForChart;
 
- var ctx = document.getElementById("categoriesChart2").getContext('2d');
+ var ctx = document.getElementById("budgeted-expenses-category-month").getContext('2d');
      expense = [],
      labels = [],
      categoryBudgets = [],
@@ -91,7 +91,7 @@ function getDataForCategoriesChart2(response) {
 axios.get('/api/charts/analysis')
 .then(function (response) {
     getDataForCategoriesExpensesMonthly(response);
-    getDataForCategoriesChart2(response);
+    getDataBudgetedAndExpensesCategoryMonth(response);
 })
 .catch(function (error) {
     console.log(error);
