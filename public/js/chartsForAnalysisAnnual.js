@@ -30,7 +30,7 @@ function getDataForLineChart1(response) {
         var data = {
             datasets: [{
                 data: budgets,
-                label: 'Budget',
+                label: 'Budżet',
                 borderColor: '#297720',
                 fill: false,
                 backgroundColor: '#297720'

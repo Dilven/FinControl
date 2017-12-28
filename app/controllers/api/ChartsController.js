@@ -15,7 +15,14 @@ router.get('/dashboard', function (req, res, next) {
             { model: db.Transaction, as: 'transactions', required: true, where: { typeId: 1, userId: req.user.id } }
          ]
     });
-    const budgetedMonths = db.Budget.findAll({where:{userId: req.user.id}});
+    const budgetedMonths = db.Budget.findAll({
+        where:{userId: req.user.id},
+        order: [ 
+            ['year', 'ASC'],
+            ['month', 'ASC']
+        ],
+        limit: 12
+    });
     
     
     return Promise.join(categories, budgetedMonths, function (category, budgetMonth) {

@@ -37,11 +37,19 @@ function getDataForCategoriesChart(response) {
 function getDataForLineChart1(response) {
     
     var budgetMonthsForChart = response.data.budgetMonthsForChart,
-        budgets = [];
+        budgets = [],
+        budgetsForDisplay = [];
+        for (var i = 0; i < 12; i++) {
+                budgets[i] = 0;
+        }
+
+
+    console.log(budgets);
 
     budgetMonthsForChart.forEach(function (bud) {
-        budgets.unshift(bud.amount);
+        budgets[bud.month] = bud.amount;
     })
+    console.log(budgets);
     const months = ['Styczeń', 'Luty', 'Marzec', 'Kwiecien', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpien', 'Wrzesień', 'Październik', 'Listopad', 'Grudzień'];
     var monthNow = new Date().getMonth(),
         monthsForLabels = [],
@@ -51,11 +59,13 @@ function getDataForLineChart1(response) {
             {
                 if(monthNow <= 11)
                 {
-                    monthsForLabels.unshift(months[monthNow]);
+                    monthsForLabels.push(months[monthNow]);
+                    budgetsForDisplay.push(budgets[monthNow]);
                     monthNow++;
                 }
                 else {
-                    monthsForLabels.unshift(months[monthNowNum])
+                    monthsForLabels.push(months[monthNowNum]);
+                    budgetsForDisplay.push(budgets[monthNowNum]);
                     monthNowNum++; 
                 }
             }
@@ -64,8 +74,8 @@ function getDataForLineChart1(response) {
 
     var data = {
         datasets: [{
-            data: budgets,
-            label: 'Budget',
+            data: budgetsForDisplay,
+            label: 'Budżet',
             borderColor: '#297720',
             fill: false,
             backgroundColor: '#297720'
