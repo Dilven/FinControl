@@ -15,24 +15,28 @@ router.get('/dashboard', function (req, res, next) {
             { model: db.Transaction, as: 'transactions', required: true, where: { typeId: 1, userId: req.user.id } }
          ]
     });
+    const budgetedMonths = db.Budget.findAll({where:{userId: req.user.id}});
     
-    return Promise.join(categories, function (category) {
-            var categoriesFromDb = category.map(category => category.dataValues)
-            
-                        var categoriesForChart = [];            
-            
-                        _.each(categoriesFromDb, (category) => {
-                            category.amount = 0;
-                            _.each(category.transactions, (transaction) => {
-                                category.amount += parseFloat(transaction.dataValues.amount);    
-                            })
-                            categoriesForChart.push(category);
-                        })
-                    
-                        res.status(200).send({
-                            categoriesForChart
-                        })
-        });
+    
+    return Promise.join(categories, budgetedMonths, function (category, budgetMonth) {
+        var categoriesFromDb = category.map(category => category.dataValues)
+        
+        var categoriesForChart = [],
+            budgetMonthsForChart = budgetMonth.map(budgetMonth => budgetMonth.dataValues);
+        
+        _.each(categoriesFromDb, (category) => {
+            category.amount = 0;
+            _.each(category.transactions, (transaction) => {
+                category.amount += parseFloat(transaction.dataValues.amount);    
+            })
+            categoriesForChart.push(category);
+        })
+    
+        res.status(200).send({
+            categoriesForChart,
+            budgetMonthsForChart
+        })
+    });
 });
 
 router.get('/analysis', function (req, res, next) {
