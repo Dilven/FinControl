@@ -10,38 +10,85 @@ module.exports = function (app) {
 };
 
 router.get('/dashboard', function (req, res, next) {
-    const categories = db.Category.findAll({
+
+    var date = new Date(),
+        startDate = new Date(date.getFullYear(), date.getMonth(), +1, 1),
+        endDate = new Date(date.getFullYear(), date.getMonth() + 1, +1); 
+
+    const categoriesMonthly = db.Category.findAll({
         include: [
-            { model: db.Transaction, as: 'transactions', required: true, where: { typeId: 1, userId: req.user.id } }
+            { model: db.Transaction, as: 'transactions', required: true, where: {
+                typeId: 1,
+                userId: req.user.id ,
+                transaction_date: {
+                    $between: [startDate, endDate]
+                    
+                }
+                } 
+            }
          ]
     });
+    const budgetedMonths = db.Budget.findAll({
+        where:{userId: req.user.id},
+        order: [ 
+            ['year', 'ASC'],
+            ['month', 'ASC']
+        ],
+        limit: 12
+    });
     
-    return Promise.join(categories, function (category) {
-            var categoriesFromDb = category.map(category => category.dataValues)
-            
-                        var categoriesForChart = [];            
-            
-                        _.each(categoriesFromDb, (category) => {
-                            category.amount = 0;
-                            _.each(category.transactions, (transaction) => {
-                                category.amount += parseFloat(transaction.dataValues.amount);    
-                            })
-                            categoriesForChart.push(category);
-                        })
-                    
-                        res.status(200).send({
-                            categoriesForChart
-                        })
-        });
+    
+    return Promise.join(categoriesMonthly, budgetedMonths, function (categoryMonthly, budgetMonth) {
+        var categoriesFromDb = categoryMonthly.map(categoryMonthly => categoryMonthly.dataValues)
+        
+        var categoriesForChartMonthly = [],
+            budgetMonthsForChart = budgetMonth.map(budgetMonth => budgetMonth.dataValues);
+        
+        _.each(categoriesFromDb, (categoryMonthly) => {
+            categoryMonthly.amount = 0;
+            _.each(categoryMonthly.transactions, (transaction) => {
+                categoryMonthly.amount += parseFloat(transaction.dataValues.amount);    
+            })
+            categoriesForChartMonthly.push(categoryMonthly);
+        })
+    
+        res.status(200).send({
+            categoriesForChartMonthly,
+            budgetMonthsForChart
+        })
+    });
 });
 
 router.get('/analysis', function (req, res, next) {
     var date = new Date(),
-    month = date.getMonth();
+        month = date.getMonth(),
+        startDateMonthly = new Date(date.getFullYear(), date.getMonth(), +1, 1),
+        endDateMonthly = new Date(date.getFullYear(), date.getMonth() +1, +1),
+        startDateYear = new Date(new Date().getFullYear(), 0, +2);
+        endDateYear = new Date(new Date().getFullYear()+1, 0, +1);
 
-    const categories = db.Category.findAll({
+    const categoriesMonthly = db.Category.findAll({
         include: [
-            { model: db.Transaction, as: 'transactions', required: true, where: { typeId: 1, userId: req.user.id } }
+            { model: db.Transaction, as: 'transactions', required: true, where: {
+                typeId: 1,
+                userId: req.user.id ,
+                transaction_date: {
+                    $between: [startDateMonthly, endDateMonthly]
+                }
+                } 
+            }
+         ]
+    });
+    const categoriesAnnual = db.Category.findAll({
+        include: [
+            { model: db.Transaction, as: 'transactions', required: true, where: {
+                typeId: 1,
+                userId: req.user.id ,
+                transaction_date: {
+                    $between: [startDateYear, endDateYear]
+                }
+                } 
+            }
          ]
     });
 
@@ -50,33 +97,45 @@ router.get('/analysis', function (req, res, next) {
     const budgetedMonths = db.Budget.findAll({where:{userId: req.user.id}});
     const budgetedMonthsCategory = db.BudgetCategory.findAll({where:{userId: req.user.id, month:month}});
     
-    return Promise.join(categories,budgetedMonths, budgetedMonthsCategory, function (category, budgetMonth, budgetMonthCategory) {
+    return Promise.join(categoriesMonthly, categoriesAnnual, budgetedMonths, budgetedMonthsCategory, function (categoryMonthly,categoryAnnual, budgetMonth, budgetMonthCategory) {
        
-        var categoriesFromDb = category.map(category => category.dataValues)
+        var categoriesFromDbMonthly = categoryMonthly.map(categoryMonthly => categoryMonthly.dataValues)
+        var categoriesFromDbAnnual = categoryAnnual.map(categoryAnnual => categoryAnnual.dataValues)
+        
+        _
             
-        var categoriesForChart = [];            
+        var categoriesForChartMonthly = [],
+            categoriesForChartAnnual = [],        
+            categoriesForActiveMonth = [];
 
-        var categoriesForActiveMonth = [];
+        _.each(categoriesFromDbAnnual, (categoryAnnual) => {
+            categoryAnnual.amount = 0;
+            _.each(categoryAnnual.transactions, (transaction) => {
+                categoryAnnual.amount += parseFloat(transaction.dataValues.amount);
+            })
+            categoriesForChartAnnual.push(categoryAnnual);
+        })
 
-        _.each(categoriesFromDb, (category) => {
-            category.amount = 0;
-            category.amountActiveMonth = 0;
-            _.each(category.transactions, (transaction) => {
-                category.amount += parseFloat(transaction.dataValues.amount);
+        _.each(categoriesFromDbMonthly, (categoryMonthly) => {
+            categoryMonthly.amount = 0;
+            categoryMonthly.amountActiveMonth = 0;
+            _.each(categoryMonthly.transactions, (transaction) => {
+                categoryMonthly.amount += parseFloat(transaction.dataValues.amount);
 
                 if (new Date(transaction.transaction_date).getFullYear() === new Date().getFullYear() &&
                     new Date(transaction.transaction_date).getMonth() === new Date().getMonth()) {
-                        category.amountActiveMonth += parseFloat(transaction.dataValues.amount);
+                        categoryMonthly.amountActiveMonth += parseFloat(transaction.dataValues.amount);
                     }    
             })
-            categoriesForChart.push(category);
+            categoriesForChartMonthly.push(categoryMonthly);
         })
 
         var budgetMonthsForChart = budgetMonth.map(budgetMonth => budgetMonth.dataValues),
             budgetMonthsCategoryForChart = budgetMonthCategory.map(budgetMonthCategory => budgetMonthCategory.dataValues);
         
         return res.status(200).send({
-            categoriesForChart,
+            categoriesFromDbAnnual,
+            categoriesForChartMonthly,
             budgetMonthsForChart,
             budgetMonthsCategoryForChart,
         })
