@@ -14,23 +14,40 @@ module.exports = function (app) {
 router.get('/', function (req, res, next) {
 
     var date = new Date(),
-        month = date.getMonth();
-      
+        month = date.getMonth(),
+        startDate = new Date(date.getFullYear(), date.getMonth(), +1, 1),
+        endDate = new Date(date.getFullYear(), date.getMonth() + 1, +1); 
+        
     const findAllTransactions = Transaction.findAll({ 
         where: {userId: req.session.passport.user },
         order: 'transaction_date DESC',
         limit: 4
     });
+
     
     const monthlyBudget = Budget.findOne({where:{userId: req.user.id, month: month}});
-    const sumAllExpenses = Transaction.sum('amount', { where: { typeId: 1, userId: req.user.id, } });
-    const sumAllIncome = Transaction.sum('amount', { where: { typeId: 2, userId: req.user.id, } });
-
+    const sumAllExpenses = Transaction.sum('amount', { 
+        where: { typeId: 1, userId: req.user.id,
+        
+        transaction_date: {
+            $between: [startDate, endDate]
+            
+        }
+    }     
+ });
+    const sumAllIncome = Transaction.sum('amount', { 
+        where: { typeId: 2, userId: req.user.id,
+        
+        transaction_date: {
+            $between: [startDate, endDate]
+            
+        }
+    }     
+ });
     return Promise.join(findAllTransactions, sumAllExpenses, sumAllIncome, monthlyBudget, function (transactions, expensesAmount, incomeAmount, budget) {
         
         var budgetAmount = 0,
             toSpendMoney = 0;
-
 
         if(budget !== null) {
             toSpendMoney = budget.amount - (expensesAmount - incomeAmount);
