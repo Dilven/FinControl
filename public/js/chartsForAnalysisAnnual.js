@@ -1,5 +1,4 @@
-// dac tutatj wykresy na roczną analize
-function getDataForLineChart1(response) {
+function getDataForAnnualChartForAnalysis(response) {
     
     var budgetMonthsForChart = response.data.budgetMonthsForChart,
         budgets = [],
@@ -9,12 +8,10 @@ function getDataForLineChart1(response) {
         }
 
 
-    console.log(budgets);
 
     budgetMonthsForChart.forEach(function (bud) {
         budgets[bud.month] = bud.amount;
     })
-    console.log(budgets);
     const months = ['Styczeń', 'Luty', 'Marzec', 'Kwiecien', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpien', 'Wrzesień', 'Październik', 'Listopad', 'Grudzień'];
     var monthNow = new Date().getMonth(),
         monthsForLabels = [],
@@ -35,7 +32,6 @@ function getDataForLineChart1(response) {
                 }
             }
             
-        console.log(monthsForLabels);
 
     var data = {
         datasets: [{
@@ -81,18 +77,53 @@ function getDataForLineChart1(response) {
             
         
     }
-    var ctx = document.getElementById("line-chart1").getContext('2d')
+    var ctx = document.getElementById("annual-chart-analysis").getContext('2d')
     var myLineChart = new Chart(ctx, {
         type: 'line',
         data: data,
         options: options
     });
 };
+function getDataForCategoriesExpensesAnnual(response) {
+    var ctx = document.getElementById("categories-expenses-annual").getContext('2d'),
+         data = [],
+         labels = [];
+         var default_colors = ['#3366CC','#DC3912','#FF9900','#109618','#990099','#3B3EAC','#0099C6','#DD4477','#66AA00','#B82E2E','#316395','#994499','#22AA99','#AAAA11','#6633CC','#E67300','#8B0707','#329262','#5574A6','#3B3EAC']
+     
+     var categoriesForChart = response.data.categoriesFromDbAnnual;
+     
+     if (categoriesForChart.length === 0) {
+         ctx.font = "30px Arial";
+         ctx.fillText("No data",50,100);
+         return null;
+     }
+     categoriesForChart.forEach(function (cat) {
+         data.push(cat.amount);
+         labels.push(cat.name);
+     })
 
-    
-    axios.get('/api/charts/analysis')
+   
+     var data = {
+         datasets: [{
+             data: data,
+             backgroundColor: default_colors
+         }],
+         labels: labels
+     };
+
+     var options = {
+         responsive: true,
+     }
+     var myCategoriesChart = new Chart(ctx,{
+         type: 'doughnut',
+         data: data,
+         options: options
+     });
+}
+axios.get('/api/charts/analysis')
     .then(function (response) {
-        getDataForLineChart1(response);
+        getDataForAnnualChartForAnalysis(response);
+        getDataForCategoriesExpensesAnnual(response);
     })
     .catch(function (error) {
         console.log(error);

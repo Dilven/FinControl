@@ -1,40 +1,4 @@
-function getDataForCategoriesChart(response) {
-        var ctx = document.getElementById("categoriesChart").getContext('2d'),
-            data = [],
-            labels = [];
-            var default_colors = ['#3366CC','#DC3912','#FF9900','#109618','#990099','#3B3EAC','#0099C6','#DD4477','#66AA00','#B82E2E','#316395','#994499','#22AA99','#AAAA11','#6633CC','#E67300','#8B0707','#329262','#5574A6','#3B3EAC']
-        var categoriesForChart = response.data.categoriesForChart;
-        if (categoriesForChart.length === 0) {
-            ctx.font = "30px Arial";
-            ctx.fillText("No data",50,100);
-            return null;
-        }
-        categoriesForChart.forEach(function (cat) {
-            data.push(cat.amount);
-            labels.push(cat.name);
-        })
-
-      
-        var data = {
-            datasets: [{
-                data: data,
-                backgroundColor: default_colors
-            }],
-            labels: labels
-        };
-
-        var options = {
-            responsive: true,
-        }
-        var myCategoriesChart = new Chart(ctx,{
-            type: 'doughnut',
-            data: data,
-            options: options
-        });
-}
-
-
-function getDataForLineChart1(response) {
+function getDataForAnnualChartForDashboard(response) {
     
     var budgetMonthsForChart = response.data.budgetMonthsForChart,
         budgets = [],
@@ -83,7 +47,7 @@ function getDataForLineChart1(response) {
             
         },
         {
-            data: [10, 20, 10, 10000, 93, 30,50,60,40,45,39,38],
+            data: [3000, 3000, 3000, 3000, 3000,0,3000,3000,3000,3000,3000,3000],
             label:'Wydatki',
             borderColor: '#f44259',
             fill: false,
@@ -111,23 +75,57 @@ function getDataForLineChart1(response) {
 
         title: {
             display: true,
-            text: 'Twoje dochody i przychody'
+            text: 'Budżet i wydatki na dane miesiące'
             }
             
         
     }
-    var ctx = document.getElementById("line-chart1").getContext('2d')
+    var ctx = document.getElementById("annual-chart-dashboard").getContext('2d')
     var myLineChart = new Chart(ctx, {
         type: 'line',
         data: data,
         options: options
     });
 };
+function getDataForCategoriesChartForDashboard(response) {
+        var ctx = document.getElementById("categories-chart-dashboard-monthly").getContext('2d'),
+            data = [],
+            labels = [];
+            var default_colors = ['#3366CC','#DC3912','#FF9900','#109618','#990099','#3B3EAC','#0099C6','#DD4477','#66AA00','#B82E2E','#316395','#994499','#22AA99','#AAAA11','#6633CC','#E67300','#8B0707','#329262','#5574A6','#3B3EAC']
+        var categoriesForChart = response.data.categoriesForChartMonthly;
+        if (categoriesForChart.length === 0) {
+            ctx.font = "30px Arial";
+            ctx.fillText("No data",50,100);
+            return null;
+        }
+        categoriesForChart.forEach(function (cat) {
+            data.push(cat.amount);
+            labels.push(cat.name);
+        })
+
+      
+        var data = {
+            datasets: [{
+                data: data,
+                backgroundColor: default_colors
+            }],
+            labels: labels
+        };
+
+        var options = {
+            responsive: true,
+        }
+        var myCategoriesChart = new Chart(ctx,{
+            type: 'doughnut',
+            data: data,
+            options: options
+        });
+};
 
 axios.get('/api/charts/dashboard')
     .then(function (response) {
-        getDataForCategoriesChart(response);
-        getDataForLineChart1(response);
+        getDataForCategoriesChartForDashboard(response);
+        getDataForAnnualChartForDashboard(response);
         
     })
     .catch(function (error) {
