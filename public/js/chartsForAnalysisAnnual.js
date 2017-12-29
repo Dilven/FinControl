@@ -55,14 +55,16 @@ function getDataForExpensesAndBudgetAnnual(response) {
         labels: monthsForLabels,
     }
 
+    var  scales = {
+        xAxes: [{
+            ticks: {
+                autoSkip: false
+            }
+        }]
+    };
+
     var options = {
-        
-        scales: {
-            yAxes: [{
-                stacked: false
-            }]
-        
-        },
+        scales: scales,
         elements: {
             line: {
                 tension: 0, // disables bezier curves
@@ -77,19 +79,25 @@ function getDataForExpensesAndBudgetAnnual(response) {
             
         
     }
-    var ctx = document.getElementById("expenses-budget-annual").getContext('2d')
+    var ctx = document.getElementById("expenses-budget-annual").getContext('2d');
+    ctx.canvas.width = 235;
+    ctx.canvas.height = 220;
+
     var myLineChart = new Chart(ctx, {
         type: 'line',
         data: data,
-        options: options
+        options: options,
     });
 };
 function getDataForCategoriesExpensesAnnual(response) {
     var ctx = document.getElementById("categories-expenses-annual").getContext('2d'),
-         data = [],
-         labels = [];
-         var default_colors = ['#3366CC','#DC3912','#FF9900','#109618','#990099','#3B3EAC','#0099C6','#DD4477','#66AA00','#B82E2E','#316395','#994499','#22AA99','#AAAA11','#6633CC','#E67300','#8B0707','#329262','#5574A6','#3B3EAC']
-     
+        data = [],
+        labels = [],
+        default_colors = ['#3366CC','#DC3912','#FF9900','#109618','#990099','#3B3EAC','#0099C6','#DD4477','#66AA00','#B82E2E','#316395','#994499','#22AA99','#AAAA11','#6633CC','#E67300','#8B0707','#329262','#5574A6','#3B3EAC'];
+         
+    ctx.canvas.width = 235;
+    ctx.canvas.height = 220;
+
      var categoriesForChart = response.data.categoriesFromDbAnnual;
      
      if (categoriesForChart.length === 0) {
@@ -113,6 +121,10 @@ function getDataForCategoriesExpensesAnnual(response) {
 
      var options = {
          responsive: true,
+         title: {
+            display: true,
+            text: 'Wydane kwoty w danych kategoriach'
+            },
      }
      var myCategoriesChart = new Chart(ctx,{
          type: 'doughnut',

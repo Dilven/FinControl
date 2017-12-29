@@ -1,5 +1,6 @@
 function getDataForAnnualChartForDashboard(response) {
     
+    
     var budgetMonthsForChart = response.data.budgetMonthsForChart,
         budgets = [],
         budgetsForDisplay = [];
@@ -80,7 +81,11 @@ function getDataForAnnualChartForDashboard(response) {
             
         
     }
-    var ctx = document.getElementById("expenses-budget-annual-dashboard").getContext('2d')
+    var ctx = document.getElementById("expenses-budget-annual-dashboard").getContext('2d');
+    ctx.canvas.width = 539;
+    ctx.canvas.height = 268;
+    
+    
     var myLineChart = new Chart(ctx, {
         type: 'line',
         data: data,
