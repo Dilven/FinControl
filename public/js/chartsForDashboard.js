@@ -119,7 +119,12 @@ function getDataForCategoriesChartForDashboard(response) {
                     boxWidth: 10,
                     padding: 3,
                 }
-            }
+            },
+            title: {
+                display: true,
+                text: 'Podział na kategorie wydatków'
+                }
+                
         }
         var myCategoriesChart = new Chart(ctx,{
             type: 'doughnut',

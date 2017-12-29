@@ -52,13 +52,13 @@ router.get('/dashboard', function (req, res, next) {
                         category.amountActiveMonth += parseFloat(transaction.dataValues.amount);
                 }
                 if (new Date(transaction.transaction_date).getFullYear() <= new Date().getFullYear() &&
-                new Date(transaction.transaction_date).getMonth() > new Date().getMonth()) { 
+                    new Date(transaction.transaction_date).getMonth() > new Date().getMonth()) { 
                         AllExpensesForMonth[transaction.transaction_date.getMonth()] += transaction.dataValues.amount;
                 }
                 if (new Date(transaction.transaction_date).getFullYear() === new Date().getFullYear() &&
                     new Date(transaction.transaction_date).getMonth() <= new Date().getMonth()) { 
                         AllExpensesForMonth[transaction.transaction_date.getMonth()] += transaction.dataValues.amount;
-            }      
+                }      
             })
             categoriesForChart.push(category);
         })
@@ -80,8 +80,7 @@ router.get('/dashboard', function (req, res, next) {
         res.status(200).send({
             categoriesForChart,
             budgetMonthsForChart,
-            AllExpensesForMonth,
-            
+            AllExpensesForMonth,            
         })
     });
 });

@@ -16,11 +16,18 @@ router.get('/', function (req, res, next) {
     var date = new Date(),
         month = date.getMonth(),
         startDate = new Date(date.getFullYear(), date.getMonth(), +1, 1),
-        endDate = new Date(date.getFullYear(), date.getMonth() + 1, +1); 
+        endDate = new Date(date.getFullYear(), date.getMonth() + 1, +1);
+        
+        var sortBy = 'transaction_date',
+            sortId = 'id',  
+            sortDesc = 'DESC';
         
     const findAllTransactions = Transaction.findAll({ 
         where: {userId: req.session.passport.user },
-        order: 'transaction_date DESC',
+        order: [
+            [`${sortBy}`,  `${sortDesc}`],
+            [`${sortId}`, `${sortDesc}`]
+        ],
         limit: 4
     });
 
