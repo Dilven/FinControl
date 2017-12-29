@@ -1,14 +1,11 @@
 function getDataForExpensesAndBudgetAnnual(response) {
+    console.log(response.data.budgetMonthsForChart); 
     var budgetMonthsForChart = response.data.budgetMonthsForChart,
-        budgets = [],
-        budgetsForDisplay = [];
-        for (var i = 0; i < 12; i++) {
-                budgets[i] = 0;
-        }
+        expenseMonthsForChart = response.data.AllExpensesForMonth,
+        budgetsForDisplay = [],
+        expenseForDisplay = [];
    
-    budgetMonthsForChart.forEach(function (bud) {
-        budgets[bud.month] = bud.amount;
-    })
+ 
     const months = ['Styczeń', 'Luty', 'Marzec', 'Kwiecien', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpien', 'Wrzesień', 'Październik', 'Listopad', 'Grudzień'];
     var monthNow = new Date().getMonth(),
         monthsForLabels = [],
@@ -16,15 +13,17 @@ function getDataForExpensesAndBudgetAnnual(response) {
 
         for(var i = 0; i <= 11; i++ )
             {
-                if(monthNow <= 11)
+                if(monthNow < 11)
                 {
                     monthsForLabels.push(months[monthNow]);
-                    budgetsForDisplay.push(budgets[monthNow]);
+                    budgetsForDisplay.push(budgetMonthsForChart[monthNow]);
+                    expenseForDisplay.push(expenseMonthsForChart[monthNow]);
                     monthNow++;
                 }
                 else {
                     monthsForLabels.push(months[monthNowNum]);
-                    budgetsForDisplay.push(budgets[monthNowNum]);
+                    budgetsForDisplay.push(budgetMonthsForChart[monthNowNum]);
+                    expenseForDisplay.push(expenseMonthsForChart[monthNowNum]);
                     monthNowNum++; 
                 }
             }
@@ -45,7 +44,7 @@ function getDataForExpensesAndBudgetAnnual(response) {
             
         },
         {
-            data: [10, 20, 10, 10000, 93, 30,50,60,40,45,39,38],
+            data: expenseForDisplay,
             label:'Wydatki',
             borderColor: '#f44259',
             fill: false,

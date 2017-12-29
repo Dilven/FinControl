@@ -1,5 +1,4 @@
-function getDataForCategoriesExpensesMonthly(response) {
-    console.log(response.data.categoriesForChart);    
+function getDataForCategoriesExpensesMonthly(response) {   
     var ctx = document.getElementById("categories-expenses-monthly").getContext('2d'),
          data = [],
          labels = [];
