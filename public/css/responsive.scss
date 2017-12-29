@@ -1,5 +1,5 @@
 $tablet: "(max-width: 768px)";
-$small-width: "(max-width: 400px)";
+$small-width: "(max-width: 500px)";
 $normal-width: "(max-width: 1366px)";
 
 
@@ -7,10 +7,17 @@ $normal-width: "(max-width: 1366px)";
 @media #{$small-width} {
     .mdl-data-table--resp {
         font-size:10px;
+        table-layout:fixed;
+        
     }
 }
 
 @media #{$tablet} {
+    .mdl-data-table--resp-tablet {
+        font-size:10px;
+        table-layout:fixed;
+        
+    }
    
 }
 

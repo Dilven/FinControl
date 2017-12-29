@@ -12,15 +12,21 @@ module.exports = function (app) {
 router.get('/', function (req, res, next) {
     var limit = 9;
     
-    var page = req.query.page || 1;
-    var sortBy = req.query.by || 'transaction_date';
-    var sortOrder = req.query.order || 'DESC';
+    var page = req.query.page || 1,
+        sortBy = req.query.by || 'transaction_date',
+        sortId = 'id',  
+        sortOrder = req.query.order || 'DESC',
+        sortDesc = 'DESC';
 
     const findAllTransactions = Transaction.findAll({ 
         where: {userId: req.session.passport.user },
         offset: (page - 1) * limit,
         limit: limit,
-        order: `${sortBy} ${sortOrder}`
+        order: [
+            [`${sortBy}`,  `${sortOrder}`],
+            [`${sortId}`, `${sortDesc}`]
+    ]
+
     });
     const sumAllExpenses = Transaction.sum('amount', { where: { typeId: 1 } });
     const sumAllIncome = Transaction.sum('amount', { where: { typeId: 2 } });

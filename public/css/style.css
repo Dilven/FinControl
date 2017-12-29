@@ -14,9 +14,6 @@
   margin-bottom: 2px;
   user-select: none; }
 
-#annual-chart-dashboard {
-  width: 535px; }
-
 .log-form {
   margin-left: 50px;
   margin-top: 50px; }
@@ -140,9 +137,15 @@
 #budgeted-category {
   margin: 20px; }
 
-@media (max-width: 400px) {
+@media (max-width: 500px) {
   .mdl-data-table--resp {
-    font-size: 10px; } }
+    font-size: 10px;
+    table-layout: fixed; } }
+
+@media (max-width: 768px) {
+  .mdl-data-table--resp-tablet {
+    font-size: 10px;
+    table-layout: fixed; } }
 
 #snackbar-auth {
   background-color: #283593; }

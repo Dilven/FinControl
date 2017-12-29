@@ -1,15 +1,15 @@
 <div class="mdl-grid mdl-grid--color">
-    <div class="mdl-cell mdl-cell--3-col mdl-shadow--2dp mdl-cell--color mdl-cell-select">
+    <div class="mdl-cell mdl-cell--3-col mdl-cell--4-col-tablet mdl-cell--4-col-phone mdl-shadow--2dp mdl-cell--color">
         <div id="income-box" class="box-dashboard">
             <span>Przychody:<%= incomeAmount %> zł</span> 
         </div>
     </div>
-    <div class="mdl-cell mdl-cell--3-col mdl-shadow--2dp mdl-cell--color">
+    <div class="mdl-cell mdl-cell--3-col mdl-cell--4-col-tablet mdl-cell--4-col-phone mdl-shadow--2dp mdl-cell--color">
         <div id="expenses-box" class="box-dashboard">
             <span>Wydatki:<%= expensesAmount %> zł</span>
         </div>
     </div>
-    <div class="mdl-cell mdl-cell--3-col mdl-shadow--2dp mdl-cell--color">
+    <div class="mdl-cell mdl-cell--3-col mdl-cell--4-col-tablet mdl-cell--4-col-phone mdl-shadow--2dp mdl-cell--color">
         <% if(budget != 0) { %>
             <div id="budget-box" class="box-dashboard">
                 <span>Budzet:<%= budget %></span>
@@ -19,9 +19,9 @@
                 <span>Określ swój budżet</span>
             </div></a>
         <% } %>
-            
+     
     </div>
-    <div class="mdl-cell mdl-cell--3-col mdl-shadow--2dp mdl-cell--color">
+    <div class="mdl-cell mdl-cell--3-col mdl-cell--4-col-tablet mdl-cell--4-col-phone mdl-shadow--2dp mdl-cell--color">
         <div id="piggybank-box" class="box-dashboard"> 
             <% if(toSpendMoney != 0) { %>
                 <span>Pozostało: <%= toSpendMoney %></span>
@@ -31,8 +31,8 @@
             
         </div>
     </div>
-    <div class="mdl-cell mdl-cell--6-col mdl-shadow--2dp mdl-cell--color">
-        <table id="table-last-transactions" class="mdl-data-table mdl-js-data-table mdl-data-table--resp">
+    <div class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet mdl-shadow--2dp mdl-cell--color">
+        <table id="table-last-transactions" class="mdl-data-table mdl-js-data-table">
             <thead>
                 <tr>
                 <th></th>
@@ -58,21 +58,22 @@
         </table>
     </div>
     
-    <div class="mdl-cell mdl-cell--6-col mdl-shadow--2dp mdl-cell--color">
+    <div class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet mdl-shadow--2dp mdl-cell--color">
         <div>
-            <canvas id="annual-chart-dashboard"></canvas>
+            <canvas id="expenses-budget-annual-dashboard"></canvas>
         </div>
     </div>
 
-    <div class="mdl-cell mdl-cell--4-col mdl-shadow--2dp mdl-cell--color">
+    <div class="mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-shadow--2dp mdl-cell--color">
         <div>
             <canvas id="categories-chart-dashboard-monthly"></canvas>
         </div>
     </div>
-    <div class="mdl-cell mdl-cell--4-col mdl-shadow--2dp mdl-cell--color">
-        
+    <div class="mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-shadow--2dp mdl-cell--color">
+        safas
     </div>
-        <div class="mdl-cell mdl-cell--4-col mdl-shadow--2dp mdl-cell--color">       
+    <div class="mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-shadow--2dp mdl-cell--color">       
+    asfas
     </div>
 </div>
 
