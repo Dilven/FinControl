@@ -34,11 +34,10 @@ router.get('/', function (req, res, next) {
     
     const monthlyBudget = Budget.findOne({where:{userId: req.user.id, month: month}});
     const sumAllExpenses = Transaction.sum('amount', { 
-        where: { typeId: 1, userId: req.user.id,
-        
+        where: {
+        typeId: 1, userId: req.user.id,
         transaction_date: {
             $between: [startDate, endDate]
-            
         }
     }     
  });

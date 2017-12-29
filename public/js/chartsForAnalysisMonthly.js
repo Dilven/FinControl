@@ -40,7 +40,6 @@ function getDataForCategoriesExpensesMonthly(response) {
 }
 
 function getDataForExpensesLineChartMonthly(response) {
-    console.log(response.data.AllExpensesForDay); 
     
     var date = new Date(),
         month = date.getMonth(),
@@ -48,9 +47,7 @@ function getDataForExpensesLineChartMonthly(response) {
 
     var expense = response.data.AllExpensesForDay,
         budgetForDay = response.data.budgetMonthsForChart[month]/numberOfDays;
-        budgetForDayDisplay =  new Array(numberOfDays).fill(budgetForDay.toFixed(2));
-    console.log(budgetForDay);
- 
+        budgetForDayDisplay =  new Array(numberOfDays).fill(budgetForDay.toFixed(2)); 
     const days = [];
 
     for (var i = 1; i <= numberOfDays; i++) {
@@ -126,6 +123,50 @@ function getDataForExpensesLineChartMonthly(response) {
         options: options,
     });
 };
+
+function getDataToSpendAndExpensesAmount(response) {   
+    var ctx = document.getElementById("expense-amount-tospend-chart-analysis-month").getContext('2d'),
+        data = [],
+        labels = [],
+        date = new Date(),
+        month = date.getMonth();
+        
+    var default_colors = ['#3366CC','#DC3912','#FF9900','#109618','#990099','#3B3EAC','#0099C6','#DD4477','#66AA00','#B82E2E','#316395','#994499','#22AA99','#AAAA11','#6633CC','#E67300','#8B0707','#329262','#5574A6','#3B3EAC'];
+    var budgetForMonth = response.data.budgetMonthsForChart[month],
+        expenseForMonth = response.data.AllExpensesForMonth[month].toFixed(2),
+        toSpendAmount = (budgetForMonth - expenseForMonth).toFixed(2);
+
+    var dataForChart = [];
+    
+    dataForChart.push(expenseForMonth);
+    dataForChart.push(toSpendAmount);
+
+    ctx.canvas.width = 235;
+    ctx.canvas.height = 220;
+
+
+
+    var data = {
+        datasets: [{
+            data: dataForChart,
+            backgroundColor: default_colors
+        }],
+        labels: ['Wydano', 'Pozostała kwota'],
+    };
+
+    var options = {
+        responsive: true,
+        title: {
+        display: true,
+        text: 'Ilość wydatków i pozostała kwota'
+        },
+    }
+    var myCategoriesChart = new Chart(ctx,{
+        type: 'doughnut',
+        data: data,
+        options: options
+    });
+}
 
 function getDataBudgetedAndExpensesCategoryMonth(response) {
 
@@ -203,6 +244,7 @@ axios.get('/api/charts/analysis')
     getDataForCategoriesExpensesMonthly(response);
     getDataBudgetedAndExpensesCategoryMonth(response);
     getDataForExpensesLineChartMonthly(response);
+    getDataToSpendAndExpensesAmount(response);
 })
 .catch(function (error) {
     console.log(error);
