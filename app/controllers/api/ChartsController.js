@@ -87,7 +87,8 @@ router.get('/dashboard', function (req, res, next) {
 
 router.get('/analysis', function (req, res, next) {
     var date = new Date(),
-        month = date.getMonth();
+        month = date.getMonth(),
+        numberOfDays = new Date(date.getFullYear(), date.getMonth()+1, 0).getDate();
 
     const categories = db.Category.findAll({
         include: [
@@ -107,7 +108,8 @@ router.get('/analysis', function (req, res, next) {
         var categoriesFromDb = category.map(category => category.dataValues),
             categoriesForChart = [],
             budgetMonthsForChart = new Array(12).fill(0),
-            AllExpensesForMonth = new Array(12).fill(0);
+            AllExpensesForMonth = new Array(12).fill(0),
+            AllExpensesForDay = new Array(numberOfDays + 1).fill(0);
             
         _.each(categoriesFromDb, (category, index) => {
             category.amount = 0;
@@ -125,6 +127,14 @@ router.get('/analysis', function (req, res, next) {
                     new Date(transaction.transaction_date).getDate() === new Date().getDate()) {
                         category.amountActiveDay += parseFloat(transaction.dataValues.amount);
                 }     
+                if (new Date(transaction.transaction_date).getFullYear() <= new Date().getFullYear() &&
+                new Date(transaction.transaction_date).getMonth() > new Date().getMonth()) { 
+                    AllExpensesForMonth[transaction.transaction_date.getMonth()] += transaction.dataValues.amount;
+            }
+                if (new Date(transaction.transaction_date).getFullYear() === new Date().getFullYear() &&
+                    new Date(transaction.transaction_date).getMonth() === new Date().getMonth()) { 
+                        AllExpensesForDay[transaction.transaction_date.getDate()] += transaction.dataValues.amount;
+                }
                 if (new Date(transaction.transaction_date).getFullYear() <= new Date().getFullYear() &&
                     new Date(transaction.transaction_date).getMonth() > new Date().getMonth()) { 
                         AllExpensesForMonth[transaction.transaction_date.getMonth()] += transaction.dataValues.amount;
@@ -155,6 +165,7 @@ router.get('/analysis', function (req, res, next) {
         
         return res.status(200).send({
             AllExpensesForMonth,
+            AllExpensesForDay,
             categoriesForChart,
             budgetMonthsForChart,
             budgetMonthsCategoryForChart,

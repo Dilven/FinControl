@@ -38,6 +38,83 @@ function getDataForCategoriesExpensesMonthly(response) {
          options: options
      });
 }
+
+function getDataForExpensesLineChartMonthly(response) {
+    console.log(response.data.AllExpensesForDay); 
+    
+    var expense = response.data.AllExpensesForDay;
+    var date = new Date(),
+        month = date.getMonth(),
+        numberOfDays = new Date(date.getFullYear(), date.getMonth()+1, 0).getDate();
+ 
+    const days = [];
+
+    for (var i = 1; i <= numberOfDays; i++) {
+        days[i] = i;
+    }
+    
+
+    var data = {
+        datasets: [{
+            data: expense,
+            label: 'Wydatki',
+            borderColor: '#DC3912',
+            fill: false,
+            backgroundColor: '#DC3912'
+
+            
+        }],
+        labels: days,
+    }
+
+    var  scales = {
+        xAxes: [{
+            ticks: {
+                autoSkip: false
+            }
+        }]
+    };
+
+    var options = {
+        scales: scales,
+        elements: {
+            line: {
+                tension: 0, // disables bezier curves
+            }
+        },
+        padding:0,
+
+        title: {
+            display: true,
+            text: 'Wydatki w tym miesiącu'
+            }
+            
+        
+    }
+    var ctx = document.getElementById("expenses-for-day").getContext('2d');
+    ctx.canvas.width = 235;
+    ctx.canvas.height = 220;
+
+    
+    var img = new Image();
+    img.src = "../images/noDataForChart.png";
+
+    if (expense.length === 0) {
+        var width = ctx.canvas.width = 532,
+            height = ctx.canvas.height = 500;
+        img.onload = function(){
+            ctx.drawImage(img, 0,0,width,height);
+          }
+        return null;
+    }
+
+    var myLineChart = new Chart(ctx, {
+        type: 'line',
+        data: data,
+        options: options,
+    });
+};
+
 function getDataBudgetedAndExpensesCategoryMonth(response) {
 
     var budgetMonthsCategoryForChart = response.data.budgetMonthsCategoryForChart;
@@ -113,6 +190,7 @@ axios.get('/api/charts/analysis')
 .then(function (response) {
     getDataForCategoriesExpensesMonthly(response);
     getDataBudgetedAndExpensesCategoryMonth(response);
+    getDataForExpensesLineChartMonthly(response);
 })
 .catch(function (error) {
     console.log(error);

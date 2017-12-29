@@ -1,5 +1,5 @@
 function getDataForExpensesAndBudgetAnnual(response) {
-    console.log(response.data.budgetMonthsForChart); 
+    console.log(response.data.AllExpensesForDay); 
     var budgetMonthsForChart = response.data.budgetMonthsForChart,
         expenseMonthsForChart = response.data.AllExpensesForMonth,
         budgetsForDisplay = [],
