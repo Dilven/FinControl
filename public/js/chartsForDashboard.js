@@ -5,8 +5,6 @@ function getDataForAnnualChartForDashboard(response) {
         budgetsForDisplay = [],
         expenseForDisplay = [];
 
-   
-
     const months = ['Styczeń', 'Luty', 'Marzec', 'Kwiecien', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpien', 'Wrzesień', 'Październik', 'Listopad', 'Grudzień'];
     var monthNow = new Date().getMonth(),
         monthsForLabels = [],
@@ -35,18 +33,14 @@ function getDataForAnnualChartForDashboard(response) {
             label: 'Budżet',
             borderColor: '#297720',
             fill: false,
-            backgroundColor: '#297720'
-
-            
+            backgroundColor: '#297720'  
         },
         {
             data: expenseForDisplay,
             label:'Wydatki',
             borderColor: '#f44259',
             fill: false,
-            backgroundColor: '#f44259'
-
-            
+            backgroundColor: '#f44259'            
         }],
         labels: monthsForLabels,
     }
@@ -68,14 +62,11 @@ function getDataForAnnualChartForDashboard(response) {
         title: {
             display: true,
             text: 'Budżet i wydatki w danym roku'
-            }
-            
-        
+            } 
     }
     var ctx = document.getElementById("expenses-budget-annual-dashboard").getContext('2d');
     ctx.canvas.width = 539;
     ctx.canvas.height = 268;
-    
     
     var myLineChart = new Chart(ctx, {
         type: 'line',
@@ -84,7 +75,6 @@ function getDataForAnnualChartForDashboard(response) {
     });
 };
 function getDataForCategoriesChartForDashboard(response) {
-    console.log(response.data.categoriesForChart);
         var ctx = document.getElementById("categories-chart-dashboard-monthly").getContext('2d'),
             data = [],
             labels = [];
@@ -100,7 +90,6 @@ function getDataForCategoriesChartForDashboard(response) {
             labels.push(cat.name);
         })
 
-      
         var data = {
             datasets: [{
                 data: data,
@@ -119,7 +108,12 @@ function getDataForCategoriesChartForDashboard(response) {
                     boxWidth: 10,
                     padding: 3,
                 }
-            }
+            },
+            title: {
+                display: true,
+                text: 'Podział na kategorie wydatków'
+                }
+                
         }
         var myCategoriesChart = new Chart(ctx,{
             type: 'doughnut',
@@ -128,10 +122,134 @@ function getDataForCategoriesChartForDashboard(response) {
         });
 };
 
+function getDataToSpendAndExpensesAmountMonthDashboard(response) {   
+    var ctx = document.getElementById("expense-amount-tospend-chart-dashboard-month").getContext('2d'),
+        data = [],
+        labels = [],
+        date = new Date(),
+        month = date.getMonth();
+        
+    var default_colors = ['#3366CC','#DC3912','#FF9900','#109618','#990099','#3B3EAC','#0099C6','#DD4477','#66AA00','#B82E2E','#316395','#994499','#22AA99','#AAAA11','#6633CC','#E67300','#8B0707','#329262','#5574A6','#3B3EAC'],
+        budgetForMonth = response.data.budgetMonthsForChart[month],
+        expenseForMonth = response.data.AllExpensesForMonth[month].toFixed(2),
+        toSpendAmount = (budgetForMonth - expenseForMonth).toFixed(2);
+        
+
+        if(toSpendAmount < 0) {
+            toSpendAmount = 0;
+        }
+        
+    var dataForChart = [];
+    
+    dataForChart.push(expenseForMonth);
+    dataForChart.push(toSpendAmount);
+
+    var data = {
+        datasets: [{
+            data: dataForChart,
+            backgroundColor: default_colors
+        }],
+        labels: ['Wydano', 'Pozostała kwota'],
+    };
+
+    var options = {
+        responsive: true,
+        legend: {
+            fullWidth: true,
+            position: 'right',
+            labels: {
+                fontSize: 10,
+                boxWidth: 10,
+                padding: 3,
+            }
+        },
+        title: {
+        display: true,
+        text: 'Ilość wydatków i pozostała kwota'
+        },
+    }
+    var myCategoriesChart = new Chart(ctx,{
+        type: 'doughnut',
+        data: data,
+        options: options
+    });
+}
+
+function getDataBudgetedCategoryMonthDashboard(response) {
+    
+    var budgetMonthsCategoryForChart = response.data.budgetMonthsCategoryForChart;
+
+    var ctx = document.getElementById("budgeted-category-month-dashboard").getContext('2d');
+    
+        labels = [],
+        categoryBudgets = [],
+        categoriesForChart = [];
+
+    response.data.categoriesForChart.forEach(function(cat) {
+        if (cat.amountActiveMonth > 0)
+            categoriesForChart.push(cat);
+    });
+
+    if (categoriesForChart.length === 0) {
+        ctx.font = "30px Arial";
+        ctx.fillText("No data",50,100);
+        return null;
+    }
+
+    categoriesForChart.forEach(function (cat) {
+        
+        labels.push(cat.name);
+        var budget = budgetMonthsCategoryForChart.find(function (o) { return o.categoryId === cat.id; })
+        categoryBudgets.push(budget ? budget.amount : 0);
+    })
+    
+    var default_colors = ['#3366CC','#DC3912','#FF9900','#109618','#990099','#3B3EAC','#0099C6','#DD4477','#66AA00','#B82E2E','#316395','#994499','#22AA99','#AAAA11','#6633CC','#E67300','#8B0707','#329262','#5574A6','#3B3EAC'];
+    
+        data = {
+            datasets: [ {
+                data: categoryBudgets,
+                backgroundColor: default_colors
+                }
+            ],
+        labels: labels
+        };
+    
+    var scales = {
+        xAxes: [{
+            ticks: {
+                autoSkip: false
+            }
+        }]
+    }
+    var options = {
+        responsive: true,
+        legend: {
+            fullWidth: true,
+            position: 'right',
+            labels: {
+                fontSize: 10,
+                boxWidth: 10,
+                padding: 3,
+            }
+        },
+        title: {
+        display: true,
+        text: 'Zabudżetowane kwoty w danych kategoriach'
+        },
+    }
+    var myCategoriesChart = new Chart(ctx,{
+        type: 'doughnut',
+        data: data,
+        options: options
+    });
+}
+
 axios.get('/api/charts/dashboard')
     .then(function (response) {
         getDataForCategoriesChartForDashboard(response);
         getDataForAnnualChartForDashboard(response);
+        getDataToSpendAndExpensesAmountMonthDashboard(response);
+        getDataBudgetedCategoryMonthDashboard(response);
         
     })
     .catch(function (error) {

@@ -17,7 +17,6 @@ router.get('/', function (req, res, next) {
     var date = new Date(),
         month = date.getMonth();
         
-  
     const months = [
         {name: 'styczeń', value: 0},
         {name: 'luty', value: 1},
@@ -41,8 +40,6 @@ router.get('/', function (req, res, next) {
     const sumBudgetCategories = BudgetCategory.sum('amount', { where: {userId: req.user.id, month: month }});
     const findAllBudgetCategories = BudgetCategory.findAll({ where: {userId: req.session.passport.user }});
     
-    
-
     return Promise.join(monthlyBudget, categoryAll,sumBudgetCategories,findAllBudgetCategories, function (budget, categories, budgetedAmount, budgetCategoriesFromDb ) {
        
         var budgetAmount = 0,
@@ -57,22 +54,21 @@ router.get('/', function (req, res, next) {
             budgetCategories.push(el.dataValues)
             years.push(el.dataValues.year)
         });
+    
+        res.render('actions', {
+            title: 'Akcje',
+            budget: budgetAmount ? parseFloat(budgetAmount).toFixed(2) : 0,
+            budgetedAmount: budgetedAmount ? parseFloat(budgetedAmount).toFixed(2) : 0,
+            budgetCategories: budgetCategories,
+            monthNow,
+            months,
+            years : _.union(years),
+            yearNow,
+            categories,
+            timeNavVisibility: false
+        });
         
-        
-            res.render('actions', {
-                title: 'Akcje',
-                budget: budgetAmount ? parseFloat(budgetAmount).toFixed(2) : 0,
-                budgetedAmount: budgetedAmount ? parseFloat(budgetedAmount).toFixed(2) : 0,
-                budgetCategories: budgetCategories,
-                monthNow,
-                months,
-                years : _.union(years),
-                yearNow,
-                categories,
-                timeNavVisibility: false
-            });
-        
-});
+    });
 });
 
 router.post('/budget', function (req, res, next) {
@@ -111,13 +107,13 @@ router.post('/budgetcategories', function (req, res, next) {
     const categoryId = parseInt(req.body.category);
     
     let year = parseInt(new Date().getFullYear());
+
     if (monthNow > month) {
         year += 1;
     }
+
     const amount = req.body.amount,
           userId = req.user.id;
-console.log(categoryId);
-console.log('dupas');
 
     return db.BudgetCategory.findOrCreate({where: {userId: req.user.id, month: month, year: year, categoryId: categoryId}})
         .then(budget => {
@@ -125,8 +121,7 @@ console.log('dupas');
                 { amount: amount },
                 { where: { id: budget[0].dataValues.id } }
               )
-              .then(() => {
-                  
+              .then(() => {  
                 res.status(200).send({message: 'ok'});
               })
         })

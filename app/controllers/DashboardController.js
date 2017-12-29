@@ -16,34 +16,40 @@ router.get('/', function (req, res, next) {
     var date = new Date(),
         month = date.getMonth(),
         startDate = new Date(date.getFullYear(), date.getMonth(), +1, 1),
-        endDate = new Date(date.getFullYear(), date.getMonth() + 1, +1); 
+        endDate = new Date(date.getFullYear(), date.getMonth() + 1, +1);
+        
+        var sortBy = 'transaction_date',
+            sortId = 'id',  
+            sortDesc = 'DESC';
         
     const findAllTransactions = Transaction.findAll({ 
         where: {userId: req.session.passport.user },
-        order: 'transaction_date DESC',
+        order: [
+            [`${sortBy}`,  `${sortDesc}`],
+            [`${sortId}`, `${sortDesc}`]
+        ],
         limit: 4
     });
 
-    
     const monthlyBudget = Budget.findOne({where:{userId: req.user.id, month: month}});
     const sumAllExpenses = Transaction.sum('amount', { 
-        where: { typeId: 1, userId: req.user.id,
-        
+        where: {
+        typeId: 1, userId: req.user.id,
         transaction_date: {
             $between: [startDate, endDate]
-            
         }
     }     
  });
+
     const sumAllIncome = Transaction.sum('amount', { 
         where: { typeId: 2, userId: req.user.id,
         
         transaction_date: {
-            $between: [startDate, endDate]
-            
+            $between: [startDate, endDate]  
         }
     }     
  });
+ 
     return Promise.join(findAllTransactions, sumAllExpenses, sumAllIncome, monthlyBudget, function (transactions, expensesAmount, incomeAmount, budget) {
         
         var budgetAmount = 0,

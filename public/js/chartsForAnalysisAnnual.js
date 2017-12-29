@@ -1,5 +1,4 @@
 function getDataForExpensesAndBudgetAnnual(response) {
-    console.log(response.data.budgetMonthsForChart); 
     var budgetMonthsForChart = response.data.budgetMonthsForChart,
         expenseMonthsForChart = response.data.AllExpensesForMonth,
         budgetsForDisplay = [],
@@ -11,27 +10,21 @@ function getDataForExpensesAndBudgetAnnual(response) {
         monthsForLabels = [],
         monthNowNum = 0;
 
-        for(var i = 0; i <= 11; i++ )
-            {
-                if(monthNow < 11)
-                {
-                    monthsForLabels.push(months[monthNow]);
-                    budgetsForDisplay.push(budgetMonthsForChart[monthNow]);
-                    expenseForDisplay.push(expenseMonthsForChart[monthNow]);
-                    monthNow++;
-                }
-                else {
-                    monthsForLabels.push(months[monthNowNum]);
-                    budgetsForDisplay.push(budgetMonthsForChart[monthNowNum]);
-                    expenseForDisplay.push(expenseMonthsForChart[monthNowNum]);
-                    monthNowNum++; 
-                }
-            }
-
-   
-        
-    
-            
+    for(var i = 0; i <= 11; i++ ) {
+        if(monthNow < 11)
+        {
+            monthsForLabels.push(months[monthNow]);
+            budgetsForDisplay.push(budgetMonthsForChart[monthNow]);
+            expenseForDisplay.push(expenseMonthsForChart[monthNow]);
+            monthNow++;
+        }
+        else {
+            monthsForLabels.push(months[monthNowNum]);
+            budgetsForDisplay.push(budgetMonthsForChart[monthNowNum]);
+            expenseForDisplay.push(expenseMonthsForChart[monthNowNum]);
+            monthNowNum++; 
+        }
+    }
 
     var data = {
         datasets: [{
@@ -42,8 +35,7 @@ function getDataForExpensesAndBudgetAnnual(response) {
             backgroundColor: '#297720'
 
             
-        },
-        {
+        }, {
             data: expenseForDisplay,
             label:'Wydatki',
             borderColor: '#f44259',
@@ -101,6 +93,7 @@ function getDataForExpensesAndBudgetAnnual(response) {
         data: data,
         options: options,
     });
+
 };
 function getDataForCategoriesExpensesAnnual(response) {
     var ctx = document.getElementById("categories-expenses-annual").getContext('2d'),
@@ -111,39 +104,39 @@ function getDataForCategoriesExpensesAnnual(response) {
     ctx.canvas.width = 235;
     ctx.canvas.height = 220;
 
-     var categoriesForChart = response.data.categoriesForChart;
-     
-     if (categoriesForChart.length === 0) {
-         ctx.font = "30px Arial";
-         ctx.fillText("No data",50,100);
-         return null;
-     }
-     categoriesForChart.forEach(function (cat) {
-         data.push(cat.amount);
-         labels.push(cat.name);
-     })
+    var categoriesForChart = response.data.categoriesForChart;
+    
+    if (categoriesForChart.length === 0) {
+        ctx.font = "30px Arial";
+        ctx.fillText("No data",50,100);
+        return null;
+    }
+    categoriesForChart.forEach(function (cat) {
+        data.push(cat.amount);
+        labels.push(cat.name);
+    })
 
-   
-     var data = {
-         datasets: [{
-             data: data,
-             backgroundColor: default_colors
-         }],
-         labels: labels
-     };
 
-     var options = {
-         responsive: true,
-         title: {
-            display: true,
-            text: 'Wydane kwoty w danych kategoriach'
-            },
-     }
-     var myCategoriesChart = new Chart(ctx,{
-         type: 'doughnut',
-         data: data,
-         options: options
-     });
+    var data = {
+        datasets: [{
+            data: data,
+            backgroundColor: default_colors
+        }],
+        labels: labels
+    };
+
+    var options = {
+        responsive: true,
+        title: {
+        display: true,
+        text: 'Wydane kwoty w danych kategoriach'
+        },
+    }
+    var myCategoriesChart = new Chart(ctx,{
+        type: 'doughnut',
+        data: data,
+        options: options
+    });
 }
 axios.get('/api/charts/analysis')
     .then(function (response) {

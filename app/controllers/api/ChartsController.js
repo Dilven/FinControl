@@ -11,8 +11,14 @@ module.exports = function (app) {
 
 router.get('/dashboard', function (req, res, next) {
 
-    var date = new Date();
+    var date = new Date(),
+        month = date.getMonth(),
+        year = date.getFullYear(),
+        day = date.getDate();
 
+
+    const budgetedMonthsCategory = db.BudgetCategory.findAll({where:{userId: req.user.id, month:month}});
+    
     const categories = db.Category.findAll({
         include: [
             { model: db.Transaction, as: 'transactions', required: true, where: {
@@ -22,6 +28,7 @@ router.get('/dashboard', function (req, res, next) {
             }
          ]
     });
+    
     const budgetedMonths = db.Budget.findAll({
         where:{userId: req.user.id},
         order: [ 
@@ -32,14 +39,14 @@ router.get('/dashboard', function (req, res, next) {
     });
     
     
-    return Promise.join(categories, budgetedMonths, function (category, budgetMonth) {
-        var categoriesFromDb = category.map(category => category.dataValues)
+    return Promise.join(categories, budgetedMonths, budgetedMonthsCategory, function (category, budgetMonth, budgetMonthCategory) {
         
-        var categoriesForChart = [],
-            budgetMonthsForChart = new Array(12).fill(0);
+        var categoriesFromDb = category.map(category => category.dataValues),
+            budgetMonthsCategoryForChart = budgetMonthCategory.map(budgetMonthCategory => budgetMonthCategory.dataValues),
+            categoriesForChart = [],
+            budgetMonthsForChart = new Array(12).fill(0),
             AllExpensesForMonth = new Array(12).fill(0);
             
-        
         _.each(categoriesFromDb, (category) => {
             category.amount = 0;
             category.amountActiveMonth = 0;
@@ -47,48 +54,49 @@ router.get('/dashboard', function (req, res, next) {
             _.each(category.transactions, (transaction) => {
                 category.amount += parseFloat(transaction.dataValues.amount);  
                 
-                if (new Date(transaction.transaction_date).getFullYear() === new Date().getFullYear() &&
-                    new Date(transaction.transaction_date).getMonth() === new Date().getMonth()) {
+                if (new Date(transaction.transaction_date).getFullYear() === year &&
+                    new Date(transaction.transaction_date).getMonth() === month) {
                         category.amountActiveMonth += parseFloat(transaction.dataValues.amount);
                 }
-                if (new Date(transaction.transaction_date).getFullYear() <= new Date().getFullYear() &&
-                new Date(transaction.transaction_date).getMonth() > new Date().getMonth()) { 
+                if (new Date(transaction.transaction_date).getFullYear() <= year &&
+                    new Date(transaction.transaction_date).getMonth() > month) { 
                         AllExpensesForMonth[transaction.transaction_date.getMonth()] += transaction.dataValues.amount;
                 }
-                if (new Date(transaction.transaction_date).getFullYear() === new Date().getFullYear() &&
-                    new Date(transaction.transaction_date).getMonth() <= new Date().getMonth()) { 
+                if (new Date(transaction.transaction_date).getFullYear() === year &&
+                    new Date(transaction.transaction_date).getMonth() <= month) { 
                         AllExpensesForMonth[transaction.transaction_date.getMonth()] += transaction.dataValues.amount;
-            }      
+                }      
             })
             categoriesForChart.push(category);
         })
 
         _.each(budgetMonth, (budgetMonth) => {
             
-            if(budgetMonth.dataValues.year <= new Date().getFullYear() && 
-                budgetMonth.dataValues.month > new Date().getMonth()) {
+            if(budgetMonth.dataValues.year <= year && 
+                budgetMonth.dataValues.month > month) {
                     budgetMonthsForChart[budgetMonth.dataValues.month] = budgetMonth.dataValues.amount;
             }
-            if(budgetMonth.dataValues.year === new Date().getFullYear() && 
-                budgetMonth.dataValues.month <= new Date().getMonth()) {
+            if(budgetMonth.dataValues.year === year && 
+                budgetMonth.dataValues.month <= month) {
                     budgetMonthsForChart[budgetMonth.dataValues.month] = budgetMonth.dataValues.amount;
-            }
-            
+            }  
         });
-        console.log(budgetMonthsForChart)
-    
+     
         res.status(200).send({
             categoriesForChart,
             budgetMonthsForChart,
             AllExpensesForMonth,
-            
+            budgetMonthsCategoryForChart,           
         })
     });
 });
 
 router.get('/analysis', function (req, res, next) {
     var date = new Date(),
-        month = date.getMonth();
+        month = date.getMonth(),
+        year = date.getFullYear(),
+        day = date.getDate(),
+        numberOfDays = new Date(date.getFullYear(), date.getMonth()+1, 0).getDate();
 
     const categories = db.Category.findAll({
         include: [
@@ -108,7 +116,8 @@ router.get('/analysis', function (req, res, next) {
         var categoriesFromDb = category.map(category => category.dataValues),
             categoriesForChart = [],
             budgetMonthsForChart = new Array(12).fill(0),
-            AllExpensesForMonth = new Array(12).fill(0);
+            AllExpensesForMonth = new Array(12).fill(0),
+            AllExpensesForDay = new Array(numberOfDays + 1).fill(0);
             
         _.each(categoriesFromDb, (category, index) => {
             category.amount = 0;
@@ -117,21 +126,29 @@ router.get('/analysis', function (req, res, next) {
 
             _.each(category.transactions, (transaction) => {
                 category.amount += parseFloat(transaction.dataValues.amount);
-                if (new Date(transaction.transaction_date).getFullYear() === new Date().getFullYear() &&
-                    new Date(transaction.transaction_date).getMonth() === new Date().getMonth()) {
+                if (new Date(transaction.transaction_date).getFullYear() === year &&
+                    new Date(transaction.transaction_date).getMonth() === month) {
                         category.amountActiveMonth += parseFloat(transaction.dataValues.amount);
                     }  
-                if (new Date(transaction.transaction_date).getFullYear() === new Date().getFullYear() &&
-                    new Date(transaction.transaction_date).getMonth() === new Date().getMonth() &&
-                    new Date(transaction.transaction_date).getDate() === new Date().getDate()) {
+                if (new Date(transaction.transaction_date).getFullYear() === year &&
+                    new Date(transaction.transaction_date).getMonth() === month &&
+                    new Date(transaction.transaction_date).getDate() === day) {
                         category.amountActiveDay += parseFloat(transaction.dataValues.amount);
                 }     
-                if (new Date(transaction.transaction_date).getFullYear() <= new Date().getFullYear() &&
-                    new Date(transaction.transaction_date).getMonth() > new Date().getMonth()) { 
+                if (new Date(transaction.transaction_date).getFullYear() <= year &&
+                new Date(transaction.transaction_date).getMonth() > month) { 
+                    AllExpensesForMonth[transaction.transaction_date.getMonth()] += transaction.dataValues.amount;
+            }
+                if (new Date(transaction.transaction_date).getFullYear() === year &&
+                    new Date(transaction.transaction_date).getMonth() === month) { 
+                        AllExpensesForDay[transaction.transaction_date.getDate()] += transaction.dataValues.amount;
+                }
+                if (new Date(transaction.transaction_date).getFullYear() <= year &&
+                    new Date(transaction.transaction_date).getMonth() > month) { 
                         AllExpensesForMonth[transaction.transaction_date.getMonth()] += transaction.dataValues.amount;
                 }
-                if (new Date(transaction.transaction_date).getFullYear() === new Date().getFullYear() &&
-                    new Date(transaction.transaction_date).getMonth() <= new Date().getMonth()) { 
+                if (new Date(transaction.transaction_date).getFullYear() === year &&
+                    new Date(transaction.transaction_date).getMonth() <= month) { 
                         AllExpensesForMonth[transaction.transaction_date.getMonth()] += transaction.dataValues.amount;
                 }
             });
@@ -141,25 +158,24 @@ router.get('/analysis', function (req, res, next) {
 
         _.each(budgetMonth, (budgetMonth) => {
             
-            if(budgetMonth.dataValues.year <= new Date().getFullYear() && 
-                budgetMonth.dataValues.month > new Date().getMonth()) {
+            if(budgetMonth.dataValues.year <= year && 
+                budgetMonth.dataValues.month > month) {
                     budgetMonthsForChart[budgetMonth.dataValues.month] = budgetMonth.dataValues.amount;
             }
-            if(budgetMonth.dataValues.year === new Date().getFullYear() && 
-            budgetMonth.dataValues.month <= new Date().getMonth()) {
+            if(budgetMonth.dataValues.year === year && 
+            budgetMonth.dataValues.month <= month) {
                 budgetMonthsForChart[budgetMonth.dataValues.month] = budgetMonth.dataValues.amount;
-            }
-            
+            }   
         });
 
-            budgetMonthsCategoryForChart = budgetMonthCategory.map(budgetMonthCategory => budgetMonthCategory.dataValues);
+            var budgetMonthsCategoryForChart = budgetMonthCategory.map(budgetMonthCategory => budgetMonthCategory.dataValues);
         
         return res.status(200).send({
             AllExpensesForMonth,
+            AllExpensesForDay,
             categoriesForChart,
             budgetMonthsForChart,
-            budgetMonthsCategoryForChart,
-            
+            budgetMonthsCategoryForChart,   
         })
     });
 });
