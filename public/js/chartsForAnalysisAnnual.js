@@ -74,7 +74,7 @@ function getDataForExpensesAndBudgetAnnual(response) {
 
         title: {
             display: true,
-            text: 'Twoje dochody i przychody'
+            text: 'Budżet i wydatki w danym roku'
             }
             
         
@@ -98,7 +98,7 @@ function getDataForCategoriesExpensesAnnual(response) {
     ctx.canvas.width = 235;
     ctx.canvas.height = 220;
 
-     var categoriesForChart = response.data.categoriesFromDbAnnual;
+     var categoriesForChart = response.data.categoriesForChartAnnual;
      
      if (categoriesForChart.length === 0) {
          ctx.font = "30px Arial";

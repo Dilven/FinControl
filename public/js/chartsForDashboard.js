@@ -72,11 +72,10 @@ function getDataForAnnualChartForDashboard(response) {
                 tension: 0, // disables bezier curves
             }
         },
-        padding:0,
 
         title: {
             display: true,
-            text: 'Budżet i wydatki na dane miesiące'
+            text: 'Budżet i wydatki w danym roku'
             }
             
         
@@ -119,6 +118,15 @@ function getDataForCategoriesChartForDashboard(response) {
 
         var options = {
             responsive: true,
+            legend: {
+                fullWidth: true,
+                position: 'right',
+                labels: {
+                    fontSize: 10,
+                    boxWidth: 10,
+                    padding: 3,
+                }
+            }
         }
         var myCategoriesChart = new Chart(ctx,{
             type: 'doughnut',
