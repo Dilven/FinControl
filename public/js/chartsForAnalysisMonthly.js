@@ -124,7 +124,7 @@ function getDataForExpensesLineChartMonthly(response) {
     });
 };
 
-function getDataToSpendAndExpensesAmount(response) {   
+function getDataToSpendAndExpensesAmountMonth(response) {   
     var ctx = document.getElementById("expense-amount-tospend-chart-analysis-month").getContext('2d'),
         data = [],
         labels = [],
@@ -135,7 +135,11 @@ function getDataToSpendAndExpensesAmount(response) {
     var budgetForMonth = response.data.budgetMonthsForChart[month],
         expenseForMonth = response.data.AllExpensesForMonth[month].toFixed(2),
         toSpendAmount = (budgetForMonth - expenseForMonth).toFixed(2);
-
+        
+        if(toSpendAmount < 0) {
+            toSpendAmount = 0;
+        }
+        
     var dataForChart = [];
     
     dataForChart.push(expenseForMonth);
@@ -244,7 +248,7 @@ axios.get('/api/charts/analysis')
     getDataForCategoriesExpensesMonthly(response);
     getDataBudgetedAndExpensesCategoryMonth(response);
     getDataForExpensesLineChartMonthly(response);
-    getDataToSpendAndExpensesAmount(response);
+    getDataToSpendAndExpensesAmountMonth(response);
 })
 .catch(function (error) {
     console.log(error);
