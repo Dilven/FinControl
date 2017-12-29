@@ -1,14 +1,11 @@
 function getDataForExpensesAndBudgetAnnual(response) {
-    
     var budgetMonthsForChart = response.data.budgetMonthsForChart,
         budgets = [],
         budgetsForDisplay = [];
         for (var i = 0; i < 12; i++) {
                 budgets[i] = 0;
         }
-
-
-
+   
     budgetMonthsForChart.forEach(function (bud) {
         budgets[bud.month] = bud.amount;
     })
@@ -31,6 +28,10 @@ function getDataForExpensesAndBudgetAnnual(response) {
                     monthNowNum++; 
                 }
             }
+
+   
+        
+    
             
 
     var data = {
@@ -83,6 +84,19 @@ function getDataForExpensesAndBudgetAnnual(response) {
     ctx.canvas.width = 235;
     ctx.canvas.height = 220;
 
+    
+    var img = new Image();
+    img.src = "../images/noDataForChart.png";
+
+    if (budgetMonthsForChart.length === 0) {
+        var width = ctx.canvas.width = 532,
+            height = ctx.canvas.height = 500;
+        img.onload = function(){
+            ctx.drawImage(img, 0,0,width,height);
+          }
+        return null;
+    }
+
     var myLineChart = new Chart(ctx, {
         type: 'line',
         data: data,
@@ -98,7 +112,7 @@ function getDataForCategoriesExpensesAnnual(response) {
     ctx.canvas.width = 235;
     ctx.canvas.height = 220;
 
-     var categoriesForChart = response.data.categoriesForChartAnnual;
+     var categoriesForChart = response.data.categoriesForChart;
      
      if (categoriesForChart.length === 0) {
          ctx.font = "30px Arial";

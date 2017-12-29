@@ -8,13 +8,10 @@ function getDataForAnnualChartForDashboard(response) {
                 budgets[i] = 0;
         }
 
-
-    console.log(budgets);
-
     budgetMonthsForChart.forEach(function (bud) {
         budgets[bud.month] = bud.amount;
     })
-    console.log(budgets);
+
     const months = ['Styczeń', 'Luty', 'Marzec', 'Kwiecien', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpien', 'Wrzesień', 'Październik', 'Listopad', 'Grudzień'];
     var monthNow = new Date().getMonth(),
         monthsForLabels = [],
@@ -34,8 +31,6 @@ function getDataForAnnualChartForDashboard(response) {
                     monthNowNum++; 
                 }
             }
-            
-        console.log(monthsForLabels);
 
     var data = {
         datasets: [{
@@ -92,18 +87,19 @@ function getDataForAnnualChartForDashboard(response) {
     });
 };
 function getDataForCategoriesChartForDashboard(response) {
+    console.log(response.data.categoriesForChart);
         var ctx = document.getElementById("categories-chart-dashboard-monthly").getContext('2d'),
             data = [],
             labels = [];
             var default_colors = ['#3366CC','#DC3912','#FF9900','#109618','#990099','#3B3EAC','#0099C6','#DD4477','#66AA00','#B82E2E','#316395','#994499','#22AA99','#AAAA11','#6633CC','#E67300','#8B0707','#329262','#5574A6','#3B3EAC']
-        var categoriesForChart = response.data.categoriesForChartMonthly;
+        var categoriesForChart = response.data.categoriesForChart;
         if (categoriesForChart.length === 0) {
             ctx.font = "30px Arial";
             ctx.fillText("No data",50,100);
             return null;
         }
         categoriesForChart.forEach(function (cat) {
-            data.push(cat.amount);
+            data.push(cat.amountActiveMonth);
             labels.push(cat.name);
         })
 
