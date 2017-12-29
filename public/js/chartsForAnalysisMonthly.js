@@ -42,10 +42,14 @@ function getDataForCategoriesExpensesMonthly(response) {
 function getDataForExpensesLineChartMonthly(response) {
     console.log(response.data.AllExpensesForDay); 
     
-    var expense = response.data.AllExpensesForDay;
     var date = new Date(),
         month = date.getMonth(),
         numberOfDays = new Date(date.getFullYear(), date.getMonth()+1, 0).getDate();
+
+    var expense = response.data.AllExpensesForDay,
+        budgetForDay = response.data.budgetMonthsForChart[month]/numberOfDays;
+        budgetForDayDisplay =  new Array(numberOfDays).fill(budgetForDay.toFixed(2));
+    console.log(budgetForDay);
  
     const days = [];
 
@@ -61,6 +65,14 @@ function getDataForExpensesLineChartMonthly(response) {
             borderColor: '#DC3912',
             fill: false,
             backgroundColor: '#DC3912'
+
+            
+        }, {
+            data: budgetForDayDisplay,
+            label:'Budżet na dany dzień',
+            borderColor: '#3B3EAC',
+            fill: false,
+            backgroundColor: '#3B3EAC'
 
             
         }],

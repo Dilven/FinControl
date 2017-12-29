@@ -42,8 +42,7 @@ function getDataForExpensesAndBudgetAnnual(response) {
             backgroundColor: '#297720'
 
             
-        },
-        {
+        }, {
             data: expenseForDisplay,
             label:'Wydatki',
             borderColor: '#f44259',
