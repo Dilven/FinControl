@@ -31,7 +31,6 @@ router.get('/', function (req, res, next) {
         limit: 4
     });
 
-    
     const monthlyBudget = Budget.findOne({where:{userId: req.user.id, month: month}});
     const sumAllExpenses = Transaction.sum('amount', { 
         where: {
@@ -41,15 +40,16 @@ router.get('/', function (req, res, next) {
         }
     }     
  });
+
     const sumAllIncome = Transaction.sum('amount', { 
         where: { typeId: 2, userId: req.user.id,
         
         transaction_date: {
-            $between: [startDate, endDate]
-            
+            $between: [startDate, endDate]  
         }
     }     
  });
+ 
     return Promise.join(findAllTransactions, sumAllExpenses, sumAllIncome, monthlyBudget, function (transactions, expensesAmount, incomeAmount, budget) {
         
         var budgetAmount = 0,

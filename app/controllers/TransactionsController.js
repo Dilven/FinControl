@@ -10,9 +10,8 @@ module.exports = function (app) {
 };
 
 router.get('/', function (req, res, next) {
-    var limit = 9;
-    
-    var page = req.query.page || 1,
+    var limit = 9,
+        page = req.query.page || 1,
         sortBy = req.query.by || 'transaction_date',
         sortId = 'id',  
         sortOrder = req.query.order || 'DESC',
@@ -25,8 +24,7 @@ router.get('/', function (req, res, next) {
         order: [
             [`${sortBy}`,  `${sortOrder}`],
             [`${sortId}`, `${sortDesc}`]
-    ]
-
+        ]
     });
     const sumAllExpenses = Transaction.sum('amount', { where: { typeId: 1 } });
     const sumAllIncome = Transaction.sum('amount', { where: { typeId: 2 } });
@@ -44,15 +42,12 @@ router.get('/', function (req, res, next) {
             numPage: page,
             timeNavVisibility: false
         });
-    })
-    
-    
+    })  
 });
 
 router.post('/add', function (req, res, next) {
     
     var formData = req.body;
-   console.log(formData);
     formData.userId = req.session.passport.user;
 
     Date.prototype.addHours = function(h) {    
@@ -88,7 +83,6 @@ router.post('/delete', function (req, res, next) {
         return this;   
     }
         
-    var date = new Date(req.body.date).addHours(0);
-
-    var deleteTransaction = Transaction.destroy({where:{userId: id,transaction_date: date, amount: amount, name: name}});
+    var date = new Date(req.body.date).addHours(0),
+        deleteTransaction = Transaction.destroy({where:{userId: id,transaction_date: date, amount: amount, name: name}});
 });
