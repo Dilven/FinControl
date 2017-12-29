@@ -36,7 +36,9 @@ router.get('/dashboard', function (req, res, next) {
         var categoriesFromDb = category.map(category => category.dataValues)
         
         var categoriesForChart = [],
-            budgetMonthsForChart = budgetMonth.map(budgetMonth => budgetMonth.dataValues);
+            budgetMonthsForChart = new Array(12).fill(0);
+            AllExpensesForMonth = new Array(12).fill(0);
+            
         
         _.each(categoriesFromDb, (category) => {
             category.amount = 0;
@@ -47,15 +49,39 @@ router.get('/dashboard', function (req, res, next) {
                 
                 if (new Date(transaction.transaction_date).getFullYear() === new Date().getFullYear() &&
                     new Date(transaction.transaction_date).getMonth() === new Date().getMonth()) {
-                    category.amountActiveMonth += parseFloat(transaction.dataValues.amount);
-                }      
+                        category.amountActiveMonth += parseFloat(transaction.dataValues.amount);
+                }
+                if (new Date(transaction.transaction_date).getFullYear() <= new Date().getFullYear() &&
+                new Date(transaction.transaction_date).getMonth() > new Date().getMonth()) { 
+                        AllExpensesForMonth[transaction.transaction_date.getMonth()] += transaction.dataValues.amount;
+                }
+                if (new Date(transaction.transaction_date).getFullYear() === new Date().getFullYear() &&
+                    new Date(transaction.transaction_date).getMonth() <= new Date().getMonth()) { 
+                        AllExpensesForMonth[transaction.transaction_date.getMonth()] += transaction.dataValues.amount;
+            }      
             })
             categoriesForChart.push(category);
         })
+
+        _.each(budgetMonth, (budgetMonth) => {
+            
+            if(budgetMonth.dataValues.year <= new Date().getFullYear() && 
+                budgetMonth.dataValues.month > new Date().getMonth()) {
+                    budgetMonthsForChart[budgetMonth.dataValues.month] = budgetMonth.dataValues.amount;
+            }
+            if(budgetMonth.dataValues.year === new Date().getFullYear() && 
+                budgetMonth.dataValues.month <= new Date().getMonth()) {
+                    budgetMonthsForChart[budgetMonth.dataValues.month] = budgetMonth.dataValues.amount;
+            }
+            
+        });
+        console.log(budgetMonthsForChart)
     
         res.status(200).send({
             categoriesForChart,
-            budgetMonthsForChart
+            budgetMonthsForChart,
+            AllExpensesForMonth,
+            
         })
     });
 });
@@ -98,16 +124,16 @@ router.get('/analysis', function (req, res, next) {
                 if (new Date(transaction.transaction_date).getFullYear() === new Date().getFullYear() &&
                     new Date(transaction.transaction_date).getMonth() === new Date().getMonth() &&
                     new Date(transaction.transaction_date).getDate() === new Date().getDate()) {
-                    category.amountActiveDay += parseFloat(transaction.dataValues.amount);
+                        category.amountActiveDay += parseFloat(transaction.dataValues.amount);
                 }     
                 if (new Date(transaction.transaction_date).getFullYear() <= new Date().getFullYear() &&
                     new Date(transaction.transaction_date).getMonth() > new Date().getMonth()) { 
-                    AllExpensesForMonth[transaction.transaction_date.getMonth()] += transaction.dataValues.amount;
+                        AllExpensesForMonth[transaction.transaction_date.getMonth()] += transaction.dataValues.amount;
                 }
                 if (new Date(transaction.transaction_date).getFullYear() === new Date().getFullYear() &&
                     new Date(transaction.transaction_date).getMonth() <= new Date().getMonth()) { 
-                    AllExpensesForMonth[transaction.transaction_date.getMonth()] += transaction.dataValues.amount;
-            }
+                        AllExpensesForMonth[transaction.transaction_date.getMonth()] += transaction.dataValues.amount;
+                }
             });
 
             categoriesForChart.push(category);
@@ -126,9 +152,6 @@ router.get('/analysis', function (req, res, next) {
             
         });
 
-        console.log(budgetMonthsForChart);
-
-        
             budgetMonthsCategoryForChart = budgetMonthCategory.map(budgetMonthCategory => budgetMonthCategory.dataValues);
         
         return res.status(200).send({
