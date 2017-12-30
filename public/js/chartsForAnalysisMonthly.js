@@ -161,7 +161,6 @@ function getDataForIncomeLineChartMonthly(response) {
         numberOfDays = new Date(date.getFullYear(), date.getMonth()+1, 0).getDate();
 
     var income = response.data.AllIncomeForDay;
-    console.log(response.data.AllIncomeForDay);
 
     const days = [];
 

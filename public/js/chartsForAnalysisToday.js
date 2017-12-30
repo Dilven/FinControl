@@ -13,7 +13,6 @@ function getDataForCategoriesExpensesToday(response) {
         }
      })  
      
-    console.log(labels);
     var data = {
         datasets: [{
             data: data,
@@ -52,7 +51,6 @@ function getDataToSpendAndExpensesAmountDay(response) {
         if(toSpendAmount < 0) {
             toSpendAmount = 0;
         }
-    console.log(day);
     var dataForChart = [];
     
     dataForChart.push(expenseForMonth);
