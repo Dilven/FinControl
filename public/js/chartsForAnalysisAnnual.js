@@ -10,7 +10,7 @@ function getDataForCategoriesExpensesAnnual(response) {
     var categoriesForChart = response.data.categoriesForChart;
     
     categoriesForChart.forEach(function (cat) {
-        data.push(cat.amount);
+        data.push(cat.amount.toFixed(2));
         labels.push(cat.name);
     })
 
@@ -42,7 +42,6 @@ function getDataForExpensesAndBudgetAnnual(response) {
         expenseMonthsForChart = response.data.AllExpensesForMonth,
         budgetsForDisplay = [],
         expenseForDisplay = [];
-   
  
     const months = ['Styczeń', 'Luty', 'Marzec', 'Kwiecien', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpien', 'Wrzesień', 'Październik', 'Listopad', 'Grudzień'];
     var monthNow = new Date().getMonth(),
@@ -71,17 +70,13 @@ function getDataForExpensesAndBudgetAnnual(response) {
             label: 'Budżet',
             borderColor: '#297720',
             fill: false,
-            backgroundColor: '#297720'
-
-            
+            backgroundColor: '#297720'   
         }, {
             data: expenseForDisplay,
             label:'Wydatki',
             borderColor: '#f44259',
             fill: false,
-            backgroundColor: '#f44259'
-
-            
+            backgroundColor: '#f44259'   
         }],
         labels: monthsForLabels,
     }
@@ -98,7 +93,7 @@ function getDataForExpensesAndBudgetAnnual(response) {
         scales: scales,
         elements: {
             line: {
-                tension: 0, // disables bezier curves
+                tension: 0,
             }
         },
         padding:0,
@@ -106,10 +101,9 @@ function getDataForExpensesAndBudgetAnnual(response) {
         title: {
             display: true,
             text: 'Budżet i wydatki na przestrzeni roku'
-            }
-            
-        
+            }    
     }
+
     var ctx = document.getElementById("expenses-budget-annual").getContext('2d');
     ctx.canvas.width = 235;
     ctx.canvas.height = 220;
@@ -149,7 +143,7 @@ function getDataToSpendAndExpensesAmountAnnual(response) {
         toSpendAmountForYear = 0;
     }
 
-    dataForChart.push(expenseForYear);
+    dataForChart.push(expenseForYear.toFixed(2));
     dataForChart.push(toSpendAmountForYear);
 
     ctx.canvas.width = 235;
@@ -181,7 +175,6 @@ function getDataForIncomeAnnual(response) {
     var IncomeMonthsForChart = response.data.AllIncomeForMonth,
         IncomeForDisplay = [];
    
- 
     const months = ['Styczeń', 'Luty', 'Marzec', 'Kwiecien', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpien', 'Wrzesień', 'Październik', 'Listopad', 'Grudzień'];
     var monthNow = new Date().getMonth(),
         monthsForLabels = [],
@@ -208,8 +201,6 @@ function getDataForIncomeAnnual(response) {
             borderColor: '#297720',
             fill: false,
             backgroundColor: '#297720'
-
-            
         }],
         labels: monthsForLabels,
     }
@@ -235,8 +226,6 @@ function getDataForIncomeAnnual(response) {
             display: true,
             text: 'Przychody na przestrzeni roku'
             }
-            
-        
     }
     var ctx = document.getElementById("income-annual").getContext('2d');
     ctx.canvas.width = 235;
@@ -247,7 +236,6 @@ function getDataForIncomeAnnual(response) {
         data: data,
         options: options,
     });
-
 };
 
 axios.get('/api/charts/analysis')

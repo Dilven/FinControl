@@ -8,7 +8,7 @@ function getDataForCategoriesExpensesMonthly(response) {
      ctx.canvas.height = 220;
      
      categoriesForChart.forEach(function (cat) {
-         data.push(cat.amountActiveMonth);
+         data.push(cat.amountActiveMonth.toFixed(2));
          labels.push(cat.name);
      })
 
@@ -41,10 +41,14 @@ function getDataForExpensesLineChartMonthly(response) {
         month = date.getMonth(),
         numberOfDays = new Date(date.getFullYear(), date.getMonth()+1, 0).getDate();
 
-    var expense = response.data.AllExpensesForDay,
+    var expenses = [],
         budgetForDay = response.data.budgetMonthsForChart[month]/numberOfDays;
         budgetForDayDisplay =  new Array(numberOfDays).fill(budgetForDay.toFixed(2)); 
     const days = [];
+
+    (response.data.AllExpensesForDay).forEach(function (expense) {
+        expenses.push(expense.toFixed(2));
+    })
 
     for (var i = 1; i <= numberOfDays; i++) {
         days[i] = i;
@@ -53,7 +57,7 @@ function getDataForExpensesLineChartMonthly(response) {
 
     var data = {
         datasets: [{
-            data: expense,
+            data: expenses,
             label: 'Wydatki',
             borderColor: '#DC3912',
             fill: false,
@@ -107,60 +111,17 @@ function getDataForExpensesLineChartMonthly(response) {
     });
 };
 
-function getDataToSpendAndExpensesAmountMonth(response) {   
-    var ctx = document.getElementById("expense-amount-tospend-chart-analysis-month").getContext('2d'),
-        data = [],
-        labels = [],
-        date = new Date(),
-        month = date.getMonth();
-        
-    var default_colors = ['#3366CC','#DC3912','#FF9900','#109618','#990099','#3B3EAC','#0099C6','#DD4477','#66AA00','#B82E2E','#316395','#994499','#22AA99','#AAAA11','#6633CC','#E67300','#8B0707','#329262','#5574A6','#3B3EAC'];
-    var budgetForMonth = response.data.budgetMonthsForChart[month],
-        expenseForMonth = response.data.AllExpensesForMonth[month].toFixed(2),
-        toSpendAmount = (budgetForMonth - expenseForMonth).toFixed(2);
-        
-        if(toSpendAmount < 0) {
-            toSpendAmount = 0;
-        }
-        
-    var dataForChart = [];
-    
-    dataForChart.push(expenseForMonth);
-    dataForChart.push(toSpendAmount);
-
-    ctx.canvas.width = 235;
-    ctx.canvas.height = 220;
-
-
-
-    var data = {
-        datasets: [{
-            data: dataForChart,
-            backgroundColor: default_colors
-        }],
-        labels: ['Wydano', 'Pozostała kwota'],
-    };
-
-    var options = {
-        responsive: true,
-        title: {
-        display: true,
-        text: 'Ilość wydatków i pozostała kwota'
-        },
-    }
-    var myCategoriesChart = new Chart(ctx,{
-        type: 'doughnut',
-        data: data,
-        options: options
-    });
-}
 function getDataForIncomeLineChartMonthly(response) {
     
     var date = new Date(),
         month = date.getMonth(),
         numberOfDays = new Date(date.getFullYear(), date.getMonth()+1, 0).getDate();
 
-    var income = response.data.AllIncomeForDay;
+    var allIncome = [];
+
+    response.data.AllIncomeForDay.forEach(function(income) {
+        allIncome.push(income.toFixed(2));
+    })
 
     const days = [];
 
@@ -171,7 +132,7 @@ function getDataForIncomeLineChartMonthly(response) {
 
     var data = {
         datasets: [{
-            data: income,
+            data: allIncome,
             label: 'Przychody',
             borderColor: '#DC3912',
             fill: false,
@@ -214,8 +175,6 @@ function getDataForIncomeLineChartMonthly(response) {
         options: options,
     });
 };
-
-
 function getDataBudgetedAndExpensesCategoryMonth(response) {
 
     var budgetMonthsCategoryForChart = response.data.budgetMonthsCategoryForChart;
@@ -235,7 +194,7 @@ function getDataBudgetedAndExpensesCategoryMonth(response) {
 
     categoriesForChart.forEach(function (cat) {
         
-        expense.push(cat.amountActiveMonth);
+        expense.push(cat.amountActiveMonth.toFixed(2));
         labels.push(cat.name);
         var budget = budgetMonthsCategoryForChart.find(function (o) { return o.categoryId === cat.id; })
         categoryBudgets.push(budget ? budget.amount : 0);
@@ -280,6 +239,54 @@ function getDataBudgetedAndExpensesCategoryMonth(response) {
     }
     var myBarChart = new Chart(ctx, {
         type: 'bar',
+        data: data,
+        options: options
+    });
+};
+
+function getDataToSpendAndExpensesAmountMonth(response) {   
+    var ctx = document.getElementById("expense-amount-tospend-chart-analysis-month").getContext('2d'),
+        data = [],
+        labels = [],
+        date = new Date(),
+        month = date.getMonth();
+        
+    var default_colors = ['#3366CC','#DC3912','#FF9900','#109618','#990099','#3B3EAC','#0099C6','#DD4477','#66AA00','#B82E2E','#316395','#994499','#22AA99','#AAAA11','#6633CC','#E67300','#8B0707','#329262','#5574A6','#3B3EAC'];
+    var budgetForMonth = response.data.budgetMonthsForChart[month],
+        expenseForMonth = response.data.AllExpensesForMonth[month].toFixed(2),
+        toSpendAmount = (budgetForMonth - expenseForMonth).toFixed(2);
+        
+        if(toSpendAmount < 0) {
+            toSpendAmount = 0;
+        }
+        
+    var dataForChart = [];
+    
+    dataForChart.push(expenseForMonth);
+    dataForChart.push(toSpendAmount);
+
+    ctx.canvas.width = 235;
+    ctx.canvas.height = 220;
+
+
+
+    var data = {
+        datasets: [{
+            data: dataForChart,
+            backgroundColor: default_colors
+        }],
+        labels: ['Wydano', 'Pozostała kwota'],
+    };
+
+    var options = {
+        responsive: true,
+        title: {
+        display: true,
+        text: 'Ilość wydatków i pozostała kwota'
+        },
+    }
+    var myCategoriesChart = new Chart(ctx,{
+        type: 'doughnut',
         data: data,
         options: options
     });
