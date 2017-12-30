@@ -12,12 +12,7 @@ function getDataForCategoriesExpensesToday(response) {
             labels.push(cat.name);            
         }
      })  
-
-    if (data.length === 0) {
-        ctx.font = "30px Arial";
-        ctx.fillText("No data",50,50);
-        return null;
-    }
+     
     console.log(labels);
     var data = {
         datasets: [{

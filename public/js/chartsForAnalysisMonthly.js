@@ -6,11 +6,7 @@ function getDataForCategoriesExpensesMonthly(response) {
      var categoriesForChart = response.data.categoriesForChart;
      ctx.canvas.width = 235;
      ctx.canvas.height = 220;
-     if (categoriesForChart.length === 0) {
-         ctx.font = "30px Arial";
-         ctx.fillText("No data",50,100);
-         return null;
-     }
+     
      categoriesForChart.forEach(function (cat) {
          data.push(cat.amountActiveMonth);
          labels.push(cat.name);
@@ -104,19 +100,6 @@ function getDataForExpensesLineChartMonthly(response) {
     ctx.canvas.width = 235;
     ctx.canvas.height = 220;
 
-    
-    var img = new Image();
-    img.src = "../images/noDataForChart.png";
-
-    if (expense.length === 0) {
-        var width = ctx.canvas.width = 532,
-            height = ctx.canvas.height = 500;
-        img.onload = function(){
-            ctx.drawImage(img, 0,0,width,height);
-          }
-        return null;
-    }
-
     var myLineChart = new Chart(ctx, {
         type: 'line',
         data: data,
@@ -171,6 +154,68 @@ function getDataToSpendAndExpensesAmountMonth(response) {
         options: options
     });
 }
+function getDataForIncomeLineChartMonthly(response) {
+    
+    var date = new Date(),
+        month = date.getMonth(),
+        numberOfDays = new Date(date.getFullYear(), date.getMonth()+1, 0).getDate();
+
+    var income = response.data.AllIncomeForDay;
+    console.log(response.data.AllIncomeForDay);
+
+    const days = [];
+
+    for (var i = 1; i <= numberOfDays; i++) {
+        days[i] = i;
+    }
+    
+
+    var data = {
+        datasets: [{
+            data: income,
+            label: 'Przychody',
+            borderColor: '#DC3912',
+            fill: false,
+            backgroundColor: '#DC3912'  
+        }],
+        labels: days,
+    }
+
+    var  scales = {
+        xAxes: [{
+            ticks: {
+                autoSkip: false
+            }
+        }]
+    };
+
+    var options = {
+        scales: scales,
+        elements: {
+            line: {
+                tension: 0, // disables bezier curves
+            }
+        },
+        padding:0,
+
+        title: {
+            display: true,
+            text: 'Przychody w tym miesiącu'
+            }
+            
+        
+    }
+    var ctx = document.getElementById("income-for-day").getContext('2d');
+    ctx.canvas.width = 235;
+    ctx.canvas.height = 220;
+
+    var myLineChart = new Chart(ctx, {
+        type: 'line',
+        data: data,
+        options: options,
+    });
+};
+
 
 function getDataBudgetedAndExpensesCategoryMonth(response) {
 
@@ -188,12 +233,6 @@ function getDataBudgetedAndExpensesCategoryMonth(response) {
         if (cat.amountActiveMonth > 0)
             categoriesForChart.push(cat);
     });
-
-    if (categoriesForChart.length === 0) {
-        ctx.font = "30px Arial";
-        ctx.fillText("No data",50,100);
-        return null;
-    }
 
     categoriesForChart.forEach(function (cat) {
         
@@ -224,7 +263,13 @@ function getDataBudgetedAndExpensesCategoryMonth(response) {
             ticks: {
                 autoSkip: false
             }
-        }]
+        }],
+        yAxes: [{
+            ticks: {
+                min: 0
+            }
+        }
+    ]
     }
     var options = {
         scales: scales,
@@ -233,7 +278,6 @@ function getDataBudgetedAndExpensesCategoryMonth(response) {
             display: true,
             text: 'Zabudżetowana kwota w stosunku do wydatków',
             },
-        
     }
     var myBarChart = new Chart(ctx, {
         type: 'bar',
@@ -260,12 +304,6 @@ function getDataBudgetedCategoryMonth(response) {
             categoriesForChart.push(cat);
     });
 
-    if (categoriesForChart.length === 0) {
-        ctx.font = "30px Arial";
-        ctx.fillText("No data",50,100);
-        return null;
-    }
-
     categoriesForChart.forEach(function (cat) {
         
         labels.push(cat.name);
@@ -287,8 +325,9 @@ function getDataBudgetedCategoryMonth(response) {
     var scales = {
         xAxes: [{
             ticks: {
-                autoSkip: false
-            }
+                autoSkip: false,
+                
+            },
         }]
     }
     var options = {
@@ -310,6 +349,7 @@ axios.get('/api/charts/analysis')
     getDataForCategoriesExpensesMonthly(response);
     getDataBudgetedAndExpensesCategoryMonth(response);
     getDataForExpensesLineChartMonthly(response);
+    getDataForIncomeLineChartMonthly(response);    
     getDataToSpendAndExpensesAmountMonth(response);
     getDataBudgetedCategoryMonth(response);
 })
