@@ -75,7 +75,7 @@ function getDataToSpendAndExpensesAmountDay(response) {
         responsive: true,
         title: {
         display: true,
-        text: 'Ilość wydatków i pozostała kwota'
+        text: 'Ilość wydatków i pozostała kwota w tym dniu'
         },
     }
     var myCategoriesChart = new Chart(ctx,{
