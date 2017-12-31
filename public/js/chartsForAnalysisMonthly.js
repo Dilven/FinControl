@@ -3,11 +3,11 @@ function getDataForCategoriesExpensesMonthly(response) {
          data = [],
          labels = [];
          var default_colors = ['#3366CC','#DC3912','#FF9900','#109618','#990099','#3B3EAC','#0099C6','#DD4477','#66AA00','#B82E2E','#316395','#994499','#22AA99','#AAAA11','#6633CC','#E67300','#8B0707','#329262','#5574A6','#3B3EAC']
-     var categoriesForChart = response.data.categoriesForChart;
+     var categoriesExpensesForChart = response.data.categoriesExpensesForChart;
      ctx.canvas.width = 235;
      ctx.canvas.height = 220;
      
-     categoriesForChart.forEach(function (cat) {
+     categoriesExpensesForChart.forEach(function (cat) {
          data.push(cat.amountActiveMonth.toFixed(2));
          labels.push(cat.name);
      })
@@ -177,26 +177,29 @@ function getDataForIncomeLineChartMonthly(response) {
 };
 function getDataBudgetedAndExpensesCategoryMonth(response) {
 
-    var budgetMonthsCategoryForChart = response.data.budgetMonthsCategoryForChart;
+
+    var budgetCategoryMonthNov = response.data.budgetCategoryMonthNov;
 
     var ctx = document.getElementById("budgeted-expenses-category-month").getContext('2d');
     
     ctx.canvas.width = 235;
     ctx.canvas.height = 220;
-        expense = [],
+
+    var expense = [],
         labels = [],
         categoryBudgets = [],
-        categoriesForChart = [];
-    response.data.categoriesForChart.forEach(function(cat) {
+        categoriesExpensesForChart = [];
+
+    response.data.categoriesExpensesForChart.forEach(function(cat) {
         if (cat.amountActiveMonth > 0)
-            categoriesForChart.push(cat);
+        categoriesExpensesForChart.push(cat);
     });
 
-    categoriesForChart.forEach(function (cat) {
+    categoriesExpensesForChart.forEach(function (cat) {
         
         expense.push(cat.amountActiveMonth.toFixed(2));
         labels.push(cat.name);
-        var budget = budgetMonthsCategoryForChart.find(function (o) { return o.categoryId === cat.id; })
+        var budget = budgetCategoryMonthNov.find(function (o) { return o.categoryId === cat.id; })
         categoryBudgets.push(budget ? budget.amount : 0);
     })
     
@@ -234,7 +237,7 @@ function getDataBudgetedAndExpensesCategoryMonth(response) {
         responsive: true,
         title: {
             display: true,
-            text: 'Zabudżetowana kwota w stosunku do wydatków',
+            text: 'Wydatki w stosunku do zabudżetowanej kwoty',
             },
     }
     var myBarChart = new Chart(ctx, {
@@ -294,34 +297,35 @@ function getDataToSpendAndExpensesAmountMonth(response) {
 
 function getDataBudgetedCategoryMonth(response) {
     
-    var budgetMonthsCategoryForChart = response.data.budgetMonthsCategoryForChart;
-
-    var ctx = document.getElementById("budgeted-category-month").getContext('2d');
+    var budgetCategoryMonthNov = response.data.budgetCategoryMonthNov;
+        allCategoriesForDisplay = response.data.categoriesName,
+        ctx = document.getElementById("budgeted-category-month").getContext('2d');
     
     ctx.canvas.width = 235;
     ctx.canvas.height = 220;
 
-        labels = [],
-        categoryBudgets = [],
-        categoriesForChart = [];
-
-    response.data.categoriesForChart.forEach(function(cat) {
-        if (cat.amountActiveMonth > 0)
-            categoriesForChart.push(cat);
+    var labels = [],
+        data = [];
+    
+    allCategoriesForDisplay.forEach(function (category){
+        labels.push(category.name)
+        category.amount = 0;
     });
 
-    categoriesForChart.forEach(function (cat) {
-        
-        labels.push(cat.name);
-        var budget = budgetMonthsCategoryForChart.find(function (o) { return o.categoryId === cat.id; })
-        categoryBudgets.push(budget ? budget.amount : 0);
-    })
+    budgetCategoryMonthNov.forEach(function (budget) {
+        var category  = allCategoriesForDisplay.find(o => o.id === budget.categoryId);
+        category.amount += budget.amount
+    });
+
+    allCategoriesForDisplay.forEach(function (category){
+        data.push(category.amount)
+    });
     
     var default_colors = ['#3366CC','#DC3912','#FF9900','#109618','#990099','#3B3EAC','#0099C6','#DD4477','#66AA00','#B82E2E','#316395','#994499','#22AA99','#AAAA11','#6633CC','#E67300','#8B0707','#329262','#5574A6','#3B3EAC'];
     
         data = {
             datasets: [ {
-                data: categoryBudgets,
+                data: data,
                 backgroundColor: default_colors
                 }
             ],
@@ -348,7 +352,7 @@ function getDataBudgetedCategoryMonth(response) {
         data: data,
         options: options
     });
-}
+};
 
 axios.get('/api/charts/analysis')
 .then(function (response) {

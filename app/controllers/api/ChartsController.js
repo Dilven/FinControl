@@ -14,6 +14,7 @@ router.get('/dashboard', function (req, res, next) {
     var date = new Date(),
         month = date.getMonth(),
         year = date.getFullYear(),
+        prevYear = year - 1,        
         day = date.getDate();
 
 
@@ -58,7 +59,7 @@ router.get('/dashboard', function (req, res, next) {
                     new Date(transaction.transaction_date).getMonth() === month) {
                         category.amountActiveMonth += parseFloat(transaction.dataValues.amount);
                 }
-                if (new Date(transaction.transaction_date).getFullYear() <= year &&
+                if (new Date(transaction.transaction_date).getFullYear() === prevYear &&
                     new Date(transaction.transaction_date).getMonth() > month) { 
                         AllExpensesForMonth[transaction.transaction_date.getMonth()] += transaction.dataValues.amount;
                 }
@@ -95,6 +96,7 @@ router.get('/analysis', function (req, res, next) {
     var date = new Date(),
         month = date.getMonth(),
         year = date.getFullYear(),
+        prevYear = year - 1,
         day = date.getDate(),
         numberOfDays = new Date(date.getFullYear(), date.getMonth()+1, 0).getDate();
 
@@ -116,21 +118,25 @@ router.get('/analysis', function (req, res, next) {
             }
          ]
     });
+    const categoriesName = db.Category.findAll()
     
     const budgetedMonths = db.Budget.findAll({where:{userId: req.user.id}});
-    const budgetedMonthsCategory = db.BudgetCategory.findAll({where:{userId: req.user.id, month:month}});
+    const budgetedMonthsCategory = db.BudgetCategory.findAll({where:{userId: req.user.id}});
     
-    return Promise.join(categories, categoriesIncome, budgetedMonths, budgetedMonthsCategory, function (category, categoryIncome, budgetMonth, budgetMonthCategory) {
+    return Promise.join(categories, categoriesIncome, budgetedMonths, budgetedMonthsCategory, categoriesName, function (category, categoryIncome, budgetMonth, budgetMonthCategory, categoriesName) {
        
         var categoriesFromDb = category.map(category => category.dataValues),
+            budgetMonthsCategoryFromDb = budgetMonthCategory.map(budgetMonthCategory => budgetMonthCategory.dataValues),      
             categoriesIncomeFromDb = categoryIncome.map(category => category.dataValues),        
-            categoriesForChart = [],
+            categoriesExpensesForChart = [],
             categoriesIncomeForChart = [],            
             budgetMonthsForChart = new Array(12).fill(0),
             AllExpensesForMonth = new Array(12).fill(0),
             AllIncomeForMonth = new Array(12).fill(0),            
-            AllExpensesForDay = new Array(numberOfDays + 1).fill(0);
-            AllIncomeForDay = new Array(numberOfDays + 1).fill(0);
+            AllExpensesForDay = new Array(numberOfDays + 1).fill(0),
+            AllIncomeForDay = new Array(numberOfDays + 1).fill(0),
+            budgetCategoryMonthNov = [],
+            budgetCategoryYearNov = [];
             
             
         _.each(categoriesIncomeFromDb, (categoryIncome, index) => {
@@ -143,7 +149,7 @@ router.get('/analysis', function (req, res, next) {
                     new Date(transaction.transaction_date).getMonth() === month) {
                         categoryIncome.amountActiveMonth += parseFloat(transaction.dataValues.amount);
                 }  
-                if (new Date(transaction.transaction_date).getFullYear() <= year &&
+                if (new Date(transaction.transaction_date).getFullYear() === prevYear &&
                 new Date(transaction.transaction_date).getMonth() > month) { 
                         AllIncomeForMonth[transaction.transaction_date.getMonth()] += transaction.dataValues.amount;
                 }
@@ -175,9 +181,9 @@ router.get('/analysis', function (req, res, next) {
                     new Date(transaction.transaction_date).getDate() === day) {
                         category.amountActiveDay += parseFloat(transaction.dataValues.amount);
                 }     
-                if (new Date(transaction.transaction_date).getFullYear() <= year &&
-                new Date(transaction.transaction_date).getMonth() > month) { 
-                    AllExpensesForMonth[transaction.transaction_date.getMonth()] += transaction.dataValues.amount;
+                if (new Date(transaction.transaction_date).getFullYear() === prevYear &&
+                    new Date(transaction.transaction_date).getMonth() > month) { 
+                        AllExpensesForMonth[transaction.transaction_date.getMonth()] += transaction.dataValues.amount;
                 }
                 if (new Date(transaction.transaction_date).getFullYear() === year &&
                     new Date(transaction.transaction_date).getMonth() === month) { 
@@ -189,7 +195,7 @@ router.get('/analysis', function (req, res, next) {
                 }
             });
 
-            categoriesForChart.push(category);
+            categoriesExpensesForChart.push(category);
         });
 
         _.each(budgetMonth, (budgetMonth) => {
@@ -203,18 +209,31 @@ router.get('/analysis', function (req, res, next) {
                 budgetMonthsForChart[budgetMonth.dataValues.month] = budgetMonth.dataValues.amount;
             }   
         });
-        
-            var budgetMonthsCategoryForChart = budgetMonthCategory.map(budgetMonthCategory => budgetMonthCategory.dataValues);
+
+        _.each(budgetMonthsCategoryFromDb, (budget) => {
+            if(budget.year === year && budget.month === month) {
+                budgetCategoryMonthNov.push(budget)
+            }
+            if (budget.year === prevYear && budget.month > month) {
+                budgetCategoryYearNov.push(budget);
+            }
+            if (budget.year === year && budget.month <= month) {
+                budgetCategoryYearNov.push(budget);
+            }
+
+        });
         
         return res.status(200).send({
             AllExpensesForMonth,
             AllIncomeForMonth,
             AllIncomeForDay,
             AllExpensesForDay,
-            categoriesForChart,
+            categoriesExpensesForChart,
             categoriesIncomeForChart,
             budgetMonthsForChart,
-            budgetMonthsCategoryForChart,   
+            budgetCategoryYearNov,
+            budgetCategoryMonthNov, 
+            categoriesName,
         })
     });
 });

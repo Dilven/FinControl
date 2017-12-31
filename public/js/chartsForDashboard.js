@@ -175,6 +175,8 @@ function getDataBudgetedCategoryMonthDashboard(response) {
     
     var budgetMonthsCategoryForChart = response.data.budgetMonthsCategoryForChart;
 
+    console.log(response.data.budgetMonthsCategoryForChart);
+    
     var ctx = document.getElementById("budgeted-category-month-dashboard").getContext('2d');
     
         labels = [],
