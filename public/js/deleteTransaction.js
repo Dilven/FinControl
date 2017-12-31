@@ -7,7 +7,7 @@ $(document).ready(() => {
         rowInTable.addClass( "is-selected" );
         
         $('.is-selected').find('td.transaction-data').each(function (index, element) {
-            transactionToDeleted[($(this).attr('name'))] = element.innerText;    
+            transactionToDeleted[($(this).attr('name'))] = element.innerText;
         });
 
         rowInTable.css("display", "none");

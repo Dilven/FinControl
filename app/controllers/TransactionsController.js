@@ -85,4 +85,4 @@ router.post('/delete', function (req, res, next) {
         
     var date = new Date(req.body.date).addHours(0),
         deleteTransaction = Transaction.destroy({where:{userId: id,transaction_date: date, amount: amount, name: name}});
-});
+    });
