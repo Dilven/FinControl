@@ -14,12 +14,13 @@ router.get('/dashboard', function (req, res, next) {
     var date = new Date(),
         month = date.getMonth(),
         year = date.getFullYear(),
+        prevYear = year - 1,        
         day = date.getDate();
 
 
-    const budgetedMonthsCategory = db.BudgetCategory.findAll({where:{userId: req.user.id, month:month}});
-    
-    const categories = db.Category.findAll({
+    const budgetedMonthsCategory = db.BudgetCategory.findAll({where:{userId: req.user.id, year:year, month:month}});
+    const categoriesName = db.Category.findAll()    
+    const categoriesExpensesMonthNov = db.Category.findAll({
         include: [
             { model: db.Transaction, as: 'transactions', required: true, where: {
                 typeId: 1,
@@ -39,15 +40,16 @@ router.get('/dashboard', function (req, res, next) {
     });
     
     
-    return Promise.join(categories, budgetedMonths, budgetedMonthsCategory, function (category, budgetMonth, budgetMonthCategory) {
+    return Promise.join(categoriesExpensesMonthNov, budgetedMonths, budgetedMonthsCategory, categoriesName, function (category, budgetMonth, budgetMonthCategory, categoriesName) {
         
-        var categoriesFromDb = category.map(category => category.dataValues),
-            budgetMonthsCategoryForChart = budgetMonthCategory.map(budgetMonthCategory => budgetMonthCategory.dataValues),
-            categoriesForChart = [],
+        var categoriesExpensesMonthNovFromDb = category.map(category => category.dataValues),
+            budgetMonthsCategoryFromDb = budgetMonthCategory.map(budgetMonthCategory => budgetMonthCategory.dataValues),
+            categoriesExpenseMonthNov = [],
+            budgetCategoryMonthNov = [],
             budgetMonthsForChart = new Array(12).fill(0),
             AllExpensesForMonth = new Array(12).fill(0);
             
-        _.each(categoriesFromDb, (category) => {
+        _.each(categoriesExpensesMonthNovFromDb, (category) => {
             category.amount = 0;
             category.amountActiveMonth = 0;
                         
@@ -58,7 +60,7 @@ router.get('/dashboard', function (req, res, next) {
                     new Date(transaction.transaction_date).getMonth() === month) {
                         category.amountActiveMonth += parseFloat(transaction.dataValues.amount);
                 }
-                if (new Date(transaction.transaction_date).getFullYear() <= year &&
+                if (new Date(transaction.transaction_date).getFullYear() === prevYear &&
                     new Date(transaction.transaction_date).getMonth() > month) { 
                         AllExpensesForMonth[transaction.transaction_date.getMonth()] += transaction.dataValues.amount;
                 }
@@ -67,7 +69,7 @@ router.get('/dashboard', function (req, res, next) {
                         AllExpensesForMonth[transaction.transaction_date.getMonth()] += transaction.dataValues.amount;
                 }      
             })
-            categoriesForChart.push(category);
+            categoriesExpenseMonthNov.push(category);
         })
 
         _.each(budgetMonth, (budgetMonth) => {
@@ -81,12 +83,19 @@ router.get('/dashboard', function (req, res, next) {
                     budgetMonthsForChart[budgetMonth.dataValues.month] = budgetMonth.dataValues.amount;
             }  
         });
+
+        _.each(budgetMonthsCategoryFromDb, (budget) => {
+            if(budget.year === year && budget.month === month) {
+                budgetCategoryMonthNov.push(budget)
+            }
+        });
      
         res.status(200).send({
-            categoriesForChart,
+            categoriesExpenseMonthNov,
             budgetMonthsForChart,
             AllExpensesForMonth,
-            budgetMonthsCategoryForChart,           
+            budgetCategoryMonthNov,
+            categoriesName,           
         })
     });
 });
@@ -95,6 +104,7 @@ router.get('/analysis', function (req, res, next) {
     var date = new Date(),
         month = date.getMonth(),
         year = date.getFullYear(),
+        prevYear = year - 1,
         day = date.getDate(),
         numberOfDays = new Date(date.getFullYear(), date.getMonth()+1, 0).getDate();
 
@@ -116,21 +126,25 @@ router.get('/analysis', function (req, res, next) {
             }
          ]
     });
+    const categoriesName = db.Category.findAll()
     
     const budgetedMonths = db.Budget.findAll({where:{userId: req.user.id}});
-    const budgetedMonthsCategory = db.BudgetCategory.findAll({where:{userId: req.user.id, month:month}});
+    const budgetedMonthsCategory = db.BudgetCategory.findAll({where:{userId: req.user.id}});
     
-    return Promise.join(categories, categoriesIncome, budgetedMonths, budgetedMonthsCategory, function (category, categoryIncome, budgetMonth, budgetMonthCategory) {
+    return Promise.join(categories, categoriesIncome, budgetedMonths, budgetedMonthsCategory, categoriesName, function (category, categoryIncome, budgetMonth, budgetMonthCategory, categoriesName) {
        
         var categoriesFromDb = category.map(category => category.dataValues),
+            budgetMonthsCategoryFromDb = budgetMonthCategory.map(budgetMonthCategory => budgetMonthCategory.dataValues),      
             categoriesIncomeFromDb = categoryIncome.map(category => category.dataValues),        
-            categoriesForChart = [],
+            categoriesExpensesForChart = [],
             categoriesIncomeForChart = [],            
             budgetMonthsForChart = new Array(12).fill(0),
             AllExpensesForMonth = new Array(12).fill(0),
             AllIncomeForMonth = new Array(12).fill(0),            
-            AllExpensesForDay = new Array(numberOfDays + 1).fill(0);
-            AllIncomeForDay = new Array(numberOfDays + 1).fill(0);
+            AllExpensesForDay = new Array(numberOfDays + 1).fill(0),
+            AllIncomeForDay = new Array(numberOfDays + 1).fill(0),
+            budgetCategoryMonthNov = [],
+            budgetCategoryYearNov = [];
             
             
         _.each(categoriesIncomeFromDb, (categoryIncome, index) => {
@@ -143,7 +157,7 @@ router.get('/analysis', function (req, res, next) {
                     new Date(transaction.transaction_date).getMonth() === month) {
                         categoryIncome.amountActiveMonth += parseFloat(transaction.dataValues.amount);
                 }  
-                if (new Date(transaction.transaction_date).getFullYear() <= year &&
+                if (new Date(transaction.transaction_date).getFullYear() === prevYear &&
                 new Date(transaction.transaction_date).getMonth() > month) { 
                         AllIncomeForMonth[transaction.transaction_date.getMonth()] += transaction.dataValues.amount;
                 }
@@ -175,9 +189,9 @@ router.get('/analysis', function (req, res, next) {
                     new Date(transaction.transaction_date).getDate() === day) {
                         category.amountActiveDay += parseFloat(transaction.dataValues.amount);
                 }     
-                if (new Date(transaction.transaction_date).getFullYear() <= year &&
-                new Date(transaction.transaction_date).getMonth() > month) { 
-                    AllExpensesForMonth[transaction.transaction_date.getMonth()] += transaction.dataValues.amount;
+                if (new Date(transaction.transaction_date).getFullYear() === prevYear &&
+                    new Date(transaction.transaction_date).getMonth() > month) { 
+                        AllExpensesForMonth[transaction.transaction_date.getMonth()] += transaction.dataValues.amount;
                 }
                 if (new Date(transaction.transaction_date).getFullYear() === year &&
                     new Date(transaction.transaction_date).getMonth() === month) { 
@@ -189,7 +203,7 @@ router.get('/analysis', function (req, res, next) {
                 }
             });
 
-            categoriesForChart.push(category);
+            categoriesExpensesForChart.push(category);
         });
 
         _.each(budgetMonth, (budgetMonth) => {
@@ -203,18 +217,31 @@ router.get('/analysis', function (req, res, next) {
                 budgetMonthsForChart[budgetMonth.dataValues.month] = budgetMonth.dataValues.amount;
             }   
         });
-        
-            var budgetMonthsCategoryForChart = budgetMonthCategory.map(budgetMonthCategory => budgetMonthCategory.dataValues);
+
+        _.each(budgetMonthsCategoryFromDb, (budget) => {
+            if(budget.year === year && budget.month === month) {
+                budgetCategoryMonthNov.push(budget)
+            }
+            if (budget.year === prevYear && budget.month > month) {
+                budgetCategoryYearNov.push(budget);
+            }
+            if (budget.year === year && budget.month <= month) {
+                budgetCategoryYearNov.push(budget);
+            }
+
+        });
         
         return res.status(200).send({
             AllExpensesForMonth,
             AllIncomeForMonth,
             AllIncomeForDay,
             AllExpensesForDay,
-            categoriesForChart,
+            categoriesExpensesForChart,
             categoriesIncomeForChart,
             budgetMonthsForChart,
-            budgetMonthsCategoryForChart,   
+            budgetCategoryYearNov,
+            budgetCategoryMonthNov, 
+            categoriesName,
         })
     });
 });

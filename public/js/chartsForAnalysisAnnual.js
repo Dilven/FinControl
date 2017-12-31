@@ -7,9 +7,9 @@ function getDataForCategoriesExpensesAnnual(response) {
     ctx.canvas.width = 235;
     ctx.canvas.height = 220;
 
-    var categoriesForChart = response.data.categoriesForChart;
+    var categoriesExpensesForChart = response.data.categoriesExpensesForChart;
     
-    categoriesForChart.forEach(function (cat) {
+    categoriesExpensesForChart.forEach(function (cat) {
         data.push(cat.amount.toFixed(2));
         labels.push(cat.name);
     })
@@ -238,12 +238,147 @@ function getDataForIncomeAnnual(response) {
     });
 };
 
+function getDataBudgetedAndExpensesCategoryAnnual(response) {
+
+    var budgetCategoryYearNov = response.data.budgetCategoryYearNov,
+        allExpense = response.data.categoriesExpensesForChart,   
+        allCategoriesForDisplay = response.data.categoriesName;
+        
+    var ctx = document.getElementById("budgeted-expenses-category-annual").getContext('2d');
+    
+    ctx.canvas.width = 235;
+    ctx.canvas.height = 220;
+
+    var expense = [],
+        labels = [],
+        expens = [],
+        budget = [];
+
+    allCategoriesForDisplay.forEach(function (category){
+        labels.push(category.name);
+        category.amountExpense = 0;
+    });
+
+    allExpense.forEach(function (expense) {
+        var category  = allCategoriesForDisplay.find(o => o.id === expense.id);
+        category.amountExpense += expense.amount;
+    });
+    
+    allCategoriesForDisplay.forEach(function (category){
+        expense.push(category.amountExpense);
+        budget.push(category.amount);     
+    });
+
+    var default_colors = ['#3366CC','#DC3912','#FF9900','#109618','#990099','#3B3EAC','#0099C6','#DD4477','#66AA00','#B82E2E','#316395','#994499','#22AA99','#AAAA11','#6633CC','#E67300','#8B0707','#329262','#5574A6','#3B3EAC'];
+    
+        data = {
+            datasets: [{
+                data: expense,
+                label: 'Wydano',
+                backgroundColor: '#DC3912',
+                }, {
+                data: budget,
+                label: 'Zabudzetowana kwota',
+                backgroundColor: '#3366CC'
+                }
+            ],
+        labels: labels
+        };
+    
+    var scales = {
+        xAxes: [{
+            ticks: {
+                autoSkip: false
+            }
+        }],
+        yAxes: [{
+            ticks: {
+                min: 0
+            }
+        }
+    ]
+    }
+    var options = {
+        scales: scales,
+        responsive: true,
+        title: {
+            display: true,
+            text: 'Wydatki w stosunku do zabudżetowanej kwoty',
+            },
+    }
+    var myBarChart = new Chart(ctx, {
+        type: 'bar',
+        data: data,
+        options: options
+    });
+};
+
+function getDataBudgetedCategoryAnnual(response) {
+    
+    var budgetCategoryYearNov = response.data.budgetCategoryYearNov,
+        allCategoriesForDisplay = response.data.categoriesName,
+        ctx = document.getElementById("budgeted-category-annual").getContext('2d');
+    
+    ctx.canvas.width = 235;
+    ctx.canvas.height = 220;
+
+        var data = [],
+            labels = [];
+
+    allCategoriesForDisplay.forEach(function (category){
+        labels.push(category.name)
+        category.amount = 0;
+    });
+
+    budgetCategoryYearNov.forEach(function (budget) {
+        var category  = allCategoriesForDisplay.find(o => o.id === budget.categoryId);
+        category.amount += budget.amount
+    });
+ 
+    allCategoriesForDisplay.forEach(function (category){
+        data.push(category.amount)
+    });
+  
+    var default_colors = ['#3366CC','#DC3912','#FF9900','#109618','#990099','#3B3EAC','#0099C6','#DD4477','#66AA00','#B82E2E','#316395','#994499','#22AA99','#AAAA11','#6633CC','#E67300','#8B0707','#329262','#5574A6','#3B3EAC'];
+    
+        data = {
+            datasets: [ {
+                data: data,
+                backgroundColor: default_colors
+                }
+            ],
+        labels: labels
+        };
+    
+    var scales = {
+        xAxes: [{
+            ticks: {
+                autoSkip: false, 
+            },
+        }]
+    }
+    var options = {
+        responsive: true,
+        title: {
+            display: true,
+            text: 'Zabudżetowane kwoty w danych kategoriach'
+            },
+    }
+    var myCategoriesChart = new Chart(ctx,{
+        type: 'doughnut',
+        data: data,
+        options: options
+    });
+};
+
 axios.get('/api/charts/analysis')
     .then(function (response) {
         getDataForExpensesAndBudgetAnnual(response);
         getDataForCategoriesExpensesAnnual(response);
         getDataToSpendAndExpensesAmountAnnual(response);
         getDataForIncomeAnnual(response);
+        getDataBudgetedCategoryAnnual(response);
+        getDataBudgetedAndExpensesCategoryAnnual(response);
     })
     .catch(function (error) {
         console.log(error);
