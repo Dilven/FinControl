@@ -177,7 +177,6 @@ function getDataForIncomeLineChartMonthly(response) {
 };
 function getDataBudgetedAndExpensesCategoryMonth(response) {
 
-
     var budgetCategoryMonthNov = response.data.budgetCategoryMonthNov;
 
     var ctx = document.getElementById("budgeted-expenses-category-month").getContext('2d');
@@ -293,7 +292,7 @@ function getDataToSpendAndExpensesAmountMonth(response) {
         data: data,
         options: options
     });
-}
+};
 
 function getDataBudgetedCategoryMonth(response) {
     

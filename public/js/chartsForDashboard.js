@@ -55,7 +55,7 @@ function getDataForAnnualChartForDashboard(response) {
         },
         elements: {
             line: {
-                tension: 0, // disables bezier curves
+                tension: 0,
             }
         },
 
@@ -79,10 +79,10 @@ function getDataForCategoriesChartForDashboard(response) {
             data = [],
             labels = [];
             var default_colors = ['#3366CC','#DC3912','#FF9900','#109618','#990099','#3B3EAC','#0099C6','#DD4477','#66AA00','#B82E2E','#316395','#994499','#22AA99','#AAAA11','#6633CC','#E67300','#8B0707','#329262','#5574A6','#3B3EAC']
-        var categoriesForChart = response.data.categoriesForChart;
+        var categoriesExpenseMonthNov = response.data.categoriesExpenseMonthNov;
         
-        categoriesForChart.forEach(function (cat) {
-            data.push(cat.amountActiveMonth);
+        categoriesExpenseMonthNov.forEach(function (cat) {
+            data.push(cat.amountActiveMonth.toFixed(2));
             labels.push(cat.name);
         })
 
@@ -102,7 +102,7 @@ function getDataForCategoriesChartForDashboard(response) {
                 labels: {
                     fontSize: 10,
                     boxWidth: 10,
-                    padding: 3,
+                    padding: 1,
                 }
             },
             title: {
@@ -156,7 +156,7 @@ function getDataToSpendAndExpensesAmountMonthDashboard(response) {
             labels: {
                 fontSize: 10,
                 boxWidth: 10,
-                padding: 3,
+                padding: 1,
             }
         },
         title: {
@@ -173,33 +173,33 @@ function getDataToSpendAndExpensesAmountMonthDashboard(response) {
 
 function getDataBudgetedCategoryMonthDashboard(response) {
     
-    var budgetMonthsCategoryForChart = response.data.budgetMonthsCategoryForChart;
-
-    console.log(response.data.budgetMonthsCategoryForChart);
+    var budgetCategoryMonthNov = response.data.budgetCategoryMonthNov,
+        allCategoriesForDisplay = response.data.categoriesName;
     
     var ctx = document.getElementById("budgeted-category-month-dashboard").getContext('2d');
-    
-        labels = [],
-        categoryBudgets = [],
-        categoriesForChart = [];
 
-    response.data.categoriesForChart.forEach(function(cat) {
-        if (cat.amountActiveMonth > 0)
-            categoriesForChart.push(cat);
+    var labels = [],
+        data = [];
+
+    allCategoriesForDisplay.forEach(function (category){
+        labels.push(category.name)
+        category.amount = 0;
     });
 
-    categoriesForChart.forEach(function (cat) {
-        
-        labels.push(cat.name);
-        var budget = budgetMonthsCategoryForChart.find(function (o) { return o.categoryId === cat.id; })
-        categoryBudgets.push(budget ? budget.amount : 0);
-    })
+    budgetCategoryMonthNov.forEach(function (budget) {
+        var category  = allCategoriesForDisplay.find(o => o.id === budget.categoryId);
+        category.amount += budget.amount
+    });
+
+    allCategoriesForDisplay.forEach(function (category){
+        data.push(category.amount)
+    });
     
     var default_colors = ['#3366CC','#DC3912','#FF9900','#109618','#990099','#3B3EAC','#0099C6','#DD4477','#66AA00','#B82E2E','#316395','#994499','#22AA99','#AAAA11','#6633CC','#E67300','#8B0707','#329262','#5574A6','#3B3EAC'];
     
         data = {
             datasets: [ {
-                data: categoryBudgets,
+                data: data,
                 backgroundColor: default_colors
                 }
             ],
@@ -221,7 +221,7 @@ function getDataBudgetedCategoryMonthDashboard(response) {
             labels: {
                 fontSize: 10,
                 boxWidth: 10,
-                padding: 3,
+                padding: 1,
             }
         },
         title: {

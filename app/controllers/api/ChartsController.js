@@ -18,9 +18,9 @@ router.get('/dashboard', function (req, res, next) {
         day = date.getDate();
 
 
-    const budgetedMonthsCategory = db.BudgetCategory.findAll({where:{userId: req.user.id, month:month}});
-    
-    const categories = db.Category.findAll({
+    const budgetedMonthsCategory = db.BudgetCategory.findAll({where:{userId: req.user.id, year:year, month:month}});
+    const categoriesName = db.Category.findAll()    
+    const categoriesExpensesMonthNov = db.Category.findAll({
         include: [
             { model: db.Transaction, as: 'transactions', required: true, where: {
                 typeId: 1,
@@ -40,15 +40,16 @@ router.get('/dashboard', function (req, res, next) {
     });
     
     
-    return Promise.join(categories, budgetedMonths, budgetedMonthsCategory, function (category, budgetMonth, budgetMonthCategory) {
+    return Promise.join(categoriesExpensesMonthNov, budgetedMonths, budgetedMonthsCategory, categoriesName, function (category, budgetMonth, budgetMonthCategory, categoriesName) {
         
-        var categoriesFromDb = category.map(category => category.dataValues),
-            budgetMonthsCategoryForChart = budgetMonthCategory.map(budgetMonthCategory => budgetMonthCategory.dataValues),
-            categoriesForChart = [],
+        var categoriesExpensesMonthNovFromDb = category.map(category => category.dataValues),
+            budgetMonthsCategoryFromDb = budgetMonthCategory.map(budgetMonthCategory => budgetMonthCategory.dataValues),
+            categoriesExpenseMonthNov = [],
+            budgetCategoryMonthNov = [],
             budgetMonthsForChart = new Array(12).fill(0),
             AllExpensesForMonth = new Array(12).fill(0);
             
-        _.each(categoriesFromDb, (category) => {
+        _.each(categoriesExpensesMonthNovFromDb, (category) => {
             category.amount = 0;
             category.amountActiveMonth = 0;
                         
@@ -68,7 +69,7 @@ router.get('/dashboard', function (req, res, next) {
                         AllExpensesForMonth[transaction.transaction_date.getMonth()] += transaction.dataValues.amount;
                 }      
             })
-            categoriesForChart.push(category);
+            categoriesExpenseMonthNov.push(category);
         })
 
         _.each(budgetMonth, (budgetMonth) => {
@@ -82,12 +83,19 @@ router.get('/dashboard', function (req, res, next) {
                     budgetMonthsForChart[budgetMonth.dataValues.month] = budgetMonth.dataValues.amount;
             }  
         });
+
+        _.each(budgetMonthsCategoryFromDb, (budget) => {
+            if(budget.year === year && budget.month === month) {
+                budgetCategoryMonthNov.push(budget)
+            }
+        });
      
         res.status(200).send({
-            categoriesForChart,
+            categoriesExpenseMonthNov,
             budgetMonthsForChart,
             AllExpensesForMonth,
-            budgetMonthsCategoryForChart,           
+            budgetCategoryMonthNov,
+            categoriesName,           
         })
     });
 });
