@@ -76,11 +76,25 @@ function getDataForAnnualChartForDashboard(response) {
 };
 function getDataForCategoriesChartForDashboard(response) {
         var ctx = document.getElementById("categories-chart-dashboard-monthly").getContext('2d'),
+            mobileViewport = window.matchMedia("screen and (max-width: 1304px)"),        
             data = [],
-            labels = [];
-            var default_colors = ['#3366CC','#DC3912','#FF9900','#109618','#990099','#3B3EAC','#0099C6','#DD4477','#66AA00','#B82E2E','#316395','#994499','#22AA99','#AAAA11','#6633CC','#E67300','#8B0707','#329262','#5574A6','#3B3EAC']
-        var categoriesExpenseMonthNov = response.data.categoriesExpenseMonthNov;
+            labels = [],
+            default_colors = ['#3366CC','#DC3912','#FF9900','#109618','#990099','#3B3EAC','#0099C6','#DD4477','#66AA00','#B82E2E','#316395','#994499','#22AA99','#AAAA11','#6633CC','#E67300','#8B0707','#329262','#5574A6','#3B3EAC'],
+            categoriesExpenseMonthNov = response.data.categoriesExpenseMonthNov,
+            container = document.getElementById("line-chart");            
         
+        mobileViewport.addListener(function(mq) {
+            
+            if(mq.matches) {
+            container.classList.remove('mdl-cell--4-col')
+            container.classList.add('mdl-cell--6-col');
+            } else {
+            container.classList.remove('mdl-cell--6-col')
+            container.classList.add('mdl-cell--4-col');
+            }
+        
+        });
+
         categoriesExpenseMonthNov.forEach(function (cat) {
             data.push(cat.amountActiveMonth.toFixed(2));
             labels.push(cat.name);
@@ -120,10 +134,23 @@ function getDataForCategoriesChartForDashboard(response) {
 
 function getDataToSpendAndExpensesAmountMonthDashboard(response) {   
     var ctx = document.getElementById("expense-amount-tospend-chart-dashboard-month").getContext('2d'),
+        mobileViewport = window.matchMedia("screen and (max-width: 1304px)"),
         data = [],
         labels = [],
         date = new Date(),
         month = date.getMonth();
+        container = document.getElementById("categories-chart");
+        
+    mobileViewport.addListener(function(mq) {
+        
+        if(mq.matches) {
+        container.classList.remove('mdl-cell--4-col')
+        container.classList.add('mdl-cell--6-col');
+        } else {
+        container.classList.remove('mdl-cell--6-col')
+        container.classList.add('mdl-cell--4-col');
+        }
+    });
         
     var default_colors = ['#3366CC','#DC3912','#FF9900','#109618','#990099','#3B3EAC','#0099C6','#DD4477','#66AA00','#B82E2E','#316395','#994499','#22AA99','#AAAA11','#6633CC','#E67300','#8B0707','#329262','#5574A6','#3B3EAC'],
         budgetForMonth = response.data.budgetMonthsForChart[month],
@@ -133,8 +160,7 @@ function getDataToSpendAndExpensesAmountMonthDashboard(response) {
 
         if(toSpendAmount < 0) {
             toSpendAmount = 0;
-        }
-        
+        }  
     var dataForChart = [];
     
     dataForChart.push(expenseForMonth);
@@ -173,10 +199,24 @@ function getDataToSpendAndExpensesAmountMonthDashboard(response) {
 
 function getDataBudgetedCategoryMonthDashboard(response) {
     
-    var budgetCategoryMonthNov = response.data.budgetCategoryMonthNov,
-        allCategoriesForDisplay = response.data.categoriesName;
+    var mobileViewport = window.matchMedia("screen and (max-width: 1304px)"),
+        budgetCategoryMonthNov = response.data.budgetCategoryMonthNov,
+        allCategoriesForDisplay = response.data.categoriesName,
+        ctx = document.getElementById("budgeted-category-month-dashboard").getContext('2d'),
+        container = document.getElementById("chart-budgeted-category");
     
-    var ctx = document.getElementById("budgeted-category-month-dashboard").getContext('2d');
+
+    mobileViewport.addListener(function(mq) {
+        
+        if(mq.matches) {
+        container.classList.remove('mdl-cell--4-col')
+        container.classList.add('mdl-cell--12-col');
+        } else {
+        container.classList.remove('mdl-cell--12-col')
+        container.classList.add('mdl-cell--4-col');
+        }
+    
+    });
 
     var labels = [],
         data = [];
