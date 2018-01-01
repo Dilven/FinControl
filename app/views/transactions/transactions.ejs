@@ -15,7 +15,7 @@
         </thead>
         <% transactions.forEach(function (transaction) { %>
           <tbody>
-            <tr class=>
+            <tr data= "<%= transaction.id %>">
               <td class="table-row-small"><i class="material-icons cursor-pointer table-icon-delete">delete_forever</i></td>
               <% if(transaction.typeId === 1) { %>
                 <td class="table-row-small"><i class="material-icons md-red"><i class="material-icons">arrow_downward</i></td>

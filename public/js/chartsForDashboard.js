@@ -6,18 +6,18 @@ function getDataForAnnualChartForDashboard(response) {
         expenseForDisplay = [];
 
     const months = ['Styczeń', 'Luty', 'Marzec', 'Kwiecien', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpien', 'Wrzesień', 'Październik', 'Listopad', 'Grudzień'];
-    var monthNow = new Date().getMonth(),
+    var monthNow = new Date().getMonth();
         monthsForLabels = [],
         monthNowNum = 0;
 
-        for(var i = 0; i <= 11; i++ )
-        {
+        for(var i = 0; i <= 11; i++ ) {
+
             if(monthNow < 11)
-            {
+            {   monthNow++;
                 monthsForLabels.push(months[monthNow]);
                 budgetsForDisplay.push(budgetMonthsForChart[monthNow]);
                 expenseForDisplay.push(expenseMonthsForChart[monthNow]);
-                monthNow++;
+                
             }
             else {
                 monthsForLabels.push(months[monthNowNum]);
@@ -25,6 +25,7 @@ function getDataForAnnualChartForDashboard(response) {
                 expenseForDisplay.push(expenseMonthsForChart[monthNowNum]);
                 monthNowNum++; 
             }
+            console.log(monthNow)
         }
 
     var data = {

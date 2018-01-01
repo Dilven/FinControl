@@ -74,15 +74,8 @@ router.post('/add', function (req, res, next) {
 
 router.post('/delete', function (req, res, next) {
     
-    var id = req.session.passport.user,
-        amount = req.body.amount.replace('zł',''),
-        name = req.body.name;
+    var userId = req.session.passport.user,
+         id = req.body.id;
 
-    Date.prototype.addHours = function(h) {    
-        this.setTime(this.getTime() + (h*60*60*1000)); 
-        return this;   
-    }
-        
-    var date = new Date(req.body.date).addHours(0),
-        deleteTransaction = Transaction.destroy({where:{userId: id,transaction_date: date, amount: amount, name: name}});
+        deleteTransaction = Transaction.destroy({where:{userId: userId,id:id}});
     });

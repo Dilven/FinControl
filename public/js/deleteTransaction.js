@@ -2,19 +2,15 @@ $(document).ready(() => {
    $('.table-icon-delete').click(function() {
         var transactionToDeleted = {},
             rowInTable = $(this).closest('tr'),
-            snackbarContainer = document.querySelector('#notificationBar');
-
-        rowInTable.addClass( "is-selected" );
-        
-        $('.is-selected').find('td.transaction-data').each(function (index, element) {
-            transactionToDeleted[($(this).attr('name'))] = element.innerText;
-        });
+            snackbarContainer = document.querySelector('#notificationBar'),
+            data = {};
+    
+        data.id = $(rowInTable).attr('data');
 
         rowInTable.css("display", "none");
         
-        return axios.post('/transactions/delete', transactionToDeleted)
+        return axios.post('/transactions/delete', data)
         .then(function(response) {
-            console.log(response);
         })
     });
 })

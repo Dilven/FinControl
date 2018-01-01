@@ -85,9 +85,74 @@ function getDataToSpendAndExpensesAmountDay(response) {
     });
 }
 
+function getDataBudgetedAndExpensesCategoryToday(response) {
+    
+    var budgetCategoryMonthNov = response.data.budgetCategoryMonthNov,
+        categoriesExpensesForChart = response.data.categoriesExpensesForChart;
+
+    var ctx = document.getElementById("budgeted-expenses-category-today").getContext('2d');
+    
+    var expense = [],
+        labels = [],
+        categoryBudgets = [],
+        date = new Date(),        
+        numberOfDays = new Date(date.getFullYear(), date.getMonth()+1, 0).getDate();
+
+    categoriesExpensesForChart.forEach(function (cat) {
+        
+        expense.push(cat.amountActiveDay.toFixed(2));
+        labels.push(cat.name);
+        var budget = budgetCategoryMonthNov.find(function (o) { return o.categoryId === cat.id; })
+        categoryBudgets.push(budget ? (parseFloat(budget.amount/numberOfDays)).toFixed(2) : 0);
+    })
+    
+    var default_colors = ['#3366CC','#DC3912','#FF9900','#109618','#990099','#3B3EAC','#0099C6','#DD4477','#66AA00','#B82E2E','#316395','#994499','#22AA99','#AAAA11','#6633CC','#E67300','#8B0707','#329262','#5574A6','#3B3EAC'];
+    
+        data = {
+            datasets: [{
+                data: expense,
+                label: 'Wydano',
+                backgroundColor: '#DC3912',
+                }, {
+                data: categoryBudgets,
+                label: 'Zabudzetowana kwota',
+                backgroundColor: '#3366CC'
+                }
+            ],
+        labels: labels
+        };
+    
+    var scales = {
+        xAxes: [{
+            ticks: {
+                autoSkip: false
+            }
+        }],
+        yAxes: [{
+            ticks: {
+                min: 0
+            }
+        }
+    ]
+    }
+    var options = {
+        scales: scales,
+        responsive: true,
+        title: {
+            display: true,
+            text: 'Wydatki w stosunku do sredniej kwoty przeznaczonej na ten dzień',
+            },
+    }
+    var myBarChart = new Chart(ctx, {
+        type: 'bar',
+        data: data,
+        options: options
+    });
+};    
 
 axios.get('/api/charts/analysis')
     .then(function (response) {
+        getDataBudgetedAndExpensesCategoryToday(response)
         getDataForCategoriesExpensesToday(response);
         getDataToSpendAndExpensesAmountDay(response);
     })
