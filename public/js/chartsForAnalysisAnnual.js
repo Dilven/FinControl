@@ -49,12 +49,11 @@ function getDataForExpensesAndBudgetAnnual(response) {
         monthNowNum = 0;
 
     for(var i = 0; i <= 11; i++ ) {
-        if(monthNow < 11)
-        {
+        if(monthNow < 11) {
+            monthNow++;            
             monthsForLabels.push(months[monthNow]);
             budgetsForDisplay.push(budgetMonthsForChart[monthNow]);
             expenseForDisplay.push(expenseMonthsForChart[monthNow]);
-            monthNow++;
         }
         else {
             monthsForLabels.push(months[monthNowNum]);
@@ -181,11 +180,10 @@ function getDataForIncomeAnnual(response) {
         monthNowNum = 0;
 
     for(var i = 0; i <= 11; i++ ) {
-        if(monthNow < 11)
-        {
+        if(monthNow < 11) { 
+            monthNow++;            
             monthsForLabels.push(months[monthNow]);
             IncomeForDisplay.push(IncomeMonthsForChart[monthNow]);
-            monthNow++;
         }
         else {
             monthsForLabels.push(months[monthNowNum]);
