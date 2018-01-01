@@ -56,7 +56,7 @@ router.get('/', function (req, res, next) {
             toSpendMoney = 0;
 
         if(budget !== null) {
-            toSpendMoney = budget.amount - (expensesAmount - incomeAmount);
+            toSpendMoney = budget.amount - expensesAmount;
             budgetAmount = budget.amount;
         } 
 
