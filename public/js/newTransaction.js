@@ -43,7 +43,7 @@ $(document).ready(() => {
             $('.add_expense_field').each(function (index, element) {
               
               if (element.name === 'typeId' || element.name === 'categoryId') {
-                formData[element.name] = $(element).data('val');
+                formData[element.name] = $(element).attr('data-val');
               } else {
                 formData[element.name] = element.value;
               }
@@ -59,7 +59,12 @@ $(document).ready(() => {
                   snackbarContainer.MaterialSnackbar.showSnackbar(data);
   
                   $('.add_expense_field').each(function (index, element) {
-                    $(element).val('');
+                    if (element.name === 'typeId' || element.name === 'categoryId') {
+                      $(element).attr('data-val', '1');
+                      $(element).val('');
+                    } else {
+                      $(element).val('');  
+                    }
                   });
                   dialog.close();
               })
