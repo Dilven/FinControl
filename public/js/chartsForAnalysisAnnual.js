@@ -52,13 +52,13 @@ function getDataForExpensesAndBudgetAnnual(response) {
         if(monthNow < 11) {
             monthNow++;            
             monthsForLabels.push(months[monthNow]);
-            budgetsForDisplay.push(budgetMonthsForChart[monthNow]);
-            expenseForDisplay.push(expenseMonthsForChart[monthNow]);
+            budgetsForDisplay.push(budgetMonthsForChart[monthNow].toFixed(2));
+            expenseForDisplay.push(expenseMonthsForChart[monthNow].toFixed(2));
         }
         else {
             monthsForLabels.push(months[monthNowNum]);
-            budgetsForDisplay.push(budgetMonthsForChart[monthNowNum]);
-            expenseForDisplay.push(expenseMonthsForChart[monthNowNum]);
+            budgetsForDisplay.push(budgetMonthsForChart[monthNowNum].toFixed(2));
+            expenseForDisplay.push(expenseMonthsForChart[monthNowNum].toFixed(2));
             monthNowNum++; 
         }
     }
@@ -172,7 +172,9 @@ function getDataToSpendAndExpensesAmountAnnual(response) {
 
 function getDataForIncomeAnnual(response) {
     var IncomeMonthsForChart = response.data.AllIncomeForMonth,
-        IncomeForDisplay = [];
+        expenseMonthsForChart = response.data.AllExpensesForMonth,    
+        incomeForDisplay = []
+        expenseForDisplay = [];
    
     const months = ['Styczeń', 'Luty', 'Marzec', 'Kwiecien', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpien', 'Wrzesień', 'Październik', 'Listopad', 'Grudzień'];
     var monthNow = new Date().getMonth(),
@@ -183,22 +185,31 @@ function getDataForIncomeAnnual(response) {
         if(monthNow < 11) { 
             monthNow++;            
             monthsForLabels.push(months[monthNow]);
-            IncomeForDisplay.push(IncomeMonthsForChart[monthNow]);
+            incomeForDisplay.push(IncomeMonthsForChart[monthNow].toFixed(2));
+            expenseForDisplay.push(expenseMonthsForChart[monthNow].toFixed(2));            
         }
         else {
             monthsForLabels.push(months[monthNowNum]);
-            IncomeForDisplay.push(IncomeMonthsForChart[monthNowNum]);
+            incomeForDisplay.push(IncomeMonthsForChart[monthNowNum].toFixed(2));
+            expenseForDisplay.push(expenseMonthsForChart[monthNowNum].toFixed(2));            
             monthNowNum++; 
         }
     }
 
     var data = {
         datasets: [{
-            data: IncomeForDisplay,
+            data: incomeForDisplay,
             label: 'Przychody',
             borderColor: '#297720',
             fill: false,
             backgroundColor: '#297720'
+        },
+        {
+            data: expenseForDisplay,
+            label: 'Wydatki',
+            borderColor: '#f44259',
+            fill: false,
+            backgroundColor: '#f44259',
         }],
         labels: monthsForLabels,
     }

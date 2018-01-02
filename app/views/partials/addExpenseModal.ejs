@@ -1,11 +1,11 @@
 <dialog id="dialogTransaction"class="mdl-dialog">
-    <h4 class="mdl-dialog__title mdl-dialog--font">Szybkie dodawanie nowej transakcji</h4>
+    <h1 class="mdl-dialog__title mdl-dialog--font">Szybkie dodawanie nowej transakcji</h1>
     <div class="mdl-dialog__content">
     </div>
     <form>
         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select">
             <input class="mdl-textfield__input add_expense_field" id="typeId" name="typeId" value="Wydatek" data-val="1" type="text" readonly tabIndex="-1"/>
-            <label class="mdl-textfield__label" for="expense_typeId">Typ</label>
+            <label class="mdl-textfield__label" for="expense_typeId">Typ *</label>
             <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu" for="typeId">
                 <li class="mdl-menu__item" data-val="1">Wydatek</li>
                 <li class="mdl-menu__item" data-val="2">Przychód</li>
@@ -14,37 +14,30 @@
 
         <div id="categories-dropdown-container" class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select">
             <input class="mdl-textfield__input add_expense_field" id="categoryId" name="categoryId" value="Nieokreslone" data-val="1" type="text" readonly tabIndex="-1"/>
-            <label class="mdl-textfield__label" for="expense_typeId">Kategoria</label>
-            <ul id="categories-dropdown" class="mdl-menu mdl-menu--bottom-left mdl-js-menu" for="categoryId">
-                
-            </ul>
+            <label class="mdl-textfield__label" for="expense_typeId">Kategoria *</label>
+            <ul id="categories-dropdown" class="mdl-menu mdl-menu--bottom-left mdl-js-menu" for="categoryId"></ul>
         </div>
-
         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-textfield-size">
             <input class="mdl-textfield__input add_expense_field" name="name" type="text" id="expense_name">
-            <label class="mdl-textfield__label" for="expense_name"></label>
+            <label class="mdl-textfield__label" for="expense_name">Nazwa wydatku *</label>
         </div>
-        <!-- Numeric Textfield with Floating Label -->
-      
         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-textfield-size">
             <input class="mdl-textfield__input add_expense_field" type="text" name="amount" pattern="-?[0-9]*(\.[0-9]+)?" id="expense_amount">
-            <label class="mdl-textfield__label" for="expense_amount">Kwota</label>
-          <span class="mdl-textfield__error">To nie jest liczba!</span>
+            <label class="mdl-textfield__label" for="expense_amount">Kwota *</label>
+          <span class="mdl-textfield__error">Zły format!</span>
         </div>
         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-textfield-size is-focused" >
             <input id="dataPicker" class="mdl-textfield__input add_expense_field" name="transaction_date" type="text" pattern="-?[0-9]*(\.[0-9]+)?">
             <label id="dataPicker-label" class="mdl-textfield__label" for="datePicker">
-                <i class="material-icons" style="font-size:16px;">event_note</i> Data
+                <i class="material-icons" style="font-size:16px;">event_note</i> Data *
             </label>
             <span class="mdl-textfield__error">Zły format!</span>  
         </div>
-      
-        <div class="mdl-textfield mdl-js-textfield">
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-textfield-size">
             <textarea class="mdl-textfield__input add_expense_field" type="text" name="description" rows="3" maxrows="6"
                 id="expense_description"></textarea>
             <label class="mdl-textfield__label" for="expense_description">Opis</label>
         </div>
-        
         <div class="mdl-dialog__actions">
             <button id="acceptExpense" type="button" class="mdl-button mdl-button--primary">Dodaj</button>
             <button type="button" class="mdl-button close  mdl-js-button mdl-button--primary">Anuluj</button>

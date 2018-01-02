@@ -10,8 +10,8 @@
             <th></th>
             <th class="mdl-data-table__cell--non-numeric">Nazwa wydatku </th>
             <th class="mdl-data-table__cell--non-numeric">Kategoria</th>            
-            <th>Data</th>
-            <th>Cena</th>
+            <th class="mdl-data-table__cell--non-numeric">Data</th>
+            <th class="mdl-data-table__cell--non-numeric">Cena</th>
           </tr>
         </thead>
         <% transactions.forEach(function (transaction) { %>
@@ -23,10 +23,10 @@
               <% } else { %>
                 <td class="table-row-small"><i class="material-icons md-green"><i class="material-icons">arrow_upward</i></td>              
               <% } %>
-              <td class="mdl-data-table__cell--non-numeric transaction-data" name="name"><%= transaction.name %></td>
-              <td class="mdl-data-table__cell--non-numeric transaction-data" name="name"><%= categoriesName[transaction.categoryId].name %></td>              
-              <td class="transaction-data" name="date"><%= transaction.transaction_date.toLocaleDateString() %></td>
-              <td class="transaction-data" name="amount"><%= transaction.amount %> zł</td> 
+              <td class="mdl-data-table__cell--non-numeric" name="name"><%= transaction.name %></td>
+              <td class="mdl-data-table__cell--non-numeric" name="name"><%= categoriesName[transaction.categoryId].name %></td>              
+              <td class="mdl-data-table__cell--non-numeric" name="date"><%= transaction.transaction_date.toLocaleDateString() %></td>
+              <td class="mdl-data-table__cell--non-numeric" name="amount"><%= transaction.amount %> zł</td> 
             </tr>
           </tbody>
         <% }) %>

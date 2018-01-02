@@ -110,7 +110,7 @@ function getDataToSpendAndExpensesAmountMonthDashboard(response) {
             fullWidth: true,
             position: 'right',
             labels: {
-                fontSize: 12,
+                fontSize: 10,
                 boxWidth: 10,
                 padding: 1,
             }
@@ -153,7 +153,7 @@ function getDataForCategoriesChartForDashboard(response) {
             fullWidth: true,
             position: 'right',
             labels: {
-                fontSize: 12,
+                fontSize: 10,
                 boxWidth: 10,
                 padding: 1,
             }
@@ -218,7 +218,7 @@ function getDataBudgetedCategoryMonthDashboard(response) {
             fullWidth: true,
             position: 'right',
             labels: {
-                fontSize: 12,
+                fontSize: 10,
                 boxWidth: 10,
                 padding: 1,
             }
