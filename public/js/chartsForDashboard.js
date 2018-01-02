@@ -3,7 +3,20 @@ function getDataForAnnualChartForDashboard(response) {
     var budgetMonthsForChart = response.data.budgetMonthsForChart,
         expenseMonthsForChart = response.data.AllExpensesForMonth,
         budgetsForDisplay = [],
-        expenseForDisplay = [];
+        expenseForDisplay = [],
+        mobileViewport = window.matchMedia("screen and (max-width: 1315px)"),
+        container = document.getElementById("expenses-chart");            
+        
+
+        mobileViewport.addListener(function(mq) {
+            if(mq.matches) {
+                container.classList.remove('mdl-cell--4-col')
+                container.classList.add('mdl-cell--6-col');
+            } else {
+                container.classList.remove('mdl-cell--6-col')
+                container.classList.add('mdl-cell--4-col');
+            }   
+        });
 
     const months = ['Styczeń', 'Luty', 'Marzec', 'Kwiecien', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpien', 'Wrzesień', 'Październik', 'Listopad', 'Grudzień'];
     var monthNow = new Date().getMonth();
@@ -80,7 +93,20 @@ function getDataToSpendAndExpensesAmountMonthDashboard(response) {
         data = [],
         labels = [],
         date = new Date(),
-        month = date.getMonth();
+        month = date.getMonth(),
+        mobileViewport = window.matchMedia("screen and (max-width: 1315px)"),
+        container = document.getElementById("categories-chart");            
+        
+
+        mobileViewport.addListener(function(mq) {
+            if(mq.matches) {
+                container.classList.remove('mdl-cell--4-col')
+                container.classList.add('mdl-cell--6-col');
+            } else {
+                container.classList.remove('mdl-cell--6-col')
+                container.classList.add('mdl-cell--4-col');
+            }   
+        });
         
     var default_colors = ['#3366CC','#DC3912','#FF9900','#109618','#990099','#3B3EAC','#0099C6','#DD4477','#66AA00','#B82E2E','#316395','#994499','#22AA99','#AAAA11','#6633CC','#E67300','#8B0707','#329262','#5574A6','#3B3EAC'],
         budgetForMonth = response.data.budgetMonthsForChart[month],
@@ -132,7 +158,19 @@ function getDataForCategoriesChartForDashboard(response) {
         data = [],
         labels = [],
         default_colors = ['#3366CC','#DC3912','#FF9900','#109618','#990099','#3B3EAC','#0099C6','#DD4477','#66AA00','#B82E2E','#316395','#994499','#22AA99','#AAAA11','#6633CC','#E67300','#8B0707','#329262','#5574A6','#3B3EAC'],
-        categoriesExpenseMonthNov = response.data.categoriesExpenseMonthNov;
+        categoriesExpenseMonthNov = response.data.categoriesExpenseMonthNov,
+        mobileViewport = window.matchMedia("screen and (max-width: 1315px)"),
+        container = document.getElementById("chart-budgeted-category");            
+        
+        mobileViewport.addListener(function(mq) {
+            if(mq.matches) {
+                container.classList.remove('mdl-cell--4-col')
+                container.classList.add('mdl-cell--12-col');
+            } else {
+                container.classList.remove('mdl-cell--12-col')
+                container.classList.add('mdl-cell--4-col');
+            }   
+        });
 
     categoriesExpenseMonthNov.forEach(function (cat) {
         data.push(cat.amountActiveMonth.toFixed(2));
