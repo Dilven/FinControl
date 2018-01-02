@@ -25,7 +25,6 @@ function getDataForAnnualChartForDashboard(response) {
                 expenseForDisplay.push(expenseMonthsForChart[monthNowNum]);
                 monthNowNum++; 
             }
-            console.log(monthNow)
         }
 
     var data = {
@@ -75,49 +74,6 @@ function getDataForAnnualChartForDashboard(response) {
         options: options
     });
 };
-function getDataForCategoriesChartForDashboard(response) {
-        var ctx = document.getElementById("categories-chart-dashboard-monthly").getContext('2d'),
-            data = [],
-            labels = [],
-            default_colors = ['#3366CC','#DC3912','#FF9900','#109618','#990099','#3B3EAC','#0099C6','#DD4477','#66AA00','#B82E2E','#316395','#994499','#22AA99','#AAAA11','#6633CC','#E67300','#8B0707','#329262','#5574A6','#3B3EAC'],
-            categoriesExpenseMonthNov = response.data.categoriesExpenseMonthNov;
-
-        categoriesExpenseMonthNov.forEach(function (cat) {
-            data.push(cat.amountActiveMonth.toFixed(2));
-            labels.push(cat.name);
-        })
-
-        var data = {
-            datasets: [{
-                data: data,
-                backgroundColor: default_colors
-            }],
-            labels: labels
-        };
-
-        var options = {
-            responsive: true,
-            legend: {
-                fullWidth: true,
-                position: 'right',
-                labels: {
-                    fontSize: 10,
-                    boxWidth: 10,
-                    padding: 1,
-                }
-            },
-            title: {
-                display: true,
-                text: 'Podział na kategorie wydatków'
-                }
-                
-        }
-        var myCategoriesChart = new Chart(ctx,{
-            type: 'doughnut',
-            data: data,
-            options: options
-        });
-};
 
 function getDataToSpendAndExpensesAmountMonthDashboard(response) {   
     var ctx = document.getElementById("expense-amount-tospend-chart-dashboard-month").getContext('2d'),
@@ -154,14 +110,14 @@ function getDataToSpendAndExpensesAmountMonthDashboard(response) {
             fullWidth: true,
             position: 'right',
             labels: {
-                fontSize: 10,
+                fontSize: 12,
                 boxWidth: 10,
                 padding: 1,
             }
         },
         title: {
         display: true,
-        text: 'Ilość wydatków i pozostała kwota z budżetu'
+        text: 'Ilość wydatków i pozostała kwota z budżetu miesięcznego'
         },
     }
     var myCategoriesChart = new Chart(ctx,{
@@ -170,6 +126,50 @@ function getDataToSpendAndExpensesAmountMonthDashboard(response) {
         options: options
     });
 }
+
+function getDataForCategoriesChartForDashboard(response) {
+    var ctx = document.getElementById("categories-chart-dashboard-monthly").getContext('2d'),
+        data = [],
+        labels = [],
+        default_colors = ['#3366CC','#DC3912','#FF9900','#109618','#990099','#3B3EAC','#0099C6','#DD4477','#66AA00','#B82E2E','#316395','#994499','#22AA99','#AAAA11','#6633CC','#E67300','#8B0707','#329262','#5574A6','#3B3EAC'],
+        categoriesExpenseMonthNov = response.data.categoriesExpenseMonthNov;
+
+    categoriesExpenseMonthNov.forEach(function (cat) {
+        data.push(cat.amountActiveMonth.toFixed(2));
+        labels.push(cat.name);
+    })
+
+    var data = {
+        datasets: [{
+            data: data,
+            backgroundColor: default_colors
+        }],
+        labels: labels
+    };
+
+    var options = {
+        responsive: true,
+        legend: {
+            fullWidth: true,
+            position: 'right',
+            labels: {
+                fontSize: 12,
+                boxWidth: 10,
+                padding: 1,
+            }
+        },
+        title: {
+            display: true,
+            text: 'Wydatki z tego miesiąca'
+            }
+            
+    }
+    var myCategoriesChart = new Chart(ctx,{
+        type: 'doughnut',
+        data: data,
+        options: options
+    });
+};
 
 function getDataBudgetedCategoryMonthDashboard(response) {
     
@@ -218,7 +218,7 @@ function getDataBudgetedCategoryMonthDashboard(response) {
             fullWidth: true,
             position: 'right',
             labels: {
-                fontSize: 10,
+                fontSize: 12,
                 boxWidth: 10,
                 padding: 1,
             }

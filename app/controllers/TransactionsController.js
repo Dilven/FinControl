@@ -4,6 +4,8 @@ var express = require('express'),
     authMiddleware = require('../middlewares/authMiddleware'),
     db = require('../models'),
     Transaction = db.Transaction;
+    Category = db.Category;
+    _ = require('lodash');
 
 module.exports = function (app) {
     app.use('/transactions', authMiddleware, router);
@@ -28,15 +30,24 @@ router.get('/', function (req, res, next) {
     });
     const sumAllExpenses = Transaction.sum('amount', { where: { typeId: 1 } });
     const sumAllIncome = Transaction.sum('amount', { where: { typeId: 2 } });
+    const categoriesName = Category.findAll({});
     
-    return Promise.join(findAllTransactions, sumAllExpenses, sumAllIncome, function (data, expensesAmount, incomeAmount) {
-        var transactions = [];
-        data.forEach(el => {
+    return Promise.join(findAllTransactions, sumAllExpenses, sumAllIncome, categoriesName, function (allTransactions, expensesAmount, incomeAmount, allCategoriesName) {
+        var transactions = [],
+            categoriesName = [];
+
+        allTransactions.forEach(el => {
             transactions.push(el.dataValues)
         })
+
+        _.each(allCategoriesName, (categoryName, index) => {
+            categoriesName[index +1] = categoryName.dataValues;
+        });
+
         res.render('transactions', {
             title: 'Transakcje',
             transactions: transactions,
+            categoriesName: categoriesName,
             expensesAmount,
             incomeAmount,
             numPage: page,
