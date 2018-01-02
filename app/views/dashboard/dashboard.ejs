@@ -1,22 +1,22 @@
 <div class="mdl-grid mdl-grid--color">
     <div class="mdl-cell mdl-cell--3-col mdl-cell--4-col-tablet mdl-cell--4-col-phone mdl-shadow--2dp mdl-cell--color">
         <div id="income-box" class="box-dashboard">
-            <span>Przychody:<%= incomeAmount %> zł</span> 
+            <span>Przychody: <%= incomeAmount %> zł</span> 
         </div>
     </div>
     <div class="mdl-cell mdl-cell--3-col mdl-cell--4-col-tablet mdl-cell--4-col-phone mdl-shadow--2dp mdl-cell--color">
         <div id="expenses-box" class="box-dashboard">
-            <span>Wydatki:<%= expensesAmount %> zł</span>
+            <span>Wydatki: <%= expensesAmount %> zł</span>
         </div>
     </div>
     <div class="mdl-cell mdl-cell--3-col mdl-cell--4-col-tablet mdl-cell--4-col-phone mdl-shadow--2dp mdl-cell--color">
         <% if(budget != 0) { %>
             <div id="budget-box" class="box-dashboard">
-                <span>Budzet:<%= budget %></span>
+                <span>Budzet: <%= budget %> zł</span>
             </div>
         <% }else {%>
             <a href="/actions"><div id="budget-box" class="box-dashboard">
-                <span>Określ swój budżet</span>
+                <span>Określ swój budżet na ten miesiąc</span>
             </div></a>
         <% } %>
      
@@ -24,7 +24,7 @@
     <div class="mdl-cell mdl-cell--3-col mdl-cell--4-col-tablet mdl-cell--4-col-phone mdl-shadow--2dp mdl-cell--color">
         <div id="piggybank-box" class="box-dashboard"> 
             <% if(toSpendMoney !== 0) { %>
-                <span>Pozostało: <%= toSpendMoney %></span>
+                <span>Pozostało: <%= toSpendMoney %> zł</span>
             <% } else { %>
                 <span>Bez budżetu nie ma zabawy :( </span>
             <% } %>
@@ -63,7 +63,7 @@
             <canvas id="expenses-budget-annual-dashboard"></canvas>
         </div>
     </div>
-    <div id="line-chart" class="mdl-cell mdl-cell--4-col mdl-cell--8-col-tablet mdl-shadow--2dp mdl-cell--color">
+    <div id="expenses-chart" class="mdl-cell mdl-cell--4-col mdl-cell--8-col-tablet mdl-shadow--2dp mdl-cell--color">
         <div>
             <canvas id="expense-amount-tospend-chart-dashboard-month"></canvas>
         </div>
