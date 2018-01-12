@@ -1,28 +1,28 @@
 <div class="mdl-grid mdl-grid--color">
     <div class="mdl-cell mdl-cell--3-col mdl-cell--4-col-tablet mdl-cell--4-col-phone mdl-shadow--2dp mdl-cell--color">
-        <div id="income-box" class="box-dashboard">
+        <div class="box-dashboard">
             <span>Przychody: <%= incomeAmount %> zł</span> 
         </div>
     </div>
     <div class="mdl-cell mdl-cell--3-col mdl-cell--4-col-tablet mdl-cell--4-col-phone mdl-shadow--2dp mdl-cell--color">
-        <div id="expenses-box" class="box-dashboard">
+        <div class="box-dashboard">
             <span>Wydatki: <%= expensesAmount %> zł</span>
         </div>
     </div>
     <div class="mdl-cell mdl-cell--3-col mdl-cell--4-col-tablet mdl-cell--4-col-phone mdl-shadow--2dp mdl-cell--color">
         <% if(budget != 0) { %>
-            <div id="budget-box" class="box-dashboard">
+            <div class="box-dashboard">
                 <span>Budzet: <%= budget %> zł</span>
             </div>
         <% }else {%>
-            <a href="/actions"><div id="budget-box" class="box-dashboard">
+            <a href="/actions"><div class="box-dashboard">
                 <span>Określ swój budżet na ten miesiąc</span>
             </div></a>
         <% } %>
      
     </div>
     <div class="mdl-cell mdl-cell--3-col mdl-cell--4-col-tablet mdl-cell--4-col-phone mdl-shadow--2dp mdl-cell--color">
-        <div id="piggybank-box" class="box-dashboard"> 
+        <div class="box-dashboard"> 
             <% if(toSpendMoney !== 0) { %>
                 <span>Pozostało: <%= toSpendMoney %> zł</span>
             <% } else { %>

@@ -3,24 +3,18 @@
       <span class="mdl-layout-title"></span><h4>FinControl</h4></span>
       <div class="mdl-layout-spacer"></div>
       <nav class="mdl-navigation">
-          <button id="addExpense" class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-js-ripple-effect mdl-button--colored">
+          <button id="addExpense" style="background-color:#64B5F6" class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-js-ripple-effect mdl-button--colored">
               <i class="material-icons">add</i>
           </button>
-          <button class="mdl-button--transparent cursor-pointer">
+          <!-- <button class="mdl-button--transparent cursor-pointer">
                   <i class="material-icons md-32 md-white" style="color:#d2d2d2de; cursor:default;">file_download</i>
-          </button>
-          <button id="account-menu" class="mdl-button--transparent cursor-pointer">
-              <div class="material-icons md-32 mdl-badge--overlap md-white">account_box</div>
-          </button>
+          </button> -->
+          <a href="/logout">
+            <button id="account-menu" class="mdl-button--transparent cursor-pointer">
+              <div class="material-icons md-32 mdl-badge--overlap md-white">exit_to_app</div>
+            </button>
+          </a>
       </nav>
-      
-      <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect "
-          for="account-menu">
-              <li class="mdl-menu__item">Moje konto</li>
-              <li class="mdl-menu__item">Opcja 2</li>
-              <li disabled class="mdl-menu__item">Opcja 3</li>
-              <li class="mdl-menu__item"><a href="/logout">Wyloguj</a></li>
-      </ul>
   </div>
    
   <% if(typeof timeNavVisibility === 'undefined' || timeNavVisibility) { %>

@@ -28,14 +28,14 @@ function getDataForAnnualChartForDashboard(response) {
             if(monthNow < 11)
             {   monthNow++;
                 monthsForLabels.push(months[monthNow]);
-                budgetsForDisplay.push(budgetMonthsForChart[monthNow]);
-                expenseForDisplay.push(expenseMonthsForChart[monthNow]);
+                budgetsForDisplay.push(budgetMonthsForChart[monthNow].toFixed(2));
+                expenseForDisplay.push(expenseMonthsForChart[monthNow].toFixed(2));
                 
             }
             else {
                 monthsForLabels.push(months[monthNowNum]);
-                budgetsForDisplay.push(budgetMonthsForChart[monthNowNum]);
-                expenseForDisplay.push(expenseMonthsForChart[monthNowNum]);
+                budgetsForDisplay.push(budgetMonthsForChart[monthNowNum].toFixed(2));
+                expenseForDisplay.push(expenseMonthsForChart[monthNowNum].toFixed(2));
                 monthNowNum++; 
             }
         }
